@@ -1,5 +1,7 @@
 * text=auto
 * text eol=lf
+* text eol=crlf
+* binary
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
