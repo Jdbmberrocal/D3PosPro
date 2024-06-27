@@ -5045,6 +5045,8 @@ class TransactionUtil extends Util
                     'transactions.is_direct_sale',
                     'transactions.invoice_no',
                     'transactions.invoice_no as invoice_no_text',
+                    'transactions.cufe',
+                    'transactions.is_valid',
                     'contacts.name',
                     'contacts.mobile',
                     'contacts.contact_id',

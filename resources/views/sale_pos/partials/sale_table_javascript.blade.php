@@ -88,6 +88,8 @@ sell_table = $('#sell_table').DataTable({
             { data: 'additional_notes', name: 'additional_notes'},
             { data: 'staff_note', name: 'staff_note'},
             { data: 'shipping_details', name: 'shipping_details'},
+            { data: 'cufe', name: 'cufe'},
+            { data: 'is_valid', name: 'is_valid'},
             { data: 'table_name', name: 'tables.name', @if(empty($is_tables_enabled)) visible: false @endif },
             { data: 'waiter', name: 'ss.first_name', @if(empty($is_service_staff_enabled)) visible: false @endif }
         ],

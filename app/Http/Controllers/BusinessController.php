@@ -7,6 +7,9 @@ use App\Currency;
 use App\Notifications\TestEmailNotification;
 use App\System;
 use App\TaxRate;
+use App\TypeDocumentIdentification;
+use App\TypeOrganization;
+use App\TypeRegime;
 use App\Unit;
 use App\User;
 use App\Utils\BusinessUtil;
@@ -307,6 +310,10 @@ class BusinessController extends Controller
             'cmsn_agnt' => __('lang_v1.select_from_commisssion_agents_list'),
         ];
 
+        $type_document_identificacions = TypeDocumentIdentification::pluck('name', 'id');
+        $type_organizations = TypeOrganization::pluck('name', 'id');
+        $type_regimens = TypeRegime::pluck('name', 'id');
+
         $units_dropdown = Unit::forDropdown($business_id, true);
 
         $date_formats = Business::date_formats();
@@ -335,7 +342,7 @@ class BusinessController extends Controller
 
         $payment_types = $this->moduleUtil->payment_types(null, false, $business_id);
 
-        return view('business.settings', compact('business', 'currencies', 'tax_rates', 'timezone_list', 'months', 'accounting_methods', 'commission_agent_dropdown', 'units_dropdown', 'date_formats', 'shortcuts', 'pos_settings', 'modules', 'theme_colors', 'email_settings', 'sms_settings', 'mail_drivers', 'allow_superadmin_email_settings', 'custom_labels', 'common_settings', 'weighing_scale_setting', 'payment_types'));
+        return view('business.settings', compact('business','type_regimens','type_organizations', 'currencies', 'tax_rates', 'timezone_list', 'months', 'accounting_methods', 'commission_agent_dropdown', 'units_dropdown', 'date_formats', 'shortcuts', 'pos_settings', 'modules', 'theme_colors', 'email_settings', 'sms_settings', 'mail_drivers', 'allow_superadmin_email_settings', 'custom_labels', 'common_settings', 'weighing_scale_setting', 'payment_types', 'type_document_identificacions'));
     }
 
     /**
@@ -356,7 +363,7 @@ class BusinessController extends Controller
                 return $notAllowed;
             }
 
-            $business_details = $request->only(['name', 'start_date', 'currency_id', 'tax_label_1', 'tax_number_1', 'tax_label_2', 'tax_number_2', 'default_profit_percent', 'default_sales_tax', 'default_sales_discount', 'sell_price_tax', 'sku_prefix', 'time_zone', 'fy_start_month', 'accounting_method', 'transaction_edit_days', 'sales_cmsn_agnt', 'item_addition_method', 'currency_symbol_placement', 'on_product_expiry',
+            $business_details = $request->only(['merchant_registration','type_organization_id','type_regime_id','type_document_identification_id','nit','name','dv','token', 'start_date', 'currency_id', 'tax_label_1', 'tax_number_1', 'tax_label_2', 'tax_number_2', 'default_profit_percent', 'default_sales_tax', 'default_sales_discount', 'sell_price_tax', 'sku_prefix', 'time_zone', 'fy_start_month', 'accounting_method', 'transaction_edit_days', 'sales_cmsn_agnt', 'item_addition_method', 'currency_symbol_placement', 'on_product_expiry',
                 'stop_selling_before', 'default_unit', 'expiry_type', 'date_format',
                 'time_format', 'ref_no_prefixes', 'theme_color', 'email_settings',
                 'sms_settings', 'rp_name', 'amount_for_unit_rp',

@@ -1,10 +1,64 @@
 <div class="pos-tab-content active">
     <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('type_document_identification_id', __('Tipo de documento') . ':') !!}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fas fa-money-bill-alt"></i>
+                    </span>
+                    {!! Form::select('type_document_identification_id', $type_document_identificacions, $business->type_document_identification_id, ['class' => 'form-control select2','placeholder' => 'Tipo de documento', 'required']); !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                {!! Form::label('nit',__('Nit') . ':*') !!}
+                {!! Form::text('nit', $business->nit, ['class' => 'form-control', 'required',
+                'placeholder' => __('Nit de la empresa')]); !!}
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                {!! Form::label('dv',__('DV') . ':*') !!}
+                {!! Form::text('dv', $business->dv, ['class' => 'form-control', 'required',
+                'placeholder' => __('Digito de verificación')]); !!}
+            </div>
+        </div>
         <div class="col-sm-4">
             <div class="form-group">
                 {!! Form::label('name',__('business.business_name') . ':*') !!}
                 {!! Form::text('name', $business->name, ['class' => 'form-control', 'required',
                 'placeholder' => __('business.business_name')]); !!}
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                {!! Form::label('merchant_registration',__('Reg. Mercantil') ) !!}
+                {!! Form::text('merchant_registration', $business->merchant_registration, ['class' => 'form-control', 'required',
+                'placeholder' => __('Registro Mercantil')]); !!}
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('type_organization_id', __('Tipo de organización') . ':') !!}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fas fa-money-bill-alt"></i>
+                    </span>
+                    {!! Form::select('type_organization_id', $type_organizations, $business->type_organization_id, ['class' => 'form-control select2','placeholder' => 'Tipo de organización', 'required']); !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('type_regime_id', __('Tipo de régimen') . ':') !!}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fas fa-money-bill-alt"></i>
+                    </span>
+                    {!! Form::select('type_regime_id', $type_regimens, $business->type_regime_id, ['class' => 'form-control select2','placeholder' => 'Tipo de régimen', 'required']); !!}
+                </div>
             </div>
         </div>
         <div class="col-sm-4">
@@ -136,6 +190,17 @@
             <div class="form-group">
                 {!! Form::label('quantity_precision', __('lang_v1.quantity_precision') . ':*') !!} @show_tooltip(__('lang_v1.quantity_precision_help'))
                 {!! Form::select('quantity_precision', [0 =>0, 1=>1, 2=>2, 3=>3,4=>4], $business->quantity_precision, ['class' => 'form-control select2', 'required']); !!}
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="form-group">
+                {!! Form::label('token', __('Token API') . ':*') !!} @show_tooltip(__('Token API FE'))
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-plus-circle"></i>
+                    </span>
+                    {!! Form::text('token', $business->token, ['class' => 'form-control']); !!}
+                </div>
             </div>
         </div>
     </div>

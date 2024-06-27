@@ -887,7 +887,8 @@ class SellPosController extends Controller
                     $curl = curl_init();
 
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://jl-technology.online/api/ubl2.1/invoice',
+                    CURLOPT_URL => env('APP_API_FE'),
+                    // CURLOPT_URL => 'https://jl-technology.online/api/ubl2.1/invoice',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,

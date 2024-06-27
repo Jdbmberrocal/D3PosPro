@@ -24,6 +24,8 @@
             <th>@lang('sale.sell_note')</th>
             <th>@lang('sale.staff_note')</th>
             <th>@lang('sale.shipping_details')</th>
+            <th>Cufe</th>
+            <th>DIAN</th>
             <th>@lang('restaurant.table')</th>
             <th>@lang('restaurant.service_staff')</th>
         </tr>
