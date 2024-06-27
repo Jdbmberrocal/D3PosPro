@@ -55,7 +55,7 @@ class BusinessUtil extends Util
         $customer = [
             'business_id' => $business_id,
             'type' => 'customer',
-            'name' => 'Walk-In Customer',
+            'name' => 'Consumidor Final',
             'created_by' => $user_id,
             'is_default' => 1,
             'contact_id' => $contact_id,
@@ -226,8 +226,14 @@ class BusinessUtil extends Util
     {
         $details = Business::leftjoin('tax_rates AS TR', 'business.default_sales_tax', 'TR.id')
                         ->leftjoin('currencies AS cur', 'business.currency_id', 'cur.id')
+                        ->leftjoin('type_document_identifications AS tdi', 'business.type_document_identification_id', 'tdi.id')
+                        ->leftjoin('type_organizations AS to', 'business.type_organization_id', 'to.id')
+                        ->leftjoin('type_regimes AS treg', 'business.type_regime_id', 'treg.id')
                         ->select(
                             'business.*',
+                            'tdi.name as type_document',
+                            'to.name as type_organization',
+                            'treg.name as type_regime',
                             'cur.code as currency_code',
                             'cur.symbol as currency_symbol',
                             'thousand_separator',

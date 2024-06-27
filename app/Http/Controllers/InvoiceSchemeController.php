@@ -105,7 +105,7 @@ class InvoiceSchemeController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type']);
+            $input = $request->only(['name', 'scheme_type', 'prefix','resolution','start_date','end_date','end_number','is_fe', 'prefix', 'start_number', 'total_digits', 'number_type']);
             $business_id = $request->session()->get('user.business_id');
             $input['business_id'] = $business_id;
 
@@ -183,7 +183,7 @@ class InvoiceSchemeController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'scheme_type', 'prefix', 'start_number', 'total_digits', 'number_type']);
+            $input = $request->only(['name', 'scheme_type', 'prefix','resolution','start_date','end_date','end_number','is_fe', 'prefix', 'start_number', 'total_digits', 'number_type']);
 
             $input['start_number'] = ($input['number_type'] == 'aleatory') ? '' : $input['start_number'];
 

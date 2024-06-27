@@ -963,6 +963,7 @@ class TransactionUtil extends Util
         $il = $invoice_layout;
 
         $transaction = Transaction::find($transaction_id);
+        $invoice_scheme = InvoiceScheme::findOrFail($business_details->id);
         $transaction_type = $transaction->type;
 
         $output = [
@@ -979,6 +980,15 @@ class TransactionUtil extends Util
             'table_unit_price_label' => $il->table_unit_price_label,
             'table_subtotal_label' => $il->table_subtotal_label,
         ];
+
+        $output['cufe'] = $transaction->cufe;
+        $output['qrstr'] = $transaction->qrstr;
+        $output['nit'] = $business_details->nit;
+        $output['dv'] = $business_details->dv;
+        $output['type_document'] = $business_details->type_document;
+        $output['type_organization'] = $business_details->type_organization;
+        $output['type_regime'] = $business_details->type_regime;
+        $output['resolution'] = $invoice_scheme->resolution;
 
         //Display name
         $output['display_name'] = $output['business_name'];

@@ -32,9 +32,25 @@
 						<br/>
 					@endif
 					
+					@if(!empty($receipt_details->nit))
+					{!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!}
+						
+					@endif
 					@if(!empty($receipt_details->address))
 						{!! $receipt_details->address !!}
-						<br/>
+						
+					@endif
+					@if(!empty($receipt_details->type_organization))
+						{!! $receipt_details->type_organization !!}
+						
+					@endif
+					@if(!empty($receipt_details->type_regime))
+						{!! $receipt_details->type_regime !!}
+						
+					@endif
+					@if(!empty($receipt_details->resolution))
+						{!! $receipt_details->resolution !!}
+						
 					@endif
 
 					@if(!empty($receipt_details->contact))
@@ -674,7 +690,12 @@
 			@endif
 
 			@if($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-				<img class="center-block mt-5" src="data:image/png;base64,{{DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE')}}">
+				{{-- <img class="center-block mt-5" src="data:image/png;base64,{{DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE')}}"> --}}
+				<img class="center-block mt-5" style="max-height: 100px; width: auto;" src="data:image/png;base64,{{DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE')}}">
+			@endif
+
+			@if ($receipt_details->cufe)
+				<p class="centered">Cufe: {!! $receipt_details->cufe !!}</p>
 			@endif
 
 			@if(!empty($receipt_details->footer_text))
