@@ -20,6 +20,11 @@
       </div>
 
       <div class="form-group">
+        {!! Form::label('code', __( 'Código' ) . ':*') !!} @show_tooltip(__('Código del impuesto ante la DIAN'))
+          {!! Form::text('code', $tax_rate->code, ['class' => 'form-control input_number', 'required']); !!}
+      </div>
+
+      <div class="form-group">
         <div class="checkbox">
           <label>
              {!! Form::checkbox('for_tax_group', 1, !empty($tax_rate->for_tax_group), [ 'class' => 'input_icheck']); !!} @lang( 'lang_v1.for_tax_group_only' )

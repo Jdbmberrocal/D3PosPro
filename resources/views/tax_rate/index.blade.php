@@ -37,6 +37,8 @@
                         <tr>
                             <th>@lang( 'tax_rate.name' )</th>
                             <th>@lang( 'tax_rate.rate' )</th>
+                            <th>code</th>
+                            {{-- <th>Código</th> --}}
                             <th>@lang( 'messages.action' )</th>
                         </tr>
                     </thead>
@@ -77,6 +79,8 @@
                         <tr>
                             <th>@lang( 'tax_rate.name' )</th>
                             <th>@lang( 'tax_rate.rate' )</th>
+                            <th>code</th>
+                            {{-- <th>Código</th> --}}
                             <th>@lang( 'tax_rate.sub_taxes' )</th>
                             <th>@lang( 'messages.action' )</th>
                         </tr>

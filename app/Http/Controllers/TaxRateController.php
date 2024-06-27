@@ -42,7 +42,8 @@ class TaxRateController extends Controller
 
             $tax_rates = TaxRate::where('business_id', $business_id)
                         ->where('is_tax_group', '0')
-                        ->select(['name', 'amount', 'id', 'for_tax_group']);
+                        // ->select(['name', 'amount', 'id', 'for_tax_group']);
+                        ->select(['name', 'amount','code', 'id', 'for_tax_group']);
 
             return Datatables::of($tax_rates)
                 ->addColumn(
@@ -57,9 +58,10 @@ class TaxRateController extends Controller
                 )
                 ->editColumn('name', '@if($for_tax_group == 1) {{$name}} <small>(@lang("lang_v1.for_tax_group_only"))</small> @else {{$name}} @endif')
                 ->editColumn('amount', '{{@num_format($amount)}}')
+                ->addColumn('code', '{{$code}}')
                 ->removeColumn('for_tax_group')
                 ->removeColumn('id')
-                ->rawColumns([0, 2])
+                ->rawColumns([0, 3])
                 ->make(false);
         }
 
@@ -93,7 +95,7 @@ class TaxRateController extends Controller
         }
 
         try {
-            $input = $request->only(['name', 'amount']);
+            $input = $request->only(['name', 'amount','code']);
             $input['business_id'] = $request->session()->get('user.business_id');
             $input['created_by'] = $request->session()->get('user.id');
             $input['amount'] = $this->taxUtil->num_uf($input['amount']);
@@ -162,12 +164,13 @@ class TaxRateController extends Controller
 
         if (request()->ajax()) {
             try {
-                $input = $request->only(['name', 'amount']);
+                $input = $request->only(['name', 'amount','code']);
                 $business_id = $request->session()->get('user.business_id');
 
                 $tax_rate = TaxRate::where('business_id', $business_id)->findOrFail($id);
                 $tax_rate->name = $input['name'];
                 $tax_rate->amount = $this->taxUtil->num_uf($input['amount']);
+                $tax_rate->code = $input['code'];
                 $tax_rate->for_tax_group = ! empty($request->for_tax_group) ? 1 : 0;
                 $tax_rate->save();
 

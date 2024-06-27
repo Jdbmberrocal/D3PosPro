@@ -931,22 +931,34 @@ class SellPosController extends Controller
                         
                     }
 
+                    if ($print_invoice) {
+                        $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                    }
+    
+                    $output = [
+                        'success' => 1, 
+                        'msg' => $msg, 
+                        'receipt' => $receipt,
+                        'input_curl'=> $data, 
+                        'response' => json_decode($response), 
+                        'cufe' => ($cufe) ? $cufe : '',
+                        'IsValid' => ($IsValid) ? $IsValid : '',
+                        'QRStr' => ($QRStr) ? $QRStr : ''
+                    ];
+
+                }else{
+                    if ($print_invoice) {
+                        $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                    }
+    
+                    $output = [
+                        'success' => 1, 
+                        'msg' => $msg, 
+                        'receipt' => $receipt
+                    ];
                 }
 
-                if ($print_invoice) {
-                    $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
-                }
-
-                $output = [
-                    'success' => 1, 
-                    'msg' => $msg, 
-                    'receipt' => $receipt,
-                    'input_curl'=> $data, 
-                    'response' => json_decode($response), 
-                    'cufe' => ($cufe) ? $cufe : '',
-                    'IsValid' => ($IsValid) ? $IsValid : '',
-                    'QRStr' => ($QRStr) ? $QRStr : ''
-                ];
+                
 
                 if (!empty($whatsapp_link)) {
                     $output['whatsapp_link'] = $whatsapp_link;
