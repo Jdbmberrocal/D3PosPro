@@ -805,7 +805,8 @@
         @endif
 
         @if ($receipt_details->cufe)
-            <p class="centered">Cufe: {!! $receipt_details->cufe !!}</p>
+        <b> <p class="centered">Cufe:</b> <br>
+                {!! $receipt_details->cufe !!}</p>
         @endif
 
         @if (!empty($receipt_details->footer_text))
