@@ -665,7 +665,7 @@ class SellPosController extends Controller
                 $customer_data = Contact::findOrFail($request->input('contact_id'));
 
                 //validamos si se va a enviar factua electronica o no
-                if($invoice_scheme->is_fe == 'si')
+                if($invoice_scheme->is_fe == 'si' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
                 {
 
                     
