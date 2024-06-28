@@ -819,6 +819,7 @@ class SellPosController extends Controller
                     $typeDocumentId = 1;
                     $date = $actual_date;
                     $time = $actual_hous;
+                    $sendmail = false;
                     $resolutionNumber = $invoice_scheme->resolution;
                     if($customer_data->contact_id == 222222222222)
                     {
@@ -835,7 +836,7 @@ class SellPosController extends Controller
                             "merchant_registration" => "0000000-00",
                             "email" => $customer_data->email
                         );
-
+                        $sendmail = true;
                     }
                     $paymentForm = array(
                         "duration_measure" => "30",
@@ -864,6 +865,7 @@ class SellPosController extends Controller
                         "type_document_id" => $typeDocumentId,
                         "date" => $date,
                         "time" => $time,
+                        "sendmail" => $sendmail,
                         "resolution_number" => $resolutionNumber,
                         "customer" => $customer,
                         "payment_form" => $paymentForm,
@@ -919,7 +921,7 @@ class SellPosController extends Controller
                     $cufe = $respuesta['cufe'];
                     $QRStr = $respuesta['QRStr'];
 
-                    if($IsValid)
+                    if($IsValid == "true")
                     {
                         //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
                         $transaction = Transaction::find($transaction->id);
