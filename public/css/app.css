@@ -418,6 +418,9 @@ table.table-border-center-col > tfoot > tr > td:nth-child(2)
 .font-10{
   font-size: 10px !important;
 }
+.font-11{
+  font-size: 11px !important;
+}
 .font-15{
   font-size: 15px !important;
 }
