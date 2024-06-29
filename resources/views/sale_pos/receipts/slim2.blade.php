@@ -596,7 +596,7 @@
 				</div>
 			@endif
 				{{-- TOTAL --}}
-			<div class="flex-box" style="font-size: 20px">
+			<div class="flex-box" >
 				<p class="width-50 text-left" >
 					<strong>{!! $receipt_details->total_label !!}</strong>
 				</p>
@@ -726,7 +726,7 @@ body {
 }
 @media print {
 	* {
-    	font-size: 10px;
+    	font-size: 11px;
     	/* font-family: 'arial'; */
     	word-break: break-all;
 	}
