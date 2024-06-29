@@ -726,7 +726,7 @@ body {
 }
 @media print {
 	* {
-    	font-size: 12px;
+    	font-size: 10px;
     	/* font-family: 'arial'; */
     	word-break: break-all;
 	}
