@@ -115,7 +115,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-info"></i>
                                     </span>
-                                    {!! Form::select('total_digits', ['4' => '4', '5' => '5', '6' => '6', '7' => '7',
+                                    {!! Form::select('total_digits', ['1' => '1','2' => '2','3' => '3','4' => '4', '5' => '5', '6' => '6', '7' => '7',
                                     '8' => '8', '9'=>'9', '10' => '10'], $invoice->total_digits, ['class' => 'form-control', 'required']); !!}
                                 </div>
                             </div>
