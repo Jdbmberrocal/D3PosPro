@@ -493,10 +493,10 @@
 			@if(empty($receipt_details->hide_price))
             <div class="flex-box">
                 <p class="left text-left">
-                	<strong>{!! $receipt_details->subtotal_label !!}</strong>
+                	{!! $receipt_details->subtotal_label !!}
                 </p>
                 <p class="width-50 text-right">
-                	<strong>{{$receipt_details->subtotal}}</strong>
+                	{{$receipt_details->subtotal}}
                 </p>
             </div>
 
@@ -595,14 +595,13 @@
 					</p>
 				</div>
 			@endif
-
-			<div class="flex-box">
-				<p class="width-50 text-left">
+				{{-- TOTAL --}}
+			<div class="flex-box" style="font-size: 20px">
+				<p class="width-50 text-left" >
 					<strong>{!! $receipt_details->total_label !!}</strong>
 				</p>
 				<p class="width-50 text-right">
 					<strong>{{$receipt_details->total}}</strong>
-				</p>
 			</div>
 			@if(!empty($receipt_details->total_in_words))
 				<p colspan="2" class="text-right mb-0">
@@ -683,22 +682,21 @@
 				<br/>
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
-
+				<br>
 			@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
                 @if (empty($receipt_details->qrstr))
-                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else
-                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 @endif
                 
-
-                
             @endif
-
+				<br>
             @if (!empty($receipt_details->cufe))
-            <p class="centered">Cufe:
+            <b></b><p class="centered">Cufe:<b>
+				<br>
                 {!! $receipt_details->cufe !!}</p>
             @endif
 
@@ -708,6 +706,12 @@
 				</p>
 			@endif
         </div>
+		<div class="border-bottom width-100">&nbsp;</div>
+		<div class="textbox-info">
+			<b>Software | app.zeusplus.co</b> <br>
+			Zeus Soluciones Ns - Nit 1091663313 <br>
+			WhatsApp: 3160402010
+		</div>
         <!-- <button id="btnPrint" class="hidden-print">Print</button>
         <script src="script.js"></script> -->
     </body>
@@ -723,12 +727,16 @@ body {
 @media print {
 	* {
     	font-size: 12px;
-    	font-family: 'Times New Roman';
+    	/* font-family: 'arial'; */
     	word-break: break-all;
 	}
 	.f-8 {
 		font-size: 8px !important;
 	}
+	.f-15 {
+		font-size: 15px !important;
+	}
+
 
 .headings{
 	font-size: 16px;
