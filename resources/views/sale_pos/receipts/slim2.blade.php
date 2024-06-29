@@ -695,7 +695,7 @@
             @endif
 				<br>
             @if (!empty($receipt_details->cufe))
-            <b></b><p class="centered">Cufe:<b>
+            <b><p class="centered">Cufe:</b>
 				<br>
                 {!! $receipt_details->cufe !!}</p>
             @endif
