@@ -792,9 +792,27 @@
 			{!! $receipt_details->footer_text !!}
 		</div>
 		@endif
-		@if($receipt_details->show_barcode || $receipt_details->show_qr_code)
+
+
+		@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
+                @if (empty($receipt_details->qrstr))
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+                @else
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+                @endif
+                
+            @endif
+				<br>
+            @if (!empty($receipt_details->cufe))
+            <b><p class="centered">Cufe:</b>
+				<br>
+                {!! $receipt_details->cufe !!}</p>
+            @endif
+		{{-- @if($receipt_details->show_barcode || $receipt_details->show_qr_code)
 			<div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
-				{{-- Barcode --}}
+				////Barcode /////
 				@if($receipt_details->show_barcode)
 					<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 				@endif
@@ -803,7 +821,7 @@
 					<img class="center-block mt-5" src="data:image/png;base64,{{DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE', 3, 3, [39, 48, 54])}}">
 				@endif
 			</div>
-		@endif
+		@endif --}}
 	</div>
 			</td>
 		</tr>
