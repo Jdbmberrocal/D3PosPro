@@ -1,6 +1,7 @@
 <?php
 
 return [
+     
     'enable_editing_product_from_purchase' => 'Habilitar la edición del precio del producto desde la pantalla de compra',
     'sales_commission_agent' => 'Agente comercial', /* modified */
     'sales_commission_agents' => 'Agentes comerciales', /* modified */
@@ -98,7 +99,7 @@ return [
     'discount_percent' => 'Descuento porcentual',
     'application_tour' => 'Recorrido de solicitud',
     'profile' => 'Perfil',
-    'sign_out' => 'Desconectar',
+    'sign_out' => 'Salir',
     'my_profile' => 'Mi perfil',
     'Admin' => 'Administración',
     'Cashier' => 'Cajero',
@@ -187,8 +188,10 @@ return [
     'manage_products' => 'Gestiona tus productos',
     'all_products' => 'Todos los productos',
     'login' => 'Iniciar sesión',
+    'login_to_your' => 'Inicie sesión en',
+    'welcome_back' => 'Bienvenido',
     'register' => 'Registro',
-    'username' => 'Nombre de usuario',
+    'username' => 'Nombre de Usuario',
     'password' => 'Contraseña',
     'remember_me' => 'Recuérdame',
     'forgot_your_password' => '¿Olvidaste tu contraseña?',
@@ -452,7 +455,7 @@ return [
     'payment_paid_notification' => 'Notificación de pago pagado',
     'mail_host' => 'Anfitrión',
     'mail_port' => 'Puerto',
-    'mail_username' => 'Nombre de usuario',
+    'mail_username' => 'Nombre de Usuario',
     'mail_password' => 'Contraseña',
     'mail_encryption' => 'Encriptación',
     'mail_from_address' => 'De la Dirección',

@@ -206,7 +206,7 @@
                         role="menu" tabindex="-1">
                         <div class="tw-px-4 tw-pt-3 tw-pb-1" role="none">
                             <p class="tw-text-sm" role="none">
-                                Signed in as
+                                Usuario Conectado
                             </p>
                             <p class="tw-text-sm tw-font-medium tw-text-gray-900 tw-truncate" role="none">
                                 {{ Auth::User()->first_name }} {{ Auth::User()->last_name }}
