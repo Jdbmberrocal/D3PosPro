@@ -699,7 +699,7 @@
 				<br>
                 {!! $receipt_details->cufe !!}</p>
             @endif
-
+				<br>
 			@if(!empty($receipt_details->footer_text))
 				<p class="centered">
 					{!! $receipt_details->footer_text !!}
