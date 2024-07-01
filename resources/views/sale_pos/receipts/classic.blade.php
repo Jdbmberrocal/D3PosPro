@@ -4,7 +4,7 @@
 		<!-- Logo -->
 		@if(empty($receipt_details->letter_head))
 			@if(!empty($receipt_details->logo))
-				<img style="max-height: 120px; width: auto;" src="{{$receipt_details->logo}}" class="img img-responsive center-block">
+				<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img img-responsive center-block">
 			@endif
 
 			<!-- Header text -->
@@ -16,12 +16,12 @@
 
 			<!-- business information here -->
 			<div class="col-xs-12 text-center">
-				<h2 class="text-center">
+				{{-- <h2 class="text-center"> --}}
 					<!-- Shop & Location Name  -->
 					@if(!empty($receipt_details->display_name))
 						{{$receipt_details->display_name}}
 					@endif
-				</h2>
+				{{-- </h2> --}}
 
 				<!-- Address -->
 				<p>
@@ -72,11 +72,11 @@
 			@endif
 
 
-			<!-- Title of receipt -->
+			<!--TITULO -->
 			@if(!empty($receipt_details->invoice_heading))
-				<h3 class="text-center">
+				<h2 class="text-right"> 
 					{!! $receipt_details->invoice_heading !!}
-				</h3>
+				</h2>
 			@endif
 		</div>
 		@if(!empty($receipt_details->letter_head))
@@ -271,7 +271,7 @@
 	@includeIf('sale_pos.receipts.partial.common_repair_invoice')
 </div>
 
-<div class="row" style="color: #000000 !important;">
+<div class="row" style="color: #000000 !important; font-size: 10px">
 	<div class="col-xs-12">
 		<br/>
 		@php
@@ -287,19 +287,21 @@
 				$p_width -= 10;
 			@endphp
 		@endif
+
+		{{-- TABLA DE PRODUCTO --}}
 		<table class="table table-responsive table-slim">
 			<thead>
 				<tr>
-					<th width="{{$p_width}}%">{{$receipt_details->table_product_label}}</th>
-					<th class="text-right" width="15%">{{$receipt_details->table_qty_label}}</th>
-					<th class="text-right" width="15%">{{$receipt_details->table_unit_price_label}}</th>
+					<th width="50%">{{$receipt_details->table_product_label}}</th>
+					<th class="text-right" width="10%">{{$receipt_details->table_qty_label}}</th>
+					<th class="text-right" width="10%">{{$receipt_details->table_unit_price_label}}</th>
 					@if(!empty($receipt_details->discounted_unit_price_label))
 						<th class="text-right" width="10%">{{$receipt_details->discounted_unit_price_label}}</th>
 					@endif
 					@if(!empty($receipt_details->item_discount_label))
 						<th class="text-right" width="10%">{{$receipt_details->item_discount_label}}</th>
 					@endif
-					<th class="text-right" width="15%">{{$receipt_details->table_subtotal_label}}</th>
+					<th class="text-right" width="10%">{{$receipt_details->table_subtotal_label}}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -635,6 +637,7 @@
     @endif
     
 </div>
+
 <div class="row" style="color: #000000 !important;">
 	@if(!empty($receipt_details->footer_text))
 	<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
@@ -653,4 +656,9 @@
 			@endif
 		</div>
 	@endif
+	
+</div>
+
+<div style="page-break-inside: avoid !important col-md-12"><hr/>
+	<small><b>Software | app.zeusplus.co</b> Zeus Soluciones Ns - Nit 1091663313 - WhatsApp:3160402010</small>
 </div>

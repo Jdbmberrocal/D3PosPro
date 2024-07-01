@@ -31,7 +31,9 @@
 						</span>
 						<br/>
 					@endif
-					
+					<div class="tett-box">
+						<p class="left"></p>
+				
 					@if (!empty($receipt_details->nit))
                         {!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!}
                     @endif
@@ -47,7 +49,7 @@
                     @if (!empty($receipt_details->resolution))
                         {!! $receipt_details->resolution !!}
                     @endif
-
+				</div>
 					@if(!empty($receipt_details->contact))
 						<br/>{!! $receipt_details->contact !!}
 					@endif
@@ -491,12 +493,23 @@
 				</div>
 			@endif
 			@if(empty($receipt_details->hide_price))
-            <div class="flex-box">
+            {{-- <div class="flex-box">
                 <p class="left text-left">
                 	{!! $receipt_details->subtotal_label !!}
                 </p>
                 <p class="width-50 text-right">
                 	{{$receipt_details->subtotal}}
+                </p>
+            </div> --}}
+
+			{{-- ESTE ES LA BASE  --}}
+			<div class="flex-box">
+                <p class="left text-left">
+                	{!! $receipt_details->subtotal_label !!}
+                </p>
+                <p class="width-50 text-right">
+
+                {{$receipt_details->subtotal_exc_tax}}
                 </p>
             </div>
 
@@ -605,8 +618,9 @@
 			</div>
 			@if(!empty($receipt_details->total_in_words))
 				<p colspan="2" class="text-right mb-0">
+					<b><small>Valor en Letras: </small></b>
 					<small>
-					({{$receipt_details->total_in_words}})
+					{{$receipt_details->total_in_words}} pesos m/cte
 					</small>
 				</p>
 			@endif
@@ -726,8 +740,8 @@ body {
 }
 @media print {
 	* {
-    	font-size: 11px;
-    	font-family: 'arial', arial, helvetica;
+    	font-size: 12px;
+    	/* font-family: 'arial', arial, helvetica; */
     	word-break: break-all;
 	}
 	.f-8 {
