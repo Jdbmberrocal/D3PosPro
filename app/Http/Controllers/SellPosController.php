@@ -654,18 +654,24 @@ class SellPosController extends Controller
                 // if ($print_invoice) {
                 //     $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
                 // }
+                $i_echeme = '';
+                if(!empty($request->input('invoice_scheme_id')))
+                {
+                    //consultar datos de la empresa 
+                    $business_data = Business::find($business_id);
 
-                //consultar datos de la empresa 
-                $business_data = Business::find($business_id);
-
-                //consultar el tipo de factura
-                $invoice_scheme = InvoiceScheme::findOrFail($request->input('invoice_scheme_id'));
-
-                //consultar los datos del cliente
-                $customer_data = Contact::findOrFail($request->input('contact_id'));
+                    //consultar el tipo de factura
+                    $invoice_scheme = InvoiceScheme::findOrFail($request->input('invoice_scheme_id'));
+                    $i_echeme = $invoice_scheme->is_fe;
+                    //consultar los datos del cliente
+                    $customer_data = Contact::findOrFail($request->input('contact_id'));
+                }else{
+                    $i_echeme == 'no';
+                }
+                
 
                 //validamos si se va a enviar factua electronica o no
-                if($invoice_scheme->is_fe == 'si' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
+                if($i_echeme == 'si' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
                 {
 
                     
@@ -831,7 +837,8 @@ class SellPosController extends Controller
                     }else{
                         $customer = array(
                             "identification_number" => $customer_data->contact_id,
-                            "name" => $customer_data->first_name.' '.$customer_data->middle_name.' '.$customer_data->last_name,
+                            "name" => $customer_data->name,
+                            // "name" => $customer_data->first_name.' '.$customer_data->middle_name.' '.$customer_data->last_name,
                             "phone" => $customer_data->mobile,
                             "merchant_registration" => "0000000-00",
                             "email" => $customer_data->email
