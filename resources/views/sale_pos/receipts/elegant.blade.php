@@ -851,16 +851,16 @@
 			</td>
 		</tr>
 	</tbody>
-	{{-- CUFE --}}
-	<br>
-	@if (!empty($receipt_details->cufe))
-	<b><p class="text centered">Cufe:</b>
+		<div>{{-- CUFE --}}
 		<br>
-		{!! $receipt_details->cufe !!}</p>
-	@endif
-		<br>
-	<small>
-		
+		@if (!empty($receipt_details->cufe))
+		<b><p class="text centered font-10">Cufe:</b>
+			<br>
+			{!! $receipt_details->cufe !!}</p>
+		@endif
+
+		</div>
+		<small>
 			<b>{{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b>| Copyright &copy; {{ date('Y') }} All rights reserved.
 		</small>
 </table>
