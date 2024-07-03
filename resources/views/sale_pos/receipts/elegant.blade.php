@@ -836,10 +836,10 @@
 
 				@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
                 @if (empty($receipt_details->qrstr))
-                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else
-                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 @endif
                 
@@ -852,7 +852,7 @@
 		</tr>
 	</tbody>
 		<div>{{-- CUFE --}}
-		<br>
+	
 		@if (!empty($receipt_details->cufe))
 		<b><p class="text centered font-10">Cufe:</b>
 			<br>
