@@ -12,8 +12,8 @@
         <div class="ticket">
 			@if(empty($receipt_details->letter_head))
 				@if(!empty($receipt_details->logo))
-					<div class="text-box centered">
-						<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" alt="Logo">
+					<div class="text-box centere">
+						<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img center-block" >
 					</div>
 				@endif
 				<div class="text-box">
@@ -696,6 +696,7 @@
 				<br/>
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
+			
 				<br>
 			@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
                 @if (empty($receipt_details->qrstr))
