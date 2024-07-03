@@ -845,21 +845,20 @@
                 
             @endif
 				
-				{{-- CUFE --}}
-				<br>
-				@if (!empty($receipt_details->cufe))
-				<b><p class="text centered">Cufe:</b>
-					<br>
-					{!! $receipt_details->cufe !!}</p>
-				@endif
-					<br>
-			
 			</div>
 		@endif
 	</div>
 			</td>
 		</tr>
 	</tbody>
+	{{-- CUFE --}}
+	<br>
+	@if (!empty($receipt_details->cufe))
+	<b><p class="text centered">Cufe:</b>
+		<br>
+		{!! $receipt_details->cufe !!}</p>
+	@endif
+		<br>
 	<small>
 		
 			<b>{{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b>| Copyright &copy; {{ date('Y') }} All rights reserved.
