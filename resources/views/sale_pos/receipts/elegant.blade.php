@@ -802,14 +802,14 @@
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 @endif
-                
-            @endif
 				<br>
-            @if (!empty($receipt_details->cufe))
-            <b><p class="centered">Cufe:</b>
-				<br>
-                {!! $receipt_details->cufe !!}</p>
+				@if (!empty($receipt_details->cufe))
+				<b><p class="centered">Cufe:</b>
+					<br>
+					{!! $receipt_details->cufe !!}</p>
+				@endif
             @endif
+			
 		{{-- @if($receipt_details->show_barcode || $receipt_details->show_qr_code)
 			<div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
 				////Barcode /////
