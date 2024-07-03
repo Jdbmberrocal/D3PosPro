@@ -64,6 +64,22 @@
 					
 				@endif
 
+				@if (!empty($receipt_details->nit))
+                        {!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!}
+                    @endif
+                    @if (!empty($receipt_details->address))
+                        {!! $receipt_details->address !!}
+                    @endif
+                    @if (!empty($receipt_details->type_organization))
+                        {!! $receipt_details->type_organization !!}
+                    @endif
+                    @if (!empty($receipt_details->type_regime))
+                        {!! $receipt_details->type_regime !!}
+                    @endif
+                    @if (!empty($receipt_details->resolution))
+                        {!! $receipt_details->resolution !!}
+                    @endif
+
 				@if(!empty($receipt_details->tax_info1))
 					<br/><b>{{ $receipt_details->tax_label1 }}</b> {{ $receipt_details->tax_info1 }}
 				@endif
