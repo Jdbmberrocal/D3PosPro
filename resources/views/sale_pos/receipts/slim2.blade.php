@@ -31,7 +31,7 @@
 						</span>
 						
 					@endif
-					<br/>
+					
 					<div class="tett-box">
 						<p class="left"></p>
 				
