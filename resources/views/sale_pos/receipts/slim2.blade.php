@@ -90,6 +90,7 @@
 					@endif			
 				</p>
 				</div>
+				<br>
 			@endif
 				@if(!empty($receipt_details->letter_head))
 					<div class="text-box">
