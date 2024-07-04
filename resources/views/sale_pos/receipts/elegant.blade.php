@@ -60,12 +60,12 @@
 		<!-- Shop & Location Name  -->
 			<span class="text-center ">
 				@if(!empty($receipt_details->display_name))
-					<b>{{$receipt_details->display_name}}</b>
+					<b>{{$receipt_details->display_name}}</b> <br>
 					
 				@endif
 				{{-- Información de la empresa --}}
 				@if (!empty($receipt_details->nit))
-                        {!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
+                       <b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
                     @endif
                     @if (!empty($receipt_details->address))
                         {!! $receipt_details->address !!} <br>
@@ -84,7 +84,7 @@
 					<br/><b>{{ $receipt_details->tax_label1 }}</b> {{ $receipt_details->tax_info1 }}
 				@endif
 
-				<br>
+			
 				@if(!empty($receipt_details->address))
 					{!! $receipt_details->address !!}
 				@endif
