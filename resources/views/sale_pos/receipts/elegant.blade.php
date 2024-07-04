@@ -68,7 +68,7 @@
                        <b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
                     @endif
                     @if (!empty($receipt_details->address))
-                        {!! $receipt_details->address !!} <br>
+					<b>Dirección: </b> <br> {!! $receipt_details->address !!} <br>
                     @endif
                     @if (!empty($receipt_details->type_organization))
                         {!! $receipt_details->type_organization !!} <br>
@@ -85,9 +85,9 @@
 				@endif
 
 			
-				@if(!empty($receipt_details->address))
+				{{-- @if(!empty($receipt_details->address))
 					{!! $receipt_details->address !!}
-				@endif
+				@endif --}}
 
 				@if(!empty($receipt_details->contact))
 					<br/>{!! $receipt_details->contact !!}
