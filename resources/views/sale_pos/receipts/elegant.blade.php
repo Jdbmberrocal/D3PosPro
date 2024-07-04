@@ -61,27 +61,23 @@
 			<span class="text-center ">
 				@if(!empty($receipt_details->display_name))
 					<b>{{$receipt_details->display_name}}</b>
-					<br>
+					
 				@endif
 				{{-- Información de la empresa --}}
 				@if (!empty($receipt_details->nit))
-                        <b>{!! $receipt_details->type_document !!}: </b>{!! $receipt_details->nit !!}-{!! $receipt_details->dv !!}
-                    @endif <br>
-                    @if <b>(!empty($receipt_details->address))</b>
-                        {!! $receipt_details->address !!}
-						<br>
+                        {!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
                     @endif
-                    @if <b>(!empty($receipt_details->type_organization))</b>
-                        {!! $receipt_details->type_organization !!}
-						<br>
+                    @if (!empty($receipt_details->address))
+                        {!! $receipt_details->address !!} <br>
                     @endif
-                    @if <b>(b!empty($receipt_details->type_regime))</b>
-                        {!! $receipt_details->type_regime !!}
-						<br>
+                    @if (!empty($receipt_details->type_organization))
+                        {!! $receipt_details->type_organization !!} <br>
                     @endif
-                    @if <b>(!empty($receipt_details->resolution))</b>
-                        {!! $receipt_details->resolution !!}
-						<br>
+                    @if (!empty($receipt_details->type_regime))
+                        {!! $receipt_details->type_regime !!} <br>
+                    @endif
+                    @if (!empty($receipt_details->resolution))
+                        {!! $receipt_details->resolution !!} <br>
                     @endif
 
 				@if(!empty($receipt_details->tax_info1))
