@@ -34,21 +34,22 @@
 					<div class="tett-box">
 						<p class="left"></p>
 				
-					@if (!empty($receipt_details->nit))
-                        {!! $receipt_details->type_document !!}: {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!}
-                    @endif
-                    @if (!empty($receipt_details->address))
-                        {!! $receipt_details->address !!}
-                    @endif
-                    @if (!empty($receipt_details->type_organization))
-                        {!! $receipt_details->type_organization !!}
-                    @endif
-                    @if (!empty($receipt_details->type_regime))
-                        {!! $receipt_details->type_regime !!}
-                    @endif
-                    @if (!empty($receipt_details->resolution))
-                        {!! $receipt_details->resolution !!}
-                    @endif
+						@if (!empty($receipt_details->nit))
+						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
+					 @endif
+					 @if (!empty($receipt_details->address))
+					 <b>Dirección: </b> {!! $receipt_details->address !!} <br>
+					 @endif
+					 @if (!empty($receipt_details->type_organization))
+						 {!! $receipt_details->type_organization !!} <br>
+					 @endif
+					 @if (!empty($receipt_details->type_regime))
+						 {!! $receipt_details->type_regime !!} <br>
+					 @endif
+					 @if (!empty($receipt_details->resolution))
+						 {!! $receipt_details->resolution !!} <br>
+					 @endif
+ 
 				</div>
 					@if(!empty($receipt_details->contact))
 						<br/>{!! $receipt_details->contact !!}
