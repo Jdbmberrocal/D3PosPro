@@ -27,10 +27,11 @@
 					<!-- business information here -->
 					@if(!empty($receipt_details->display_name))
 						<span class="headings">
-							{{$receipt_details->display_name}}
+							<b>{{$receipt_details->display_name}}</b>
 						</span>
-						<br/>
+						
 					@endif
+					<br/>
 					<div class="tett-box">
 						<p class="left"></p>
 				
@@ -52,7 +53,7 @@
  
 				</div>
 					@if(!empty($receipt_details->contact))
-						<br/>{!! $receipt_details->contact !!}
+						{!! $receipt_details->contact !!}
 					@endif
 					@if(!empty($receipt_details->contact) && !empty($receipt_details->website))
 						, 
