@@ -47,7 +47,8 @@
         "srmklive/paypal": "^3.0",
         "stripe/stripe-php": "^7.122",
         "unicodeveloper/laravel-paystack": "^1.0",
-        "yajra/laravel-datatables-oracle": "^9.19"
+        "yajra/laravel-datatables-oracle": "^9.19",
+        "yoeunes/toastr": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

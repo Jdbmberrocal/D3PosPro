@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Business;
 use App\BusinessLocation;
 use App\Contact;
+use App\Country;
 use App\CustomerGroup;
+use App\Department;
 use App\Notifications\CustomerNotification;
 use App\PurchaseLine;
 use App\Transaction;
@@ -22,6 +24,8 @@ use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\Facades\DataTables;
 use App\Events\ContactCreatedOrModified;
+use App\municipality;
+use App\TypeDocumentIdentification;
 
 class ContactController extends Controller
 {
@@ -558,6 +562,12 @@ class ContactController extends Controller
         }
 
         $customer_groups = CustomerGroup::forDropdown($business_id);
+
+        $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        $municipalities = municipality::pluck('name','id');
+        
         $selected_type = request()->type;
 
         $module_form_parts = $this->moduleUtil->getModuleData('contact_form_part');
@@ -566,7 +576,19 @@ class ContactController extends Controller
         $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
         return view('contact.create')
-            ->with(compact('types', 'customer_groups', 'selected_type', 'module_form_parts', 'users'));
+            ->with(
+                compact(
+                    'type_document_identifications',
+                    'countries',
+                    'departments',
+                    'municipalities',
+                    'types', 
+                    'customer_groups', 
+                    'selected_type', 
+                    'module_form_parts', 
+                    'users'
+                )
+            );
     }
 
     /**
@@ -588,13 +610,13 @@ class ContactController extends Controller
                 return $this->moduleUtil->expiredResponse();
             }
 
-            $input = $request->only(['type', 'supplier_business_name',
+            $input = $request->only(['type', 'supplier_business_name','dv','department_id','municipality_id','country_id','type_document_identification_id','type_regime_id','merchant_registration',
                 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'landline', 'alternate_number', 'city', 'state', 'country', 'address_line_1', 'address_line_2', 'customer_group_id', 'zip_code', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'dob', 'shipping_custom_field_details', 'assigned_to_users', ]);
 
             $name_array = [];
 
-            if (! empty($input['prefix'])) {
-                $name_array[] = $input['prefix'];
+            if (! empty($input['dv'])) {
+                $input['prefix'] = $input['dv'];
             }
             if (! empty($input['first_name'])) {
                 $name_array[] = $input['first_name'];
@@ -778,7 +800,7 @@ class ContactController extends Controller
 
         if (request()->ajax()) {
             try {
-                $input = $request->only(['type', 'supplier_business_name', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'address_line_1', 'address_line_2', 'zip_code', 'dob', 'alternate_number', 'city', 'state', 'country', 'landline', 'customer_group_id', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5',
+                $input = $request->only(['type','dv', 'supplier_business_name', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'address_line_1', 'address_line_2', 'zip_code', 'dob', 'alternate_number', 'city', 'state', 'country', 'landline', 'customer_group_id', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5',
                     'export_custom_field_6', 'assigned_to_users', ]);
 
                 $name_array = [];
