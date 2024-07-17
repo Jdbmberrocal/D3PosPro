@@ -865,7 +865,8 @@ class SellPosController extends Controller
                             "phone" => $customer_data->mobile,
                             "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000-00",
                             "type_document_identification_id" => ($customer_data->type_document_identification_id)?$customer_data->type_document_identification_id : "",
-                            "type_organization_id" => ($customer_data->type_organization_id)?$customer_data->type_organization_id : "",
+                            "type_regime_id" => ($customer_data->type_regime_id)?$customer_data->type_regime_id : "",
+                            "municipality_id" => ($customer_data->municipality_id)?$customer_data->municipality_id : "",
                             "email" => $customer_data->email,
                             "address" => ($customer_data->address_line_1)? $customer_data->address_line_1: 'no'
                         );
