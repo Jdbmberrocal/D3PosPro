@@ -676,7 +676,7 @@
             @if(empty($receipt_details->hide_price) && !empty($receipt_details->tax_summary_label) )
 	            <!-- tax -->
 	            @if(!empty($receipt_details->taxes))
-	            	<table class="border-bottom width-100 table-f-12">
+	            	<table class="border-bottom width-100">
 	            		<tr>
 	            			<th colspan="2" class="text-center">{{$receipt_details->tax_summary_label}}</th>
 	            		</tr>
@@ -698,10 +698,10 @@
 
             {{-- Barcode --}}
 			@if($receipt_details->show_barcode)
-				<br/>
+				<br>
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
-			
+
 				<br>
 			@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
                 @if (empty($receipt_details->qrstr))
@@ -746,7 +746,7 @@ body {
 }
 @media print {
 	* {
-    	font-size: 12px;
+    	font-size: 11px;
     	/* font-family: 'arial', arial, helvetica; */
     	word-break: break-all;
 	}
@@ -877,6 +877,11 @@ img {
 
 .table-f-12 th, .table-f-12 td {
 	font-size: 12px;
+	word-break: break-word;
+}
+
+.table-f-15 th, .table-f-15 td {
+	font-size: 15px;
 	word-break: break-word;
 }
 

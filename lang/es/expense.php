@@ -1,25 +1,25 @@
 <?php
 
  return [
-     'expenses' => 'Gastos',
-     'expense_categories' => 'Categorías de gastos',
-     'manage_your_expense_categories' => 'Gestiona tus categorías de gastos',
-     'all_your_expense_categories' => 'Todas tus categorías de gastos', /* modified */
-     'expense_category' => 'Categoría de gastos',
+     'expenses' => 'Egresos',
+     'expense_categories' => 'Categorías de Egresos',
+     'manage_your_expense_categories' => 'Gestiona tus categorías de Egresos',
+     'all_your_expense_categories' => 'Todas tus categorías de Egresos', /* modified */
+     'expense_category' => 'Categoría de Egresos',
      'category_name' => 'Nombre de la categoría',
      'category_code' => 'Código de categoría',
-     'added_success' => 'Categoría de gastos añadida con éxito',
-     'updated_success' => 'Categoría de gastos actualizada con éxito',
-     'deleted_success' => 'Categoría de gastos eliminada con éxito',
-     'add_expense_category' => 'Agregar categoría de gastos',
-     'edit_expense_category' => 'Editar categoría de gastos',
-     'all_expenses' => 'Todos los gastos',
-     'expense_status' => 'Estado del gasto',
-     'add_expense' => 'Agregar gasto',
-     'edit_expense' => 'Editar gasto',
-     'expense_note' => 'Nota de gastos',
-     'expense_add_success' => 'Gasto añadido con éxito', /* modified */
-     'expense_update_success' => 'Gastos actualizados con éxito',
-     'expense_delete_success' => 'Gastos eliminados con éxito',
-     'expense_for' => 'Gasto por',
+     'added_success' => 'Categoría de Egresos añadida con éxito',
+     'updated_success' => 'Categoría de Egresos actualizada con éxito',
+     'deleted_success' => 'Categoría de Egresos eliminada con éxito',
+     'add_expense_category' => 'Agregar categoría de Egresos',
+     'edit_expense_category' => 'Editar categoría de Egresos',
+     'all_expenses' => 'Todos los Egresos',
+     'expense_status' => 'Estado del Egreso',
+     'add_expense' => 'Agregar Egreso',
+     'edit_expense' => 'Editar Egreso',
+     'expense_note' => 'Nota de Egresos',
+     'expense_add_success' => 'Egreso añadido con éxito', /* modified */
+     'expense_update_success' => 'Egresos actualizados con éxito',
+     'expense_delete_success' => 'Egresos eliminados con éxito',
+     'expense_for' => 'Egreso por',
  ];
