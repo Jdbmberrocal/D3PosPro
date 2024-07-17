@@ -182,3 +182,9 @@
         <i class="fa fa-spinner fa-spin fa-2x"></i>
     </div>
 </div>
+
+{{-- <ul class="list" id="res_dian">
+    
+    <li class="list-inline-item text-warning">And another one.</li>
+    <li class="list-inline-item text-warning">But they're displayed inline.</li>
+  </ul> --}}

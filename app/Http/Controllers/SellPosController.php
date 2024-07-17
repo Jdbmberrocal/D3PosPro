@@ -33,7 +33,9 @@ use App\Business;
 use App\BusinessLocation;
 use App\Category;
 use App\Contact;
+use App\Country;
 use App\CustomerGroup;
+use App\Department;
 use App\InvoiceLayout;
 use App\InvoiceScheme;
 use App\Media;
@@ -63,7 +65,8 @@ use Stripe\Charge;
 use Stripe\Stripe;
 use Yajra\DataTables\Facades\DataTables;
 use App\Events\SellCreatedOrModified;
-
+use App\municipality;
+use App\TypeDocumentIdentification;
 use Carbon\Carbon;
 
 class SellPosController extends Controller
@@ -257,6 +260,11 @@ class SellPosController extends Controller
         $invoice_schemes = InvoiceScheme::forDropdown($business_id);
         $default_invoice_schemes = InvoiceScheme::getDefault($business_id);
 
+        $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        $municipalities = municipality::pluck('name','id');
+
         $edit_discount = auth()->user()->can('edit_product_discount_from_pos_screen');
         $edit_price = auth()->user()->can('edit_product_price_from_pos_screen');
 
@@ -265,6 +273,10 @@ class SellPosController extends Controller
 
         return view('sale_pos.create')
             ->with(compact(
+                'type_document_identifications',
+                'countries',
+                'departments',
+                'municipalities',
                 'edit_discount',
                 'edit_price',
                 'business_locations',
@@ -835,13 +847,27 @@ class SellPosController extends Controller
                             "merchant_registration" => "0000000-00",
                         );
                     }else{
+                        $contact_type = 0;
+                        $name = '';
+                        if($customer_data->contact_type == 'individual')
+                        {
+                            $contact_type = 2;
+                            $name = $customer_data->name;
+                        }else{
+                            $contact_type = 1;
+                            $name = $customer_data->supplier_business_name;
+                        }
                         $customer = array(
                             "identification_number" => $customer_data->contact_id,
-                            "name" => $customer_data->name,
-                            // "name" => $customer_data->first_name.' '.$customer_data->middle_name.' '.$customer_data->last_name,
+                            "dv" => $customer_data->prefix,
+                            "name" => $name,
+                            "type_organization_id" => $contact_type,
                             "phone" => $customer_data->mobile,
-                            "merchant_registration" => "0000000-00",
-                            "email" => $customer_data->email
+                            "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000-00",
+                            "type_document_identification_id" => ($customer_data->type_document_identification_id)?$customer_data->type_document_identification_id : "",
+                            "type_organization_id" => ($customer_data->type_organization_id)?$customer_data->type_organization_id : "",
+                            "email" => $customer_data->email,
+                            "address" => ($customer_data->address_line_1)? $customer_data->address_line_1: 'no'
                         );
                         $sendmail = true;
                     }
@@ -925,8 +951,19 @@ class SellPosController extends Controller
 
                     $response_dian =  $respuesta['ResponseDian'];
                     $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
+                    $ErrorRules = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'];
                     $cufe = $respuesta['cufe'];
                     $QRStr = $respuesta['QRStr'];
+
+                    // toastr()->success("error");
+                    // $rules = '';
+                    // if(!empty($ErrorRules))
+                    // {
+                        
+                    //     foreach ($ErrorRules as $key => $value) {
+                    //         $rules .= '<li class="list-inline-item text-warning">'+$ErrorRules[$key]+'</li>';
+                    //     }
+                    // }
 
                     if($IsValid == "true")
                     {
@@ -949,10 +986,12 @@ class SellPosController extends Controller
                         'msg' => $msg, 
                         'receipt' => $receipt,
                         'input_curl'=> $data, 
+                        'response' => $respuesta, 
                         'response' => json_decode($response), 
                         'cufe' => ($cufe) ? $cufe : '',
                         'IsValid' => ($IsValid) ? $IsValid : '',
-                        'QRStr' => ($QRStr) ? $QRStr : ''
+                        'QRStr' => ($QRStr) ? $QRStr : '',
+                        'ErrorMessage' => ($ErrorRules) ? $ErrorRules : ''
                     ];
 
                 }else{
@@ -963,7 +1002,8 @@ class SellPosController extends Controller
                     $output = [
                         'success' => 1, 
                         'msg' => $msg, 
-                        'receipt' => $receipt
+                        'receipt' => $receipt,
+                        // 'res' => $response
                     ];
                 }
 

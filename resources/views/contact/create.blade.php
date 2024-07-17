@@ -26,7 +26,7 @@
 
     <div class="modal-body">
         <div class="row">            
-            <div class="col-md-4 contact_type_div">
+            <div class="col-md-3 contact_type_div">
                 <div class="form-group">
                     {!! Form::label('type', __('contact.contact_type') . ':*' ) !!}
                     <div class="input-group">
@@ -37,28 +37,49 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mt-15">
+            <div class="col-md-3 mt-15">
                 <label class="radio-inline">
                     <input type="radio" name="contact_type_radio" id="inlineRadio1" value="individual">
-                    @lang('lang_v1.individual')
+                    Natural
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name="contact_type_radio" id="inlineRadio2" value="business">
-                    @lang('business.business')
+                    Jurídica
                 </label>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::label('contact_id', __('lang_v1.contact_id') . ':') !!}
+                    {!! Form::label('contact_id', __('Nit') . ':') !!}
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-id-badge"></i>
                         </span>
-                        {!! Form::text('contact_id', null, ['class' => 'form-control','placeholder' => __('lang_v1.contact_id')]); !!}
+                        {!! Form::text('contact_id', null, ['class' => 'form-control','required','placeholder' => __('Número de documento de la empresa')]); !!}
                     </div>
-                    <p class="help-block">
+                    {{-- <p class="help-block">
                         @lang('lang_v1.leave_empty_to_autogenerate')
-                    </p>
+                    </p> --}}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::label('dv', __('DV') . ':') !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-id-badge"></i>
+                        </span>
+                        {!! Form::text('dv', null, ['class' => 'form-control','required','placeholder' => __('Digito de verificación')]); !!}
+                    </div>
+                    {{-- <p class="help-block">
+                        @lang('lang_v1.leave_empty_to_autogenerate')
+                    </p> --}}
+                </div>
+            </div>
+            
+            <div class="col-sm-3">
+                <div class="form-group">
+                    {!! Form::label('type_document_identification_id', __('Tipo de documento') . ':') !!}
+                    {!! Form::select('type_document_identification_id', $type_document_identifications,'', ['class' => 'form-control', 'required']); !!}
                 </div>
             </div>
             <div class="col-md-4 customer_fields">
@@ -70,6 +91,20 @@
                       </span>
                       {!! Form::select('customer_group_id', $customer_groups, '', ['class' => 'form-control']); !!}
                   </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::label('merchant_registration', __('Registro Mercantil') . ':') !!}
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-id-badge"></i>
+                        </span>
+                        {!! Form::text('merchant_registration', null, ['class' => 'form-control','placeholder' => __('Registro Mercantil')]); !!}
+                    </div>
+                    {{-- <p class="help-block">
+                        @lang('lang_v1.leave_empty_to_autogenerate')
+                    </p> --}}
                 </div>
             </div>
             <div class="clearfix customer_fields"></div>
@@ -87,12 +122,12 @@
 
             <div class="clearfix"></div>
 
-            <div class="col-md-3 individual" style="display: none;">
+            {{-- <div class="col-md-3 individual" style="display: none;">
                 <div class="form-group">
                     {!! Form::label('prefix', __( 'business.prefix' ) . ':') !!}
                     {!! Form::text('prefix', null, ['class' => 'form-control', 'placeholder' => __( 'business.prefix_placeholder' ) ]); !!}
                 </div>
-            </div>
+            </div> --}}
             <div class="col-md-3 individual" style="display: none;">
                 <div class="form-group">
                     {!! Form::label('first_name', __( 'business.first_name' ) . ':*') !!}
@@ -154,7 +189,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-envelope"></i>
                         </span>
-                        {!! Form::email('email', null, ['class' => 'form-control','placeholder' => __('business.email')]); !!}
+                        {!! Form::email('email', null, ['class' => 'form-control','required','placeholder' => __('business.email')]); !!}
                     </div>
                 </div>
             </div>
@@ -306,7 +341,7 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-              <div class="col-md-3">
+              {{-- <div class="col-md-3">
                 <div class="form-group">
                     {!! Form::label('city', __('business.city') . ':') !!}
                     <div class="input-group">
@@ -316,19 +351,20 @@
                         {!! Form::text('city', null, ['class' => 'form-control', 'placeholder' => __('business.city')]); !!}
                     </div>
                 </div>
-              </div>
-          <div class="col-md-3">
-            <div class="form-group">
-                {!! Form::label('state', __('business.state') . ':') !!}
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-map-marker"></i>
-                    </span>
-                    {!! Form::text('state', null, ['class' => 'form-control', 'placeholder' => __('business.state')]); !!}
+              </div> --}}
+              <div class="col-sm-3">
+                <div class="form-group">
+                    {!! Form::label('department_id', __('Departamento') . ':') !!}
+                    {!! Form::select('department_id', $departments,'', ['class' => 'form-control']); !!}
                 </div>
             </div>
-          </div>
-          <div class="col-md-3">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    {!! Form::label('municipality_id', __('Municipio') . ':') !!}
+                    {!! Form::select('municipality_id', $municipalities,'', ['class' => 'form-control']); !!}
+                </div>
+            </div>
+          {{-- <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('country', __('business.country') . ':') !!}
                 <div class="input-group">
@@ -338,7 +374,13 @@
                     {!! Form::text('country', null, ['class' => 'form-control', 'placeholder' => __('business.country')]); !!}
                 </div>
             </div>
-          </div>
+          </div> --}}
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('country_id', __('Paises') . ':') !!}
+                {!! Form::select('country_id', $countries,'', ['class' => 'form-control']); !!}
+            </div>
+        </div>
           <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('zip_code', __('business.zip_code') . ':') !!}

@@ -28,7 +28,7 @@
 
       <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
               {!! Form::label('type', __('contact.contact_type') . ':*' ) !!}
               <div class="input-group">
@@ -39,30 +39,44 @@
               </div>
           </div>
         </div>
-        <div class="col-md-4 mt-15">
+        <div class="col-md-3 mt-15">
             <label class="radio-inline">
                 <input type="radio" name="contact_type_radio" @if($contact->contact_type == 'individual') checked @endif id="inlineRadio1" value="individual">
-                @lang('lang_v1.individual')
+                Natural
             </label>
             <label class="radio-inline">
                 <input type="radio" name="contact_type_radio" @if($contact->contact_type == 'business') checked @endif id="inlineRadio2" value="business">
-                @lang('business.business')
+                Jurídica
             </label>
         </div>
         <div class="col-md-4">
           <div class="form-group">
-              {!! Form::label('contact_id', __('lang_v1.contact_id') . ':') !!}
+              {!! Form::label('contact_id', __('Nit') . ':') !!}
               <div class="input-group">
                   <span class="input-group-addon">
                       <i class="fa fa-id-badge"></i>
                   </span>
                   <input type="hidden" id="hidden_id" value="{{$contact->id}}">
-                  {!! Form::text('contact_id', $contact->contact_id, ['class' => 'form-control','placeholder' => __('lang_v1.contact_id')]); !!}
+                  {!! Form::text('contact_id', $contact->contact_id, ['class' => 'form-control','required','placeholder' => __('lang_v1.contact_id')]); !!}
               </div>
               <p class="help-block">
-                @lang('lang_v1.leave_empty_to_autogenerate')
+                {{-- @lang('lang_v1.leave_empty_to_autogenerate') --}}
             </p>
           </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                {!! Form::label('dv', __('DV') . ':') !!}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-id-badge"></i>
+                    </span>
+                    {!! Form::text('prefix', $contact->prefix, ['class' => 'form-control','required','placeholder' => __('Digito de verificación')]); !!}
+                </div>
+                {{-- <p class="help-block">
+                    @lang('lang_v1.leave_empty_to_autogenerate')
+                </p> --}}
+            </div>
         </div>
         <div class="col-md-4 customer_fields">
           <div class="form-group">
@@ -155,7 +169,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-envelope"></i>
                     </span>
-                    {!! Form::email('email', $contact->email, ['class' => 'form-control','placeholder' => __('business.email')]); !!}
+                    {!! Form::email('email', $contact->email, ['class' => 'form-control','required','placeholder' => __('business.email')]); !!}
                 </div>
             </div>
         </div>

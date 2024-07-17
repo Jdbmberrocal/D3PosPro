@@ -541,6 +541,7 @@ $(document).ready(function() {
                 if (result.success == 1) {
                     reset_pos_form();
                     toastr.success(result.msg);
+                    // $('#res_dian').html(result.ErrorMessage)
                 } else {
                     toastr.error(result.msg);
                 }
