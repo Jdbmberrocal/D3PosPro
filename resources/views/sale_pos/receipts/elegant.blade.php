@@ -346,6 +346,7 @@
 
 	</div>
 </div>
+
 @if(!empty($receipt_details->shipping_custom_field_1_label) || !empty($receipt_details->shipping_custom_field_2_label))
 	<div class="row">
 		<div class="col-xs-6">
