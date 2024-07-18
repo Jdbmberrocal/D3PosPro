@@ -16,6 +16,7 @@
 						<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img center-block" >
 					</div>
 				@endif
+				
 				<div class="text-box">
 				<p class="centered">
 					<!-- Header text -->
@@ -461,7 +462,7 @@
 	                        				<p class="text-left width-50 quantity">
 	                        					{{$modifier['quantity']}}
 	                        					@if(empty($receipt_details->hide_price))
-	                        					x {{$modifier['unit_price_inc_tax']}}
+	                        					x hola{{$modifier['unit_price_inc_tax']}}
 	                        					@endif
 	                        				</p>
 	                        				<p class="text-right width-50 price">
