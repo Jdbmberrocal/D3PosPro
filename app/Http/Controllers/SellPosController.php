@@ -950,50 +950,67 @@ class SellPosController extends Controller
                     // $cufe = ($respuesta)?$respuesta['cufe']:'';
                     // $cufe = $respuesta;
 
-                    $response_dian =  $respuesta['ResponseDian'];
-                    $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
-                    $ErrorRules = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'];
-                    $cufe = $respuesta['cufe'];
-                    $QRStr = $respuesta['QRStr'];
-
-                    // toastr()->success("error");
-                    // $rules = '';
-                    // if(!empty($ErrorRules))
-                    // {
-                        
-                    //     foreach ($ErrorRules as $key => $value) {
-                    //         $rules .= '<li class="list-inline-item text-warning">'+$ErrorRules[$key]+'</li>';
-                    //     }
-                    // }
-
-                    if($IsValid == "true")
+                    if(isset($respuesta['ResponseDian']))
                     {
-                        //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
-                        $transaction = Transaction::find($transaction->id);
-                        $transaction->cufe = $cufe;
-                        $transaction->is_valid = true;
-                        $transaction->qrstr = $QRStr;
-                        $transaction->save();
-
                         
-                    }
 
-                    if ($print_invoice) {
-                        $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                        $response_dian =  $respuesta['ResponseDian'];
+                        $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
+                        $ErrorRules = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'];
+                        $cufe = $respuesta['cufe'];
+                        $QRStr = $respuesta['QRStr'];
+
+
+                        if($IsValid == "true")
+                        {
+                            //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
+                            $transaction = Transaction::find($transaction->id);
+                            $transaction->cufe = $cufe;
+                            $transaction->is_valid = true;
+                            $transaction->qrstr = $QRStr;
+                            $transaction->save();
+
+                            
+                        }
+
+                        if ($print_invoice) {
+                            $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                        }
+        
+                        $output = [
+                            'success' => 1, 
+                            'msg' => $msg, 
+                            'receipt' => $receipt,
+                            'input_curl'=> $data, 
+                            'response' => $respuesta, 
+                            'response' => json_decode($response), 
+                            'cufe' => ($cufe) ? $cufe : '',
+                            'IsValid' => ($IsValid) ? $IsValid : '',
+                            'QRStr' => ($QRStr) ? $QRStr : '',
+                            'ErrorMessage' => ($ErrorRules) ? $ErrorRules : ''
+                        ];
+                        
+                    }else{
+                        foreach ($response as $key => $value) {
+                            // Si el valor es un array, iterar sobre sus elementos
+                            if (is_array($value)) {
+                                foreach ($value as $item) {
+                                    echo "Clave: $key, Valor: $item\n";
+                                }
+                            } else {
+                                echo "Clave: $key, Valor: $value\n";
+                            }
+                        }
+                        
+                        $output = [
+                            'success' => 0, 
+                            // 'msg' => $msg, 
+                            'msg' => $respuesta['errors'], 
+                            'receipt' => $receipt,
+                            'input_curl'=> $data, 
+                            'response' => $respuesta['errors']
+                        ];
                     }
-    
-                    $output = [
-                        'success' => 1, 
-                        'msg' => $msg, 
-                        'receipt' => $receipt,
-                        'input_curl'=> $data, 
-                        'response' => $respuesta, 
-                        'response' => json_decode($response), 
-                        'cufe' => ($cufe) ? $cufe : '',
-                        'IsValid' => ($IsValid) ? $IsValid : '',
-                        'QRStr' => ($QRStr) ? $QRStr : '',
-                        'ErrorMessage' => ($ErrorRules) ? $ErrorRules : ''
-                    ];
 
                 }else{
                     if ($print_invoice) {

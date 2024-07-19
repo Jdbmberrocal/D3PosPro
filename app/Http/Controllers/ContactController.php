@@ -777,11 +777,26 @@ class ContactController extends Controller
                 $opening_balance = $this->commonUtil->num_f($opening_balance);
             }
 
+            $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+            $countries = Country::pluck('name','id');
+            $departments = Department::pluck('name','id');
+            $municipalities = municipality::pluck('name','id');
+
             //Added check because $users is of no use if enable_contact_assign if false
             $users = config('constants.enable_contact_assign') ? User::forDropdown($business_id, false, false, false, true) : [];
 
             return view('contact.edit')
-                ->with(compact('contact', 'types', 'customer_groups', 'opening_balance', 'users'));
+                ->with(compact(
+                    'type_document_identifications',
+                    'countries',
+                    'departments',
+                    'municipalities',
+                    'contact', 
+                    'types', 
+                    'customer_groups', 
+                    'opening_balance', 
+                    'users',
+                ));
         }
     }
 
@@ -801,7 +816,7 @@ class ContactController extends Controller
         if (request()->ajax()) {
             try {
                 $input = $request->only(['type','dv', 'supplier_business_name', 'prefix', 'first_name', 'middle_name', 'last_name', 'tax_number', 'pay_term_number', 'pay_term_type', 'mobile', 'address_line_1', 'address_line_2', 'zip_code', 'dob', 'alternate_number', 'city', 'state', 'country', 'landline', 'customer_group_id', 'contact_id', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'custom_field5', 'custom_field6', 'custom_field7', 'custom_field8', 'custom_field9', 'custom_field10', 'email', 'shipping_address', 'position', 'shipping_custom_field_details', 'export_custom_field_1', 'export_custom_field_2', 'export_custom_field_3', 'export_custom_field_4', 'export_custom_field_5',
-                    'export_custom_field_6', 'assigned_to_users', ]);
+                    'export_custom_field_6', 'assigned_to_users','department_id','municipality_id','country_id','type_document_identification_id','type_regime_id','merchant_registration' ]);
 
                 $name_array = [];
 

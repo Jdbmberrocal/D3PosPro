@@ -78,6 +78,26 @@
                 </p> --}}
             </div>
         </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('type_document_identification_id', __('Tipo de documento') . ':') !!}
+                {!! Form::select('type_document_identification_id', $type_document_identifications,$contact->type_document_identification_id, ['class' => 'form-control', 'required']); !!}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                {!! Form::label('merchant_registration', __('Registro Mercantil') . ':') !!}
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-id-badge"></i>
+                    </span>
+                    {!! Form::text('merchant_registration', $contact->merchant_registration, ['class' => 'form-control','placeholder' => __('Registro Mercantil')]); !!}
+                </div>
+                {{-- <p class="help-block">
+                    @lang('lang_v1.leave_empty_to_autogenerate')
+                </p> --}}
+            </div>
+        </div>
         <div class="col-md-4 customer_fields">
           <div class="form-group">
               {!! Form::label('customer_group_id', __('lang_v1.customer_group') . ':') !!}
@@ -89,6 +109,7 @@
               </div>
           </div>
         </div>
+        
         <div class="clearfix customer_fields"></div>
         <div class="col-md-4 business" @if($contact->contact_type == 'individual' || empty($contact->contact_type)) style="display: none;"  @endif>
           <div class="form-group">
@@ -103,12 +124,12 @@
           </div>
         </div>
         <div class="clearfix"></div>
-        <div class="col-md-3 individual"  @if($contact->contact_type == 'business' || empty($contact->contact_type)) style="display: none;"  @endif>
+        {{-- <div class="col-md-3 individual"  @if($contact->contact_type == 'business' || empty($contact->contact_type)) style="display: none;"  @endif>
                 <div class="form-group">
                     {!! Form::label('prefix', __( 'business.prefix' ) . ':') !!}
                     {!! Form::text('prefix', $contact->prefix, ['class' => 'form-control', 'placeholder' => __( 'business.prefix_placeholder' ) ]); !!}
                 </div>
-            </div>
+            </div> --}}
             <div class="col-md-3 individual" @if($contact->contact_type == 'business' || empty($contact->contact_type)) style="display: none;"  @endif>
                 <div class="form-group">
                     {!! Form::label('first_name', __( 'business.first_name' ) . ':*') !!}
@@ -314,39 +335,24 @@
         </div>
       </div>
       <div class="clearfix"></div>
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <div class="form-group">
-            {!! Form::label('city', __('business.city') . ':') !!}
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="fa fa-map-marker"></i>
-                </span>
-                {!! Form::text('city', $contact->city, ['class' => 'form-control', 'placeholder' => __('business.city')]); !!}
-            </div>
+            {!! Form::label('department_id', __('Departamento') . ':') !!}
+            {!! Form::select('department_id', $departments,$contact->department_id, ['class' => 'form-control']); !!}
         </div>
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-sm-3">
         <div class="form-group">
-            {!! Form::label('state', __('business.state') . ':') !!}
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="fa fa-map-marker"></i>
-                </span>
-                {!! Form::text('state', $contact->state, ['class' => 'form-control', 'placeholder' => __('business.state')]); !!}
-            </div>
+            {!! Form::label('municipality_id', __('Municipio') . ':') !!}
+            {!! Form::select('municipality_id', $municipalities,$contact->municipality_id, ['class' => 'form-control']); !!}
         </div>
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-sm-3">
         <div class="form-group">
-            {!! Form::label('country', __('business.country') . ':') !!}
-            <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="fa fa-globe"></i>
-                </span>
-                {!! Form::text('country', $contact->country, ['class' => 'form-control', 'placeholder' => __('business.country')]); !!}
-            </div>
+            {!! Form::label('country_id', __('Paises') . ':') !!}
+            {!! Form::select('country_id', $countries,$contact->country_id, ['class' => 'form-control']); !!}
         </div>
-      </div>
+    </div>
       <div class="col-md-3">
         <div class="form-group">
             {!! Form::label('zip_code', __('business.zip_code') . ':') !!}
