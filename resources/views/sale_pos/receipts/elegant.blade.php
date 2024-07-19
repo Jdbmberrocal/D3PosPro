@@ -877,7 +877,8 @@
 		@endif
 
 		</div>
+		{{-- DATOS DE ZEUS --}}
 		<small>
-			<b> Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b>| Nt &copy; {{ date('Y') }} 
+			<b> Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - <b>WhatsApp: 3160402010</b>
 		</small>
 </table>
