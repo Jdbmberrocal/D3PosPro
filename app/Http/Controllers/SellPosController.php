@@ -678,7 +678,8 @@ class SellPosController extends Controller
                     //consultar los datos del cliente
                     $customer_data = Contact::findOrFail($request->input('contact_id'));
                 }else{
-                    $i_echeme == 'no';
+                    $invoice_scheme = InvoiceScheme::where('business_id',$business_id)->where('is_default',1)->get();
+                    $i_echeme == $invoice_scheme->is_fe;
                 }
                 
 
@@ -690,7 +691,7 @@ class SellPosController extends Controller
                     $actual_date = Carbon::now('America/Bogota')->format('Y-m-d');
                     $actual_hous = Carbon::now('America/Bogota')->format('H:m:s');
 
-                    $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count);
+                    $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count) -1;
 
                     $total_tax_products = 0;
                     $total_not_tax_products = 0;
@@ -698,7 +699,7 @@ class SellPosController extends Controller
                     $line_extension_amount = 0;
                     $tax_inclusive_amount = 0;
                     $tax_exclusive_amount = 0;
-                    $taxes = [];//impuesto por linea de producto
+                    // $taxes = [];//impuesto por linea de producto
                     $payable_amount = 0;
                     
 
@@ -709,7 +710,7 @@ class SellPosController extends Controller
                     $tax_total_invoice = [];
 
                     
-                    $final_total = $this->convert_numeric($input['final_total']);
+                    // $final_total = $this->convert_numeric($input['final_total']);
 
 
 
@@ -717,8 +718,8 @@ class SellPosController extends Controller
                     {
                         foreach ($input['products'] as $product){
                             $tax_totals = [];//impuestos totales de la factura
-                            $total_product = 0;
-                            $tax_total_product = 0;
+                            // $total_product = 0;
+                            // $tax_total_product = 0;
 
                             $product_db = Product::findOrFail($product['product_id']);
 
@@ -732,7 +733,7 @@ class SellPosController extends Controller
                                 $tax = TaxRate::find($product['tax_id']);
 
                                 $tax_amount_product = $this->tax($line_extension_amount_product,floatval($tax['amount']));
-                                $tax_total_product = $tax_amount_product + $line_extension_amount_product;
+                                // $tax_total_product = $tax_amount_product + $line_extension_amount_product;
 
                                 $tax_totals[] = [
                                     // "tax_id" =>intval($product['tax_id']),//ERROR AQUI
@@ -812,20 +813,21 @@ class SellPosController extends Controller
                     $tax_total_invoice = array_values($tax_totals_map);
 
                     //calcular los invoice line
-                    foreach($invoiceLines as $invoice_product)
-                    {
-                        if(isset($invoice_product['tax_id']))
+                    if(isset($invoiceLines)){
+                        foreach($invoiceLines as $invoice_product)
                         {
-                            $total_tax_products += floatval($invoice_product['line_extension_amount']);
-                        }else{
-                            $total_not_tax_products +=  floatval($invoice_product['line_extension_amount']);
+                            if(isset($invoice_product['tax_id']))
+                            {
+                                $total_tax_products += floatval($invoice_product['line_extension_amount']);
+                            }else{
+                                $total_not_tax_products +=  floatval($invoice_product['line_extension_amount']);
+                            }
+                            $line_extension_amount += floatval($invoice_product['line_extension_amount']);
+
+                            //calculñar el total de la factura
+                            $payable_amount = $payable_amount + $invoice_product['price_amount'];
                         }
-                        $line_extension_amount += floatval($invoice_product['line_extension_amount']);
-
-                        //calculñar el total de la factura
-                        $payable_amount = $payable_amount + $invoice_product['price_amount'];
                     }
-
 
 
                     //ENVIO DE FE zposs.co
@@ -956,7 +958,7 @@ class SellPosController extends Controller
 
                         $response_dian =  $respuesta['ResponseDian'];
                         $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
-                        $ErrorRules = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'];
+                        $ErrorRules = isset($response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'])? $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string']: '';
                         $cufe = $respuesta['cufe'];
                         $QRStr = $respuesta['QRStr'];
 
@@ -987,28 +989,28 @@ class SellPosController extends Controller
                             'cufe' => ($cufe) ? $cufe : '',
                             'IsValid' => ($IsValid) ? $IsValid : '',
                             'QRStr' => ($QRStr) ? $QRStr : '',
-                            'ErrorMessage' => ($ErrorRules) ? $ErrorRules : ''
+                            'ErrorMessage' => $ErrorRules
                         ];
                         
                     }else{
-                        foreach ($response as $key => $value) {
-                            // Si el valor es un array, iterar sobre sus elementos
-                            if (is_array($value)) {
-                                foreach ($value as $item) {
-                                    echo "Clave: $key, Valor: $item\n";
-                                }
-                            } else {
-                                echo "Clave: $key, Valor: $value\n";
-                            }
-                        }
+                        // foreach ($respuesta['errors'] as $key => $value) {
+                        //     // Si el valor es un array, iterar sobre sus elementos
+                        //     if (is_array($value)) {
+                        //         foreach ($value as $item) {
+                        //             echo "Clave: $key, Valor: $item\n";
+                        //         }
+                        //     } else {
+                        //         echo "Clave: $key, Valor: $value\n";
+                        //     }
+                        // }
                         
                         $output = [
                             'success' => 0, 
                             // 'msg' => $msg, 
-                            'msg' => $respuesta['errors'], 
+                            'msg' => $respuesta, 
                             'receipt' => $receipt,
                             'input_curl'=> $data, 
-                            'response' => $respuesta['errors']
+                            // 'response' => $respuesta['errors']
                         ];
                     }
 

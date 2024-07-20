@@ -6,11 +6,15 @@ use App\AccountTransaction;
 use App\Business;
 use App\BusinessLocation;
 use App\Contact;
+use App\Country;
 use App\CustomerGroup;
+use App\Department;
+use App\municipality;
 use App\Product;
 use App\PurchaseLine;
 use App\TaxRate;
 use App\Transaction;
+use App\TypeDocumentIdentification;
 use App\User;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -277,8 +281,16 @@ class PurchaseController extends Controller
 
         $common_settings = ! empty(session('business.common_settings')) ? session('business.common_settings') : [];
 
+        $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        $municipalities = municipality::pluck('name','id');
+
         return view('purchase.create')
-            ->with(compact('taxes', 'orderStatuses', 'business_locations', 'currency_details', 'default_purchase_status', 'customer_groups', 'types', 'shortcuts', 'payment_line', 'payment_types', 'accounts', 'bl_attributes', 'common_settings'));
+            ->with(compact('type_document_identifications',
+                    'countries',
+                    'departments',
+                    'municipalities','taxes', 'orderStatuses', 'business_locations', 'currency_details', 'default_purchase_status', 'customer_groups', 'types', 'shortcuts', 'payment_line', 'payment_types', 'accounts', 'bl_attributes', 'common_settings'));
     }
 
     /**
