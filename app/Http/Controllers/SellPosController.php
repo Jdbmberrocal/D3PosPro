@@ -690,7 +690,7 @@ class SellPosController extends Controller
                     $actual_date = Carbon::now('America/Bogota')->format('Y-m-d');
                     $actual_hous = Carbon::now('America/Bogota')->format('H:m:s');
 
-                    $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count)+1;
+                    $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count);
 
                     $total_tax_products = 0;
                     $total_not_tax_products = 0;
