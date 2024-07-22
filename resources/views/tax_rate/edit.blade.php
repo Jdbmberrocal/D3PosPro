@@ -19,9 +19,15 @@
           {!! Form::text('amount', $tax_rate->amount, ['class' => 'form-control input_number', 'required']); !!}
       </div>
 
-      <div class="form-group">
+      {{-- <div class="form-group">
         {!! Form::label('code', __( 'Código' ) . ':*') !!} @show_tooltip(__('Código del impuesto ante la DIAN'))
           {!! Form::text('code', $tax_rate->code, ['class' => 'form-control input_number', 'required']); !!}
+      </div> --}}
+
+      <div class="form-group">
+        {!! Form::label('code', __( 'Código impuesto' ) . ':*') !!}
+          {{-- {!! Form::select('code', $taxes, null, ['class' => 'form-control select2', 'required', '']); !!} --}}
+          {!! Form::select('code', $taxes, $tax_rate->code, ['class' => 'form-control select2', 'required', '']); !!}
       </div>
 
       <div class="form-group">

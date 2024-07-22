@@ -12,12 +12,17 @@
       <div class="row">
         <div class="form-group col-sm-12">
           {!! Form::label('actual_name', __( 'unit.name' ) . ':*') !!}
-            {!! Form::text('actual_name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'unit.name' )]); !!}
+            {!! Form::text('actual_name', null, ['class' => 'form-control', 'required','disabled', 'placeholder' => __( 'unit.name' )]); !!}
         </div>
 
         <div class="form-group col-sm-12">
           {!! Form::label('short_name', __( 'unit.short_name' ) . ':*') !!}
             {!! Form::text('short_name', null, ['class' => 'form-control', 'placeholder' => __( 'unit.short_name' ), 'required']); !!}
+        </div>
+
+        <div class="form-group col-sm-12">
+          {!! Form::label('code_dian', __( 'Código' ) . ':*') !!}
+            {!! Form::text('code_dian', null, ['class' => 'form-control','disabled', 'placeholder' => __( 'Código de la unidad' ), 'required']); !!}
         </div>
 
         <div class="form-group col-sm-12">

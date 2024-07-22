@@ -78,8 +78,28 @@ class TaxRateController extends Controller
         if (! auth()->user()->can('tax_rate.create')) {
             abort(403, 'Unauthorized action.');
         }
-
-        return view('tax_rate.create');
+        $taxes = [
+            1=>'IVA',
+            2 => 'IC',
+            3 => 'ICA',
+            4 => 'INC',
+            5 => 'ReteIVA',
+            6 => 'ReteRenta',
+            7 => 'ReteICA',
+            8 => 'FtoHorticultura',
+            9 => 'Timbre',
+            10 => 'Bolsas',
+            11 => 'INCarbono',
+            12 => 'INCombustibles',
+            13 => 'Sobretasa Combustibles',
+            14 => 'Sordicom',
+            15 => 'No aplica',
+            16 => 'IC Porcentual',
+            17 => 'IC Datos',
+            18 => 'IVA e INC',
+        ];
+                
+        return view('tax_rate.create',compact('taxes'));
     }
 
     /**
@@ -144,8 +164,28 @@ class TaxRateController extends Controller
             $business_id = request()->session()->get('user.business_id');
             $tax_rate = TaxRate::where('business_id', $business_id)->find($id);
 
+            $taxes = [
+                1=>'IVA', 2 => 'IC',
+                3 => 'ICA',
+                4 => 'INC',
+                5 => 'ReteIVA',
+                6 => 'ReteRenta',
+                7 => 'ReteICA',
+                8 => 'FtoHorticultura',
+                9 => 'Timbre',
+                10 => 'Bolsas',
+                11 => 'INCarbono',
+                12 => 'INCombustibles',
+                13 => 'Sobretasa Combustibles',
+                14 => 'Sordicom',
+                15 => 'No aplica',
+                16 => 'IC Porcentual',
+                17 => 'IC Datos',
+                18 => 'IVA e INC',
+            ];
+
             return view('tax_rate.edit')
-                ->with(compact('tax_rate'));
+                ->with(compact('tax_rate', 'taxes'));
         }
     }
 
