@@ -378,7 +378,7 @@
         <div class="col-sm-3">
             <div class="form-group">
                 {!! Form::label('country_id', __('Paises') . ':') !!}
-                {!! Form::select('country_id', $countries,'', ['class' => 'form-control']); !!}
+                {!! Form::select('country_id', $countries,46, ['class' => 'form-control']); !!}
             </div>
         </div>
           <div class="col-md-3">

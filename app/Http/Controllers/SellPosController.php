@@ -1023,7 +1023,7 @@ class SellPosController extends Controller
                         'success' => 1, 
                         'msg' => $msg, 
                         'receipt' => $receipt,
-                        // 'res' => $response
+                        'res' => $response
                     ];
                 }
 
