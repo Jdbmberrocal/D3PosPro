@@ -75,11 +75,11 @@ class BusinessUtil extends Util
         //create default invoice layour for new business
         InvoiceLayout::create(['name' => 'Default',
             'header_text' => null,
-            'invoice_no_prefix' => 'Invoice No.',
-            'invoice_heading' => 'Invoice',
+            'invoice_no_prefix' => 'Factura No.',
+            'invoice_heading' => 'Factura',
             'sub_total_label' => 'Subtotal',
-            'discount_label' => 'Discount',
-            'tax_label' => 'Tax',
+            'discount_label' => 'Descuento',
+            'tax_label' => 'Impuesto',
             'total_label' => 'Total',
             'show_landmark' => 1,
             'show_city' => 1,
@@ -92,16 +92,16 @@ class BusinessUtil extends Util
             'business_id' => $business_id,
             'invoice_heading_not_paid' => '',
             'invoice_heading_paid' => '',
-            'total_due_label' => 'Total Due',
-            'paid_label' => 'Total Paid',
+            'total_due_label' => 'Total Deuda',
+            'paid_label' => 'Total Pagado',
             'show_payments' => 1,
             'show_customer' => 1,
-            'customer_label' => 'Customer',
-            'table_product_label' => 'Product',
-            'table_qty_label' => 'Quantity',
-            'table_unit_price_label' => 'Unit Price',
+            'customer_label' => 'Cliente',
+            'table_product_label' => 'Producto',
+            'table_qty_label' => 'Cantidad',
+            'table_unit_price_label' => 'Precio Unit',
             'table_subtotal_label' => 'Subtotal',
-            'date_label' => 'Date',
+            'date_label' => 'Fecha',
         ]);
 
         //create default barcode setting for new business
@@ -119,14 +119,49 @@ class BusinessUtil extends Util
         //             ]);
 
         //Add Default Unit for new business
-        $unit = [
-            'business_id' => $business_id,
-            'actual_name' => 'Pieces',
-            'short_name' => 'Pc(s)',
-            'allow_decimal' => 0,
-            'created_by' => $user_id,
-        ];
-        Unit::create($unit);
+        // $unit = [
+        //     'business_id' => $business_id,
+        //     'actual_name' => 'Unidades',
+        //     'short_name' => 'Unds',
+        //     'allow_decimal' => 0,
+        //     'code_dian' => "70",
+        //     'created_by' => $user_id,
+        // ];
+        Unit::create(
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Spray pequeño',
+                'short_name' => 'Sp',
+                'allow_decimal' => 0,
+                'code_dian' => "1",
+                'created_by' => $user_id,
+            ],
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Levantar',
+                'short_name' => 'Lv',
+                'allow_decimal' => 0,
+                'code_dian' => "2",
+                'created_by' => $user_id,
+            ],
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Lote calor',
+                'short_name' => 'Lc',
+                'allow_decimal' => 0,
+                'code_dian' => "3",
+                'created_by' => $user_id,
+            ],
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Unidades',
+                'short_name' => 'Unds',
+                'allow_decimal' => 0,
+                'code_dian' => "70",
+                'created_by' => $user_id,
+            ],
+
+        );
 
         //Create default notification templates
         $notification_templates = NotificationTemplate::defaultNotificationTemplates($business_id);
