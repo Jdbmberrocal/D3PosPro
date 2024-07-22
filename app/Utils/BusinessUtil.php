@@ -58,7 +58,8 @@ class BusinessUtil extends Util
             'name' => 'Consumidor Final',
             'created_by' => $user_id,
             'is_default' => 1,
-            'contact_id' => $contact_id,
+            'contact_id' => 222222222222,
+            'email' => 'default@gmail.com',
             'credit_limit' => 0,
         ];
         Contact::create($customer);

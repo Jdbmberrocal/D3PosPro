@@ -47,6 +47,7 @@
                 obj.id = obj.id;
                 obj.shipping_address = obj.shipping_address || "";
                 obj.contact_id = obj.contact_id || "";
+                obj.dv = obj.dv || "";
                   return obj;
             });
             $('#contacts').select2({

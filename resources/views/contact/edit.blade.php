@@ -71,7 +71,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-id-badge"></i>
                     </span>
-                    {!! Form::text('prefix', $contact->prefix, ['class' => 'form-control','required','placeholder' => __('Digito de verificación')]); !!}
+                    {!! Form::text('dv', $contact->dv, ['class' => 'form-control','required','placeholder' => __('Digito de verificación')]); !!}
                 </div>
                 {{-- <p class="help-block">
                     @lang('lang_v1.leave_empty_to_autogenerate')

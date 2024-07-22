@@ -616,7 +616,7 @@ class ContactController extends Controller
             $name_array = [];
 
             if (! empty($input['dv'])) {
-                $input['prefix'] = $input['dv'];
+                $input['dv'] = $input['dv'];
             }
             if (! empty($input['first_name'])) {
                 $name_array[] = $input['first_name'];
@@ -968,6 +968,7 @@ class ContactController extends Controller
             $contacts->select(
                 'contacts.id',
                 DB::raw("IF(contacts.contact_id IS NULL OR contacts.contact_id='', contacts.name, CONCAT(contacts.name, ' (', contacts.contact_id, ')')) AS text"),
+                'dv',
                 'mobile',
                 'address_line_1',
                 'address_line_2',
