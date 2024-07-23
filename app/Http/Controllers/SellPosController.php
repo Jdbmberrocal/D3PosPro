@@ -984,8 +984,8 @@ class SellPosController extends Controller
                             'msg' => $msg, 
                             'receipt' => $receipt,
                             'input_curl'=> $data, 
-                            'response' => $respuesta, 
-                            'response' => json_decode($response), 
+                            'input_factura'=> $input, 
+                            'response' => ($respuesta) ? $respuesta : '',  
                             'cufe' => ($cufe) ? $cufe : '',
                             'IsValid' => ($IsValid) ? $IsValid : '',
                             'QRStr' => ($QRStr) ? $QRStr : '',
@@ -1022,8 +1022,7 @@ class SellPosController extends Controller
                     $output = [
                         'success' => 1, 
                         'msg' => $msg, 
-                        'receipt' => $receipt,
-                        'res' => $response
+                        'receipt' => $receipt
                     ];
                 }
 
