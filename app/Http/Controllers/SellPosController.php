@@ -861,7 +861,7 @@ class SellPosController extends Controller
                         }
                         $customer = array(
                             "identification_number" => $customer_data->contact_id,
-                            "dv" => $customer_data->prefix,
+                            "dv" => $customer_data->dv,
                             "name" => $name,
                             "type_organization_id" => $contact_type,
                             "phone" => $customer_data->mobile,
@@ -874,10 +874,18 @@ class SellPosController extends Controller
                         );
                         $sendmail = true;
                     }
+                    //leer los metodos y formas de pago
+                    // $payment_form = 1;
+                    // if($input['payment']['change_return']['method'] == 'cash')//efectivo
+                    // {
+                    //     $payment_form = 1;
+                    // }else{
+                    //     $payment_form = 2;//credito
+                    // }
                     $paymentForm = array(
-                        "duration_measure" => "30",
-                        "payment_form_id" => "2",
-                        "payment_method_id" => "1",
+                        "duration_measure" => 1,//dias de plazo para pago
+                        "payment_form_id" => 1,//1 contado 2 credito
+                        "payment_method_id" => 1,
                         "payment_due_date" => $actual_date
                     );
                     // $previousBalance = "0";

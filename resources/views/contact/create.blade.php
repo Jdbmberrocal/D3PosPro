@@ -100,7 +100,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-id-badge"></i>
                         </span>
-                        {!! Form::text('merchant_registration', null, ['class' => 'form-control','placeholder' => __('Registro Mercantil')]); !!}
+                        {!! Form::text('merchant_registration', '000000', ['class' => 'form-control','placeholder' => __('Registro Mercantil')]); !!}
                     </div>
                     {{-- <p class="help-block">
                         @lang('lang_v1.leave_empty_to_autogenerate')
