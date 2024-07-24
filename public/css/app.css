@@ -739,6 +739,15 @@ tr.details td.details-control {
     padding: 6px 9px;
 }
 
+.width-20{
+  width: 20% !important;
+}
+.width-25{
+  width: 25% !important;
+}
+.width-30{
+  width: 30% !important;
+}
 .width-50{
     width: 50% !important;
 }
@@ -758,6 +767,12 @@ tr.details td.details-control {
 
 .font-23{
     font-size: 23px !important;
+}
+.padding-2{
+  padding: 2px !important;
+}
+.padding-3{
+  padding: 3px !important;
 }
 .padding-5{
     padding: 5px !important;

@@ -47,148 +47,153 @@
 			<td> -->
 
 <!-- business information here -->
-<div class="row invoice-info">
-		
+@if (empty($receipt_details->qrstr))
+							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+						@endif
+	<div class="row invoice-info">
+			<div class="col-md-4 invoice-col width-40 font-10">
+			@if(empty($receipt_details->letter_head))
+					<!-- Logo -->
+					@if(!empty($receipt_details->logo))
+						<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img center-block">
+					@endif
+					
+					
+			<!-- Shop & Location Name  -->
+				<span class="text-center ">
+					@if(!empty($receipt_details->display_name))
+						<b>{{$receipt_details->display_name}}</b> <br>
+						
+					@endif
+					{{-- Información de la empresa --}}
+					@if (!empty($receipt_details->nit))
+						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
+						@endif
+						@if (!empty($receipt_details->address))
+						<b>Dirección: </b> {!! $receipt_details->address !!} <br>
+						@endif
+						@if (!empty($receipt_details->type_organization))
+							{!! $receipt_details->type_organization !!} <br>
+						@endif
+						@if (!empty($receipt_details->type_regime))
+							{!! $receipt_details->type_regime !!} <br>
+						@endif
+						@if (!empty($receipt_details->resolution))
+							{!! $receipt_details->resolution !!} <br>
+						@endif
 
-		<div class="col-md-4 invoice-col width-40 font-10">
-		@if(empty($receipt_details->letter_head))
-				<!-- Logo -->
-				@if(!empty($receipt_details->logo))
-					<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img center-block">
+					@if(!empty($receipt_details->tax_info1))
+						<br/><b>{{ $receipt_details->tax_label1 }}</b> {{ $receipt_details->tax_info1 }}
+					@endif
+
+				
+					{{-- @if(!empty($receipt_details->address))
+						{!! $receipt_details->address !!}
+					@endif --}}
+
+					@if(!empty($receipt_details->contact))
+						{!! $receipt_details->contact !!}
+					@endif
+
+					@if(!empty($receipt_details->website))
+						<br/>{{ $receipt_details->website }}
+					@endif
+
+					<!-- @if(!empty($receipt_details->tax_info1))
+						<br/><b>{{ $receipt_details->tax_label1 }} {{ $receipt_details->tax_info1 }}</b>
+					@endif -->
+
+					@if(!empty($receipt_details->tax_info2))
+						<br/>{{ $receipt_details->tax_label2 }} {{ $receipt_details->tax_info2 }}
+					@endif
+
+					@if(!empty($receipt_details->location_custom_fields))
+						<br/>{{ $receipt_details->location_custom_fields }}
+					@endif
+				</span>
+			@endif
+			<!-- Table information-->
+			@if(!empty($receipt_details->table_label) || !empty($receipt_details->table))
+				<p>
+					@if(!empty($receipt_details->table_label))
+						{!! $receipt_details->table_label !!}
+					@endif
+					{{$receipt_details->table}}
+				</p>
+			@endif
+
+			<!-- Waiter info -->
+			@if(!empty($receipt_details->service_staff_label) || !empty($receipt_details->service_staff))
+				<p>
+					@if(!empty($receipt_details->service_staff_label))
+						{!! $receipt_details->service_staff_label !!}
+					@endif
+					{{$receipt_details->service_staff}}
+				</p>
+			@endif
+
+			<div class="word-wrap">
+				
+
+				<p class="text-right ">
+
+				@if(!empty($receipt_details->brand_label) || !empty($receipt_details->repair_brand))
+					@if(!empty($receipt_details->brand_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->brand_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_brand}}<br>
+				@endif
+				@if(!empty($receipt_details->device_label) || !empty($receipt_details->repair_device))
+					@if(!empty($receipt_details->device_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->device_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_device}}<br>
 				@endif
 				
-		<!-- Shop & Location Name  -->
-			<span class="text-center ">
-				@if(!empty($receipt_details->display_name))
-					<b>{{$receipt_details->display_name}}</b> <br>
-					
-				@endif
-				{{-- Información de la empresa --}}
-				@if (!empty($receipt_details->nit))
-                       <b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
-                    @endif
-                    @if (!empty($receipt_details->address))
-					<b>Dirección: </b> {!! $receipt_details->address !!} <br>
-                    @endif
-                    @if (!empty($receipt_details->type_organization))
-                        {!! $receipt_details->type_organization !!} <br>
-                    @endif
-                    @if (!empty($receipt_details->type_regime))
-                        {!! $receipt_details->type_regime !!} <br>
-                    @endif
-                    @if (!empty($receipt_details->resolution))
-                        {!! $receipt_details->resolution !!} <br>
-                    @endif
-
-				@if(!empty($receipt_details->tax_info1))
-					<br/><b>{{ $receipt_details->tax_label1 }}</b> {{ $receipt_details->tax_info1 }}
+				@if(!empty($receipt_details->model_no_label) || !empty($receipt_details->repair_model_no))
+					@if(!empty($receipt_details->model_no_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->model_no_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_model_no}} <br>
 				@endif
 
-			
-				{{-- @if(!empty($receipt_details->address))
-					{!! $receipt_details->address !!}
-				@endif --}}
-
-				@if(!empty($receipt_details->contact))
-					{!! $receipt_details->contact !!}
+				@if(!empty($receipt_details->serial_no_label) || !empty($receipt_details->repair_serial_no))
+					@if(!empty($receipt_details->serial_no_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->serial_no_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_serial_no}}<br>
 				@endif
-
-				@if(!empty($receipt_details->website))
-					<br/>{{ $receipt_details->website }}
+				@if(!empty($receipt_details->repair_status_label) || !empty($receipt_details->repair_status))
+					@if(!empty($receipt_details->repair_status_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->repair_status_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_status}}<br>
 				@endif
-
-				<!-- @if(!empty($receipt_details->tax_info1))
-					<br/><b>{{ $receipt_details->tax_label1 }} {{ $receipt_details->tax_info1 }}</b>
-				@endif -->
-
-				@if(!empty($receipt_details->tax_info2))
-					<br/>{{ $receipt_details->tax_label2 }} {{ $receipt_details->tax_info2 }}
+				
+				@if(!empty($receipt_details->repair_warranty_label) || !empty($receipt_details->repair_warranty))
+					@if(!empty($receipt_details->repair_warranty_label))
+						<span class="pull-left">
+							<strong>{!! $receipt_details->repair_warranty_label !!}</strong>
+						</span>
+					@endif
+					{{$receipt_details->repair_warranty}}
+					<br>
 				@endif
-
-				@if(!empty($receipt_details->location_custom_fields))
-					<br/>{{ $receipt_details->location_custom_fields }}
-				@endif
-			</span>
-		@endif
-		<!-- Table information-->
-        @if(!empty($receipt_details->table_label) || !empty($receipt_details->table))
-        	<p>
-				@if(!empty($receipt_details->table_label))
-					{!! $receipt_details->table_label !!}
-				@endif
-				{{$receipt_details->table}}
-			</p>
-        @endif
-
-		<!-- Waiter info -->
-		@if(!empty($receipt_details->service_staff_label) || !empty($receipt_details->service_staff))
-        	<p>
-				@if(!empty($receipt_details->service_staff_label))
-					{!! $receipt_details->service_staff_label !!}
-				@endif
-				{{$receipt_details->service_staff}}
-			</p>
-        @endif
-
-        <div class="word-wrap">
-
-			<p class="text-right ">
-
-			@if(!empty($receipt_details->brand_label) || !empty($receipt_details->repair_brand))
-				@if(!empty($receipt_details->brand_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->brand_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_brand}}<br>
-	        @endif
-	        @if(!empty($receipt_details->device_label) || !empty($receipt_details->repair_device))
-				@if(!empty($receipt_details->device_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->device_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_device}}<br>
-	        @endif
-	        
-			@if(!empty($receipt_details->model_no_label) || !empty($receipt_details->repair_model_no))
-				@if(!empty($receipt_details->model_no_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->model_no_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_model_no}} <br>
-	        @endif
-
-			@if(!empty($receipt_details->serial_no_label) || !empty($receipt_details->repair_serial_no))
-				@if(!empty($receipt_details->serial_no_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->serial_no_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_serial_no}}<br>
-	        @endif
-			@if(!empty($receipt_details->repair_status_label) || !empty($receipt_details->repair_status))
-				@if(!empty($receipt_details->repair_status_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->repair_status_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_status}}<br>
-	        @endif
-	        
-	        @if(!empty($receipt_details->repair_warranty_label) || !empty($receipt_details->repair_warranty))
-				@if(!empty($receipt_details->repair_warranty_label))
-					<span class="pull-left">
-						<strong>{!! $receipt_details->repair_warranty_label !!}</strong>
-					</span>
-				@endif
-				{{$receipt_details->repair_warranty}}
-				<br>
-	        @endif
-	        </p>
+				</p>
+			</div>
 		</div>
-	</div>
+	
 <!-- DATOS DE FACTURA Y CLIENTE --> 
 	<div class="col-md-4 invoice-col width-60">
 
@@ -251,8 +256,8 @@
 			</div>
 		@endif
 		
-		
 	
+
 <!-- INFO PENDINTE DE VERIFICAR -->
 		@if(!empty($receipt_details->sell_custom_field_1_value))
 			<div class="text-right font-10 ">
@@ -293,7 +298,7 @@
 		
 		<div class="word-wrap font-10">
 			<br>
-			@if(!empty($receipt_details->customer_label))
+			{{-- @if(!empty($receipt_details->customer_label))
 				<b class=font-17>{{ $receipt_details->customer_label }}</b>
 			@endif
 		<br>
@@ -311,7 +316,7 @@
 			@endif
 			@if(!empty($receipt_details->customer_custom_fields))
 				<br/>{!! $receipt_details->customer_custom_fields !!}
-			@endif
+			@endif --}}
 			@if(!empty($receipt_details->sales_person_label))
 				<br/>
 				<strong>{{ $receipt_details->sales_person_label }}</strong> {{ $receipt_details->sales_person }}
@@ -345,6 +350,7 @@
 		</div>
 
 	</div>
+	
 </div>
 
 @if(!empty($receipt_details->shipping_custom_field_1_label) || !empty($receipt_details->shipping_custom_field_2_label))
@@ -398,6 +404,41 @@
 <div class="row">
 	@includeIf('sale_pos.receipts.partial.common_repair_invoice')
 </div>
+
+{{-- CUFE --}}
+	<div>
+		@if (!empty($receipt_details->cufe))
+		<b>Representación Gráfica de Factuaración Electrónica</b><br>
+		<b><p class="text centered font-10">CUFE:</b>
+			{!! $receipt_details->cufe !!}</p>
+		@endif
+	</div>
+		{{-- NUEVA INFO DEL CLIENTE --}}
+		<div class="col-md-4 invoice-col width-50 font-10">
+			
+			@if(!empty($receipt_details->customer_label))
+			<b class=font-17>{{ $receipt_details->customer_label }}</b>
+		@endif
+		<br>
+		<!-- customer info -->
+		@if(!empty($receipt_details->customer_info))
+		{!! $receipt_details->customer_info !!}
+		@endif
+		@if(!empty($receipt_details->client_id_label))
+			<br/>
+			<strong>{{ $receipt_details->client_id_label }}</strong> {{ $receipt_details->client_id }}
+		@endif
+		@if(!empty($receipt_details->customer_tax_label))
+			<br/>
+			<strong>{{ $receipt_details->customer_tax_label }}</strong> {{ $receipt_details->customer_tax_number }}
+		@endif
+		@if(!empty($receipt_details->customer_custom_fields))
+			<br/>{!! $receipt_details->customer_custom_fields !!}
+		@endif
+			
+		</div>
+		
+
 <!-- CABECERA DE PRODUCTOS -->
 <div class="row  mt-5 font-10">
 	<div class="col-xs-12 ">
@@ -790,10 +831,10 @@
 				
 				<!-- Total -->
 				<tr >
-					<th style="background-color: #D8D8D8 !important; color:black !important" class="font-17 padding-3">
+					<th style="background-color: #D8D8D8 !important; color:black !important" class="font-13 padding-3">
 					<b>{!! $receipt_details->total_label !!}</b>
 					</th>
-					<td class="text-right font-17 padding-3" style="background-color: #D8D8D8 !important; color: black !important">
+					<td class="text-right font-13 padding-3" style="background-color: #D8D8D8 !important; color: black !important">
 					<b>{{$receipt_details->total}}</b>
 					</td>
 				</tr>
@@ -838,45 +879,44 @@
 	</div>
 @endif
 
-	<div class="row ">
-		@if(!empty($receipt_details->footer_text))
-		<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
-			{!! $receipt_details->footer_text !!}
-		</div>
-		@endif
-		@if($receipt_details->show_barcode || $receipt_details->show_qr_code)
-			<div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
-				{{-- Barcode --}}
-				@if($receipt_details->show_barcode)
-					<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
-				@endif
+			<div class="row ">
+				 @if(!empty($receipt_details->footer_text))
+				<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
+					{!! $receipt_details->footer_text !!}
+				</div>
+				@endif 
+				@if($receipt_details->show_barcode || $receipt_details->show_qr_code)
+					<div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
+						{{-- Barcode --}}
+						@if($receipt_details->show_barcode)
+							<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
+						@endif
 
-				@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-                @if (empty($receipt_details->qrstr))
-                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
-                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-                @else
-                    <img class="center-block mt-5" style="max-height: 100px; width: auto;"
-                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-                @endif
-                
-            @endif
-				
+						@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
+						@if (empty($receipt_details->qrstr))
+							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+						@else
+							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+						@endif
+						
+					@endif
+						
+					</div>
+				@endif
 			</div>
-		@endif
-	</div>
 			</td>
 		</tr>
 	</tbody>
-		<div>{{-- CUFE --}}
-	
+		{{-- CUFE --}}
+	<div>
 		@if (!empty($receipt_details->cufe))
-		<b><p class="text centered font-10">Cufe:</b>
-			<br>
+		<b>Representación Gráfica de Facturación Electrónica</b><br>
+		<b><p class="text centered font-10">CUFE:</b><br>
 			{!! $receipt_details->cufe !!}</p>
 		@endif
-
-		</div>
+	</div>
 		{{-- DATOS DE ZEUS --}}
 		<small>
 			<b> Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - <b>WhatsApp: 3160402010</b>
