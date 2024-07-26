@@ -84,6 +84,18 @@
                 {!! Form::select('type_document_identification_id', $type_document_identifications,$contact->type_document_identification_id, ['class' => 'form-control', 'required']); !!}
             </div>
         </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('type_regime_id', __('Tipo de régimen') . ':') !!}
+                {!! Form::select('type_regime_id', $type_regimes,$contact->type_regime_id, ['class' => 'form-control', 'required']); !!}
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                {!! Form::label('liability_id', __('Tipo de responsabilidad') . ':') !!}
+                {!! Form::select('liability_id', $type_liabilities,$contact->liability_id, ['class' => 'form-control', 'required']); !!}
+            </div>
+        </div>
         <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('merchant_registration', __('Registro Mercantil') . ':') !!}

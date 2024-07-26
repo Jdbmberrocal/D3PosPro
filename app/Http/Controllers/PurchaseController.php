@@ -15,6 +15,8 @@ use App\PurchaseLine;
 use App\TaxRate;
 use App\Transaction;
 use App\TypeDocumentIdentification;
+use App\TypeLiability;
+use App\TypeRegime;
 use App\User;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -285,11 +287,15 @@ class PurchaseController extends Controller
         $countries = Country::pluck('name','id');
         $departments = Department::pluck('name','id');
         $municipalities = municipality::pluck('name','id');
+        $type_regimes = TypeRegime::pluck('name','id');
+        $type_liabilities = TypeLiability::pluck('name','id');
 
         return view('purchase.create')
             ->with(compact('type_document_identifications',
                     'countries',
                     'departments',
+                    'type_regimes',
+                    'type_liabilities',
                     'municipalities','taxes', 'orderStatuses', 'business_locations', 'currency_details', 'default_purchase_status', 'customer_groups', 'types', 'shortcuts', 'payment_line', 'payment_types', 'accounts', 'bl_attributes', 'common_settings'));
     }
 

@@ -82,7 +82,19 @@
                     {!! Form::select('type_document_identification_id', $type_document_identifications,'', ['class' => 'form-control', 'required']); !!}
                 </div>
             </div>
-            <div class="col-md-4 customer_fields">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    {!! Form::label('type_regime_id', __('Tipo de régimen') . ':') !!}
+                    {!! Form::select('type_regime_id', $type_regimes,2, ['class' => 'form-control', 'required']); !!}
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    {!! Form::label('liability_id', __('Tipo de responsabilidad') . ':') !!}
+                    {!! Form::select('liability_id', $type_liabilities,117, ['class' => 'form-control', 'required']); !!}
+                </div>
+            </div>
+            <div class="col-md-3 customer_fields">
                 <div class="form-group">
                   {!! Form::label('customer_group_id', __('lang_v1.customer_group') . ':') !!}
                   <div class="input-group">

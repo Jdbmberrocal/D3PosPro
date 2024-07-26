@@ -6,14 +6,20 @@ use App\Account;
 use App\Business;
 use App\BusinessLocation;
 use App\Contact;
+use App\Country;
 use App\CustomerGroup;
+use App\Department;
 use App\InvoiceScheme;
 use App\Media;
+use App\municipality;
 use App\Product;
 use App\SellingPriceGroup;
 use App\TaxRate;
 use App\Transaction;
 use App\TransactionSellLine;
+use App\TypeDocumentIdentification;
+use App\TypeLiability;
+use App\TypeRegime;
 use App\TypesOfService;
 use App\User;
 use App\Utils\BusinessUtil;
@@ -746,8 +752,21 @@ class SellController extends Controller
 
         $change_return = $this->dummyPaymentLine;
 
+        $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        $municipalities = municipality::pluck('name','id');
+        $type_regimes = TypeRegime::pluck('name','id');
+        $type_liabilities = TypeLiability::pluck('name','id');
+
         return view('sell.create')
             ->with(compact(
+                'type_document_identifications',
+                'countries',
+                'departments',
+                'municipalities',
+                'type_regimes',
+                'type_liabilities',
                 'business_details',
                 'taxes',
                 'walk_in_customer',
