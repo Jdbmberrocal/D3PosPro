@@ -1490,6 +1490,8 @@ class SellPosController extends Controller
         $countries = Country::pluck('name','id');
         $departments = Department::pluck('name','id');
         $municipalities = municipality::pluck('name','id');
+        $type_regimes = TypeRegime::pluck('name','id');
+        $type_liabilities = TypeLiability::pluck('name','id');
 
         return view('sale_pos.edit')
             ->with(compact('business_details', 'taxes', 'payment_types', 'walk_in_customer',
@@ -1501,7 +1503,7 @@ class SellPosController extends Controller
                 'users', 'only_payment','type_document_identifications',
                 'countries',
                 'departments',
-                'municipalities',));
+                'municipalities','type_regimes','type_liabilities'));
     }
 
     private function separarLetrasYNumeros($input) {
