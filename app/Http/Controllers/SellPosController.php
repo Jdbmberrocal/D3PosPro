@@ -2042,13 +2042,19 @@ class SellPosController extends Controller
                     $typeDocumentId = 1;
                     $date = $actual_date;
                     $time = $actual_hous;
-                    $sendmail = false;
-                    $resolutions = InvoiceScheme::where('business_id',$business_id)->where('prefix',$letras)->get();
+                    $sendmail = true;
+                    $resolutions = InvoiceScheme::where('business_id',$business_id)->where('prefix',$letras)->where('is_fe','si')->get();
                     $resolution_s = 0;
-                    foreach ($resolutions as $resolution) {
-                        if($resolution->start_number > $numeros || $resolution->end_number < $numeros)
-                        {
-                            $resolution_s = $resolution->resolution;
+                    if(count($resolutions) == 1)
+                    {
+                        $resolution_s = $resolutions[0]->resolution;
+                        
+                    }else if($resolutions > 1){
+                        foreach ($resolutions as $resolution) {
+                            if($resolution->start_number >= $numeros || $resolution->end_number <= $numeros)
+                            {
+                                $resolution_s = $resolution->resolution;
+                            }
                         }
                     }
                     // $resolutionNumber = $invoice_scheme->resolution;
