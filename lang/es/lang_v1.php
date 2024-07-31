@@ -1346,5 +1346,6 @@ return [
     'deactivate_selected' => 'Desactivar seleccionado',
     'add_discount' => 'Agregar descuento',
     'ledger_format' => 'Formato de libro mayor',
+    'net' => 'Ventas Netas',
     
 ];
