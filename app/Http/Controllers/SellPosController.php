@@ -2043,8 +2043,16 @@ class SellPosController extends Controller
                     $date = $actual_date;
                     $time = $actual_hous;
                     $sendmail = false;
+                    $resolutions = InvoiceScheme::where('business_id',$business_id)->where('prefix',$letras)->get();
+                    $resolution_s = 0;
+                    foreach ($resolutions as $resolution) {
+                        if($resolution->start_number > $numeros || $resolution->end_number < $numeros)
+                        {
+                            $resolution_s = $resolution->resolution;
+                        }
+                    }
                     // $resolutionNumber = $invoice_scheme->resolution;
-                    $resolutionNumber = 111111;
+                    $resolutionNumber = $resolution_s;
                     if($customer_data->contact_id == 222222222222)
                     {
                         $customer = array(
@@ -2069,7 +2077,7 @@ class SellPosController extends Controller
                             "name" => $name,
                             "type_organization_id" => $contact_type,
                             "phone" => $customer_data->mobile,
-                            "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000-00",
+                            "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000",
                             "type_document_identification_id" => ($customer_data->type_document_identification_id)?$customer_data->type_document_identification_id : "",
                             "type_regime_id" => ($customer_data->type_regime_id)?$customer_data->type_regime_id : "",
                             "municipality_id" => ($customer_data->municipality_id)?$customer_data->municipality_id : "",
