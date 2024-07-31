@@ -503,11 +503,22 @@ class SellController extends Controller
                     'types_of_service_name',
                     '<span class="service-type-label" data-orig-value="{{$types_of_service_name}}" data-status-name="{{$types_of_service_name}}">{{$types_of_service_name}}</span>'
                 )
+                
                 ->addColumn('total_remaining', function ($row) {
                     $total_remaining = $row->final_total - $row->total_paid;
                     $total_remaining_html = '<span class="payment_due" data-orig-value="'.$total_remaining.'">'.$this->transactionUtil->num_f($total_remaining, true).'</span>';
 
                     return $total_remaining_html;
+                })
+                ->addColumn('is_valid', function ($row) {
+                    if($row->is_valid == 1)
+                    {
+                        $is_valid = 'Si';
+                    }else{
+                        $is_valid = 'No';
+                    }
+
+                    return $is_valid;
                 })
                 ->addColumn('return_due', function ($row) {
                     $return_due_html = '';

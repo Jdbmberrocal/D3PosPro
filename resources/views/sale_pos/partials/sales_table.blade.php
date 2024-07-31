@@ -5,6 +5,7 @@
     <thead>
         <tr>
             <th>@lang('messages.action')</th>
+            <th>DIAN</th>
             <th>@lang('messages.date')</th>
             <th>@lang('sale.invoice_no')</th>
             <th>@lang('sale.customer_name')</th>
@@ -25,7 +26,6 @@
             <th>@lang('sale.staff_note')</th>
             <th>@lang('sale.shipping_details')</th>
             <th>Cufe</th>
-            <th>DIAN</th>
             <th>@lang('restaurant.table')</th>
             <th>@lang('restaurant.service_staff')</th>
         </tr>

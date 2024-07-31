@@ -69,6 +69,7 @@ sell_table = $('#sell_table').DataTable({
         },
         columns: [
             { data: 'action', name: 'action', orderable: false, "searchable": false},
+            { data: 'is_valid', name: 'is_valid'},
             { data: 'transaction_date', name: 'transaction_date'  },
             { data: 'invoice_no', name: 'invoice_no'},
             { data: 'conatct_name', name: 'conatct_name'},
@@ -89,7 +90,6 @@ sell_table = $('#sell_table').DataTable({
             { data: 'staff_note', name: 'staff_note'},
             { data: 'shipping_details', name: 'shipping_details'},
             { data: 'cufe', name: 'cufe'},
-            { data: 'is_valid', name: 'is_valid'},
             { data: 'table_name', name: 'tables.name', @if(empty($is_tables_enabled)) visible: false @endif },
             { data: 'waiter', name: 'ss.first_name', @if(empty($is_service_staff_enabled)) visible: false @endif }
         ],

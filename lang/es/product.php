@@ -12,7 +12,7 @@
      'unit' => 'Unidad',
      'brand' => 'Marca',
      'tax' => 'Impuesto',
-     'sku' => 'SKU',
+     'sku' => 'Codigo producto',
      'alert_quantity' => 'Cantidad para alerta', /* modified */
      'product_name' => 'Nombre del producto',
      'auto_generate' => 'Generar automáticamente',
