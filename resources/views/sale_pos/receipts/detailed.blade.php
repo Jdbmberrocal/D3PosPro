@@ -838,12 +838,13 @@
 		   @endif
 
 		   @if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-		   <b>Representación Gráfica de Facturación Electrónica</b><br>
+		
 		   @if (empty($receipt_details->qrstr))
 			   <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-			   ssss
+			
 		   @else
+		   <b>Representación Gráfica de Facturación Electrónica</b><br>
 			   <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
 			   {{-- CUFE --}}
