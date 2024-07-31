@@ -425,7 +425,7 @@
 					</td>
 					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
 						{{-- <b>{{$receipt_details->table_unit_price_label}}</b> --}}
-						<b>COSTO</b>
+						<b>Costo</b>
 					</td>
 					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
 						<b>{{$receipt_details->discounted_unit_price_label}}</b>

@@ -410,14 +410,19 @@
 			<b class=font-17>{{ $receipt_details->customer_label }}</b>
 		@endif
 		<br>
+		
 		<!-- customer info -->
 		@if(!empty($receipt_details->customer_info))
 		{!! $receipt_details->customer_info !!}
 		@endif
+		
 		@if(!empty($receipt_details->client_id_label))
 			<br/>
 			<strong>{{ $receipt_details->client_id_label }}</strong> {{ $receipt_details->client_id }}
 		@endif
+
+
+
 		@if(!empty($receipt_details->customer_tax_label))
 			<br/>
 			<strong>{{ $receipt_details->customer_tax_label }}</strong> {{ $receipt_details->customer_tax_number }}
@@ -887,18 +892,11 @@
 						@if (empty($receipt_details->qrstr))
 							<img class=" center" style="max-height: 100px; width: auto;"
 							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-							ssss
+					
 						@else
 							<img class=" center" style="max-height: 100px; width: auto;"
 							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-							{{-- CUFE --}}
-								<div>
-									@if (!empty($receipt_details->cufe))
-									
-									<b><p class="text centered font-12">CUFE:</b><br>
-										{!! $receipt_details->cufe !!}</p>
-									@endif
-								</div>
+							
 						@endif
 						
 						
@@ -911,7 +909,14 @@
 			</td>
 		</tr>
 	</tbody>
-	
+	{{-- CUFE --}}
+	<div>
+		@if (!empty($receipt_details->cufe))
+		
+		<b><p class="text centered font-12">CUFE:</b><br>
+			{!! $receipt_details->cufe !!}</p>
+		@endif
+	</div>
 		
 	
 		{{-- DATOS DE ZEUS --}}
