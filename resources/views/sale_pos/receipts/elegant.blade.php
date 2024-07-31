@@ -47,11 +47,9 @@
 			<td> -->
 
 <!-- business information here -->
-@if (empty($receipt_details->qrstr))
-							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
-							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-						@endif
+
 	<div class="row invoice-info">
+
 			<div class="col-md-4 invoice-col width-40 font-10">
 			@if(empty($receipt_details->letter_head))
 					<!-- Logo -->
@@ -405,14 +403,6 @@
 	@includeIf('sale_pos.receipts.partial.common_repair_invoice')
 </div>
 
-{{-- CUFE --}}
-	<div>
-		@if (!empty($receipt_details->cufe))
-		<b>Representación Gráfica de Factuaración Electrónica</b><br>
-		<b><p class="text centered font-10">CUFE:</b>
-			{!! $receipt_details->cufe !!}</p>
-		@endif
-	</div>
 		{{-- NUEVA INFO DEL CLIENTE --}}
 		<div class="col-md-4 invoice-col width-50 font-10">
 			
@@ -420,14 +410,19 @@
 			<b class=font-17>{{ $receipt_details->customer_label }}</b>
 		@endif
 		<br>
+		
 		<!-- customer info -->
 		@if(!empty($receipt_details->customer_info))
 		{!! $receipt_details->customer_info !!}
 		@endif
+		
 		@if(!empty($receipt_details->client_id_label))
 			<br/>
 			<strong>{{ $receipt_details->client_id_label }}</strong> {{ $receipt_details->client_id }}
 		@endif
+
+
+
 		@if(!empty($receipt_details->customer_tax_label))
 			<br/>
 			<strong>{{ $receipt_details->customer_tax_label }}</strong> {{ $receipt_details->customer_tax_number }}
@@ -626,9 +621,9 @@
 					$lines = count($receipt_details->lines);
 				@endphp
 
-				<!-- SON LOS ESPACIOS QUE HAY CUANDO EL DOCUMENTO QUE TIENE MENOS DE 10 ARTICULOS
+				<!-- SON LOS ESPACIOS QUE HAY CUANDO EL DOCUMENTO QUE TIENE MENOS DE 10 ARTICULOS-->
 					
-				@for ($i = $lines; $i < 10; $i++)
+				@for ($i = $lines; $i < 1; $i++)
     				<tr>
     					<td>&nbsp;</td>
     					<td>&nbsp;</td>
@@ -642,9 +637,9 @@
     					@if(!empty($receipt_details->item_discount_label))
     					<td></td>
     					@endif
-    					<td>&nbsp;</td> ESTA ES LA COLUMNA QUE SOBRA
+    					<td>&nbsp;</td>
     				</tr>
-				@endfor-->
+				@endfor
 
 			</tbody>
 		</table>
@@ -881,42 +876,50 @@
 
 			<div class="row ">
 				 @if(!empty($receipt_details->footer_text))
-				<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
+				<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-12 @else col-xs-12 @endif">
 					{!! $receipt_details->footer_text !!}
 				</div>
 				@endif 
 				@if($receipt_details->show_barcode || $receipt_details->show_qr_code)
-					<div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
+					<div class="@if(!empty($receipt_details->footer_text)) col-xs-12 @else col-xs-12 @endif">
 						{{-- Barcode --}}
 						@if($receipt_details->show_barcode)
 							<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 						@endif
 
 						@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
+						
 						@if (empty($receipt_details->qrstr))
-							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+							<img class=" center" style="max-height: 100px; width: auto;"
 							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+					
 						@else
-							<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+						<b>Representación Gráfica de Facturación Electrónica</b><br>
+							<img class=" center" style="max-height: 100px; width: auto;"
 							src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+							
 						@endif
+						
 						
 					@endif
 						
 					</div>
 				@endif
+							
 			</div>
 			</td>
 		</tr>
 	</tbody>
-		{{-- CUFE --}}
+	{{-- CUFE --}}
 	<div>
 		@if (!empty($receipt_details->cufe))
-		<b>Representación Gráfica de Facturación Electrónica</b><br>
-		<b><p class="text centered font-10">CUFE:</b><br>
+		
+		<b><p class="text centered font-12">CUFE:</b><br>
 			{!! $receipt_details->cufe !!}</p>
 		@endif
 	</div>
+		
+	
 		{{-- DATOS DE ZEUS --}}
 		<small>
 			<b> Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - <b>WhatsApp: 3160402010</b>

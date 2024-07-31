@@ -425,7 +425,7 @@
 					</td>
 					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
 						{{-- <b>{{$receipt_details->table_unit_price_label}}</b> --}}
-						<b>COSTO</b>
+						<b>Costo</b>
 					</td>
 					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
 						<b>{{$receipt_details->discounted_unit_price_label}}</b>
@@ -838,12 +838,13 @@
 		   @endif
 
 		   @if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-		   <b>Representación Gráfica de Facturación Electrónica</b><br>
+		
 		   @if (empty($receipt_details->qrstr))
 			   <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-			   ssss
+			
 		   @else
+		   <b>Representación Gráfica de Facturación Electrónica</b><br>
 			   <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
 			   {{-- CUFE --}}
