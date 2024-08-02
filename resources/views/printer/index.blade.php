@@ -58,6 +58,7 @@
         var printer_table = $('#printer_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             buttons:[],
             ajax: '/printers',
             bPaginate: false,

@@ -85,6 +85,7 @@ $(document).ready(function() {
     var brands_table = $('#brands_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/brands',
         columnDefs: [
             {
@@ -162,6 +163,7 @@ $(document).ready(function() {
     var tax_rates_table = $('#tax_rates_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/tax-rates',
         columnDefs: [
             {
@@ -267,6 +269,7 @@ $(document).ready(function() {
     var units_table = $('#unit_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/units',
         columnDefs: [
             {
@@ -438,6 +441,7 @@ $(document).ready(function() {
     contact_table = $('#contact_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         scrollY:        "75vh",
         scrollX:        true,
         scrollCollapse: true,
@@ -702,6 +706,7 @@ $(document).ready(function() {
     var variation_table = $('#variation_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/variation-templates',
         columnDefs: [
             {
@@ -959,6 +964,7 @@ $(document).ready(function() {
     var tax_groups_table = $('#tax_groups_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/group-taxes',
         columnDefs: [
             {
@@ -1104,6 +1110,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         bPaginate: false,
+        fixedHeader:false,
         buttons: [],
         ajax: '/invoice-schemes',
         columnDefs: [
@@ -1250,6 +1257,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         bPaginate: false,
+        fixedHeader:false,
         buttons: [],
         ajax: '/business-location',
         columnDefs: [
@@ -1442,6 +1450,7 @@ $(document).ready(function() {
     expense_table = $('#expense_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         aaSorting: [[1, 'desc']],
         ajax: {
             url: '/expenses',
@@ -1681,6 +1690,7 @@ $(document).ready(function() {
     var sales_commission_agent_table = $('#sales_commission_agent_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/sales-commission-agents',
         columnDefs: [
             {
@@ -1786,6 +1796,7 @@ $(document).ready(function() {
     var customer_groups_table = $('#customer_groups_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         ajax: '/customer-group',
         columnDefs: [
             {
@@ -1927,6 +1938,7 @@ $(document).ready(function() {
     discounts_table = $('#discounts_table').DataTable({
                     processing: true,
                     serverSide: true,
+                    fixedHeader:false,
                     ajax: base_path + '/discount',
                     columnDefs: [
                         {
@@ -1955,6 +1967,7 @@ $(document).ready(function() {
     types_of_service_table = $('#types_of_service_table').DataTable({
                         processing: true,
                         serverSide: true,
+                        fixedHeader:false,
                         ajax: base_path + '/types-of-service',
                         columnDefs: [
                             {

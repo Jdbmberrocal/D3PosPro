@@ -1,0 +1,25 @@
+{
+    "name": "pnn/inventorymanagement",
+    "description": "Advance Inventory Management Module for UltimatePOS",
+    "authors": [
+        {
+            "name": "PNN Solutions",
+            "email": "mail.pnnsolutions@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\InventoryManagement\\Providers\\InventoryManagementServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\InventoryManagement\\": ""
+        }
+    }
+}

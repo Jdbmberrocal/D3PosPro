@@ -81,6 +81,7 @@
         activity_log_table = $('#activity_log_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             aaSorting: [[0, 'desc']],
             "ajax": {
                 "url": '{{action([\App\Http\Controllers\ReportController::class, 'activityLog'])}}',

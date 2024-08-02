@@ -314,7 +314,7 @@ $(document).ready(function() {
         var unit_price_inc_tax = __read_number(tr.find('input.pos_unit_price_inc_tax'));
         var line_total = entered_qty * unit_price_inc_tax;
 
-        __write_number(tr.find('input.pos_line_total'), line_total, false, 2);
+        __write_number(tr.find('input.pos_line_total'), line_total, false);
         tr.find('span.pos_line_total_text').text(__currency_trans_from_en(line_total, true));
 
         //Change modifier quantity
@@ -393,7 +393,7 @@ $(document).ready(function() {
         var unit_price = get_unit_price_from_discounted_unit_price(tr, discounted_unit_price);
 
         __write_number(tr.find('input.pos_unit_price'), unit_price);
-        __write_number(tr.find('input.pos_line_total'), line_total, false, 2);
+        __write_number(tr.find('input.pos_line_total'), line_total, false);
         tr.find('span.pos_line_total_text').text(__currency_trans_from_en(line_total, true));
 
         pos_each_row(tr);
@@ -483,7 +483,7 @@ $(document).ready(function() {
             var line_total = quantity * unit_price_inc_tax;
 
             __write_number(tr.find('input.pos_unit_price_inc_tax'), unit_price_inc_tax);
-            __write_number(tr.find('input.pos_line_total'), line_total, false, 2);
+            __write_number(tr.find('input.pos_line_total'), line_total, false);
             tr.find('span.pos_line_total_text').text(__currency_trans_from_en(line_total, true));
             pos_each_row(tr);
             pos_total_row();
@@ -895,6 +895,8 @@ $(document).ready(function() {
         $('input#shipping_address').val($('#shipping_address_modal').val());
         $('input#shipping_status').val($('#shipping_status_modal').val());
         $('input#delivered_to').val($('#delivered_to_modal').val());
+        $('input#delivery_person').val($('#delivery_person_modal').val());
+
 
         //Update shipping charges
         __write_number(
@@ -2264,6 +2266,9 @@ $('table#pos_table tbody').on('change', 'input.pos_line_total', function() {
     var unit_price_inc_tax = __read_number(tr.find('input.pos_unit_price_inc_tax'));
     var quantity = subtotal / unit_price_inc_tax;
     __write_number(quantity_element, quantity);
+
+    __write_number($(this), subtotal, false);
+
 
     if (sell_form_validator) {
         sell_form_validator.element(quantity_element);

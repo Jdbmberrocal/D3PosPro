@@ -4005,14 +4005,20 @@ class TransactionUtil extends Util
 
             $details = [];
             foreach ($sub_taxes as $sub_tax) {
+                if ($sum != 0) {
+                    $calculated_tax = ($amount / $sum) * $sub_tax->amount;
+                } else {
+                    // Handle the case where $sum is zero. For example, you might set calculated_tax to 0.
+                    $calculated_tax = 0;
+                }
+            
                 $details[] = [
                     'id' => $sub_tax->id,
                     'name' => $sub_tax->name,
                     'amount' => $sub_tax->amount,
-                    'calculated_tax' => ($amount / $sum) * $sub_tax->amount,
+                    'calculated_tax' => $calculated_tax,
                 ];
             }
-
             return $details;
         } else {
             return [];

@@ -1,21 +1,33 @@
 {
-    "Essentials": true,
+
+    "Partners": true,
+    "FieldForce": true,
+    "Spreadsheet": true,
+    "Installment": true,
     "Accounting": true,
+    "EmployeeLoan":true,
+    "Loan":true,
+    "Shop":true,
+    "ElectronicWallets":true,
+    "InventoryManagement":true,
+    "InventoryReset":true,
+    
+
+    "Essentials": true,
     "AssetManagement": true,
     "Cms": true,
     "Connector": true,
     "Crm": true,
     "Ecommerce": true,
-    "FieldForce": true,
     "Manufacturing": true,
     "ProductCatalogue": true,
     "Project": true,
     "Repair": true,
-    "Spreadsheet": true,
+    "Hms": true,
     "Superadmin": true,
     "Woocommerce": true,
-    "AiAssistance": true,
-    "Hms": true,
-    "InboxReport": true,
-    "CustomDashboard": true
+    "AiAssistance": true
+    
+    
+ 
 }

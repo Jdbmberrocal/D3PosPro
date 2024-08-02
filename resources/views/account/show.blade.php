@@ -135,6 +135,7 @@
         account_book = $('#account_book').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             ajax: {
                                 url: '{{action([\App\Http\Controllers\AccountController::class, 'show'],[$account->id])}}',
                                 data: function(d) {

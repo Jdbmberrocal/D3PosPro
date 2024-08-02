@@ -108,6 +108,7 @@
         cash_flow_table = $('#cash_flow_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             "ajax": {
                     "url": "{{action([\App\Http\Controllers\AccountController::class, 'cashFlow'])}}",
                     "data": function ( d ) {

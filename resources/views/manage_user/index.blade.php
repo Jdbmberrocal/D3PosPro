@@ -57,6 +57,7 @@
         var users_table = $('#users_table').DataTable({
                     processing: true,
                     serverSide: true,
+                    fixedHeader:false,
                     ajax: '/users',
                     columnDefs: [ {
                         "targets": [4],

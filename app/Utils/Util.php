@@ -412,15 +412,27 @@ class Util
         Config::set('nexmo.api_key', $sms_settings['nexmo_key']);
         Config::set('nexmo.api_secret', $sms_settings['nexmo_secret']);
 
-        $nexmo = app('Nexmo\Client');
+        // $nexmo = app('Nexmo\Client');
+        $client = new Client();
+
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
+
         $numbers = explode(',', trim($data['mobile_number']));
 
         foreach ($numbers as $number) {
-            $nexmo->message()->send([
+            $body = json_encode([
+                'api_key' => $sms_settings['nexmo_key'],
+                'api_secret' => $sms_settings['nexmo_secret'],
                 'to' => $number,
                 'from' => $sms_settings['nexmo_from'],
                 'text' => $data['sms_body'],
             ]);
+
+            $request = new \GuzzleHttp\Psr7\Request('POST', 'https://rest.nexmo.com/sms/json', $headers, $body);
+            
+            $response = $client->sendAsync($request)->wait();
         }
     }
 
@@ -1503,6 +1515,9 @@ class Util
                     'base_uri' => 'https://nominatim.openstreetmap.org/',
                     'timeout' => 10,
                     'verify' => false,
+                    'headers' => [
+                        'User-Agent' => 'pos'  // Add a User-Agent header
+                    ],
                 ]);
 
                 try {

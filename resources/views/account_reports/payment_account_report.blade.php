@@ -83,6 +83,7 @@
             payment_account_report = $('#payment_account_report').DataTable({
                 processing: true,
                 serverSide: true,
+                fixedHeader:false,
                 "ajax": {
                     "url": "{{ action([\App\Http\Controllers\AccountReportsController::class, 'paymentAccountReport']) }}",
                     "data": function(d) {

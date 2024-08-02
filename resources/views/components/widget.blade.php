@@ -46,8 +46,8 @@
             </div>
         @endif
         <div class="tw-flow-root tw-border-gray-200">
-            <div class="tw-overflow-x-auto ">
-                <div class="tw-inline-block tw-min-w-full tw-py-2 tw-align-middle sm:tw-px-5">
+            <div class="tw-overflow-x-auto">
+                <div class="tw-py-2 tw-align-middle sm:tw-px-5">
                     {{ $slot }}
                 </div>
             </div>

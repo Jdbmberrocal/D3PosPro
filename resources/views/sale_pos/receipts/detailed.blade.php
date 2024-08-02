@@ -10,12 +10,17 @@
 
 						{{$receipt_details->invoice_no}}
 					</small>
-				</p>
+					<br>
+					{{-- DATOS DE ZEUS --}}
+					{{-- <small class="text-right font-size:8px text-muted-imp">
+						Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - WhatsApp: 3160402010
+					</small> --}}
+						</p>
 			</td>
 		</tr>
 	</thead>
 
-	<tbody>
+	{{-- <tbody>
 		<tr>
 				<td class="text-center" style="line-height: 15px !important; padding-bottom: 10px !important">
 					@if(empty($receipt_details->letter_head))
@@ -32,7 +37,7 @@
 						@endif
 					@endif
 					@if(!empty($receipt_details->invoice_heading))
-						{{-- <p  style="font-weight: bold; font-size: 35px !important">{!! $receipt_details->invoice_heading !!}</p> --}}
+					 
 						<p style="font-weight: bold; font-size: 15px !important; line-height: 1;">{!! $receipt_details->invoice_heading !!}</p>
 
 					@endif
@@ -47,7 +52,7 @@
 			@endif
 
 		<tr>
-			<td>
+			<td> --}}
 
 <!-- business information here -->
 <div class="row invoice-info">
@@ -57,13 +62,12 @@
 		<!-- Logo -->
 		@if(!empty($receipt_details->logo))
 			<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img center-block">
-			
 		@endif
 
 		<!-- Shop & Location Name  -->
 		<p>
 			@if(!empty($receipt_details->display_name))
-				<br/><b>{{$receipt_details->display_name}}</b>
+			<b>{{$receipt_details->display_name}}</b>
 			@endif
 			<br>
 			{{-- Información de la empresa --}}
@@ -608,7 +612,7 @@
 		
 		<b class="pull-left">@lang('lang_v1.authorized_signatory')</b>
 	</div> --}}
-	<div class="col-md-6 invoice-col width-50 font-10">
+	<div class="col-md-6 invoice-col width-60 font-10">
 		<b>Método de pago</b>
 			<table class="table table-slim">
 				@if(!empty($receipt_details->payments))
@@ -633,7 +637,7 @@
 			<br>
 			<br>
 		</div>
-	<div class="col-md-6 invoice-col width-50">
+	<div class="col-md-6 invoice-col width-40">
 		<table class="table-no-side-cell-border table-no-top-cell-border width-100 table-slim">
 			<tbody>
 				@if(!empty($receipt_details->total_quantity_label))
@@ -787,7 +791,8 @@
 				@if(!empty($receipt_details->total_in_words))
 				<tr>
 					<td colspan="2" class="text-right">
-						<small>({{$receipt_details->total_in_words}})</small>
+						<b><small>Valor en Letras: </small></b><br>
+						<small>{{$receipt_details->total_in_words}} pesos m/cte</small>
 					</td>
 				</tr>
 				@endif
@@ -826,35 +831,30 @@
 
 <div class="row ">
 	@if(!empty($receipt_details->footer_text))
-   <div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
+   <div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-12 @else col-xs-12 @endif">
 	   {!! $receipt_details->footer_text !!}
    </div>
+  
    @endif 
    @if($receipt_details->show_barcode || $receipt_details->show_qr_code)
 	   <div class="@if(!empty($receipt_details->footer_text)) col-xs-12 @else col-xs-12 @endif">
 		   {{-- Barcode --}}
+		   <br>
 		   @if($receipt_details->show_barcode)
 			   <img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 		   @endif
 
 		   @if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-		
-		   @if (empty($receipt_details->qrstr))
-			   <img class=" center" style="max-height: 100px; width: auto;"
+		   
+		   @if(empty($receipt_details->qrstr))
+			  <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
 			
-		   @else
-		   <b>Representación Gráfica de Facturación Electrónica</b><br>
+		   @else 
+		  
 			   <img class=" center" style="max-height: 100px; width: auto;"
 			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-			   {{-- CUFE --}}
-				   <div>
-					   @if (!empty($receipt_details->cufe))
-					   
-					   <b><p class="text centered font-12">CUFE:</b><br>
-						   {!! $receipt_details->cufe !!}</p>
-					   @endif
-				   </div>
+			 
 		   @endif
 		   
 		   
@@ -865,11 +865,24 @@
 			   
 </div>
 
+  {{-- CUFE --}}
+  <div>
+	@if (!empty($receipt_details->cufe))
+	<b>Representación Gráfica de Facturación Electrónica</b><br>
+	<b><p class="text centered font-12">CUFE:</b><br>
+		{!! $receipt_details->cufe !!}</p>
+	@endif
+</div>
 			</td>
 		</tr>
 	</tbody>
 </table>
-
+{{-- DATOS DE ZEUS --}}
+<p class="text-center">
+<small class="text-muted-imp">
+	 Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - WhatsApp: 3160402010
+</small>
+</p>
 <style type="text/css">
 	body {
 		color: #000000;

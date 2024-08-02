@@ -81,6 +81,7 @@
         purchase_report_table = $('#purchase_report_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             ajax: {
                 url: '/reports/purchase-report',
                 data: function(d) {

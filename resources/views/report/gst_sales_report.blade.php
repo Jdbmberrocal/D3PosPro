@@ -107,6 +107,7 @@
                 scrollY: "75vh",
                 scrollX:        true,
                 scrollCollapse: true,
+                fixedHeader:false,
                 ajax: {
                     url: '/reports/gst-sales-report',
                     data: function(d) {

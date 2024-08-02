@@ -90,6 +90,7 @@ $(document).ready( function(){
     sell_table = $('#sell_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         aaSorting: [[0, 'desc']],
         "ajax": {
             "url": '/sells/draft-dt?is_quotation=0',

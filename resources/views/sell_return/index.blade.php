@@ -74,6 +74,7 @@
         sell_return_table = $('#sell_return_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             aaSorting: [[0, 'desc']],
             "ajax": {
                 "url": "/sell-return",

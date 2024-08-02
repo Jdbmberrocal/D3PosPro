@@ -34,4 +34,3 @@
     </div><!-- /.modal-content -->
     {!! Form::close() !!}
 </div><!-- /.modal-dialog -->
-

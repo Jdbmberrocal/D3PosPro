@@ -143,6 +143,7 @@ $(document).ready(function() {
         quotation_datatable = $('#quotation_table').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             aaSorting: [[0, 'desc']],
             "ajax": {
                 "url": '/sells/draft-dt?is_quotation=1',

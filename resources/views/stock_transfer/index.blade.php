@@ -55,3 +55,11 @@
 @section('javascript')
 	<script src="{{ asset('js/stock_transfer.js?v=' . $asset_v) }}"></script>
 @endsection
+
+@cannot('view_purchase_price')
+    <style>
+        .show_price_with_permission {
+            display: none !important;
+        }
+    </style>
+@endcannot

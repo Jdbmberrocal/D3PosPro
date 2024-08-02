@@ -113,7 +113,13 @@ class StockTransferController extends Controller
                 })
                 ->editColumn(
                     'final_total',
-                    '<span class="display_currency" data-currency_symbol="true">{{$final_total}}</span>'
+                    function($row) {
+                        if (auth()->user()->can('view_purchase_price')) {
+                            return '<span class="display_currency" data-currency_symbol="true">' . $row->final_total . '</span>';
+                        } else {
+                            return '<span>-</span>';
+                        }
+                    }
                 )
                 ->editColumn(
                     'shipping_charges',

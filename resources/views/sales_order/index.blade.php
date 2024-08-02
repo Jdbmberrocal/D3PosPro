@@ -97,6 +97,7 @@ $(document).ready( function(){
     sell_table = $('#sell_table').DataTable({
         processing: true,
         serverSide: true,
+        fixedHeader:false,
         aaSorting: [[1, 'desc']],
         "ajax": {
             "url": '/sells?sale_type=sales_order',

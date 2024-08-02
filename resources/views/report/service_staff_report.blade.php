@@ -96,6 +96,7 @@
         service_staff_report = $('table#service_staff_report').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             aaSorting: [[0, 'desc']],
             "ajax": {
                 "url": "/sells",
@@ -140,6 +141,7 @@
         service_staff_line_orders = $('table#service_staff_line_orders').DataTable({
             processing: true,
             serverSide: true,
+            fixedHeader:false,
             aaSorting: [[0, 'desc']],
             "ajax": {
                 "url": "/reports/service-staff-line-orders",

@@ -157,6 +157,7 @@
             profit_by_products_table = $('#profit_by_products_table').DataTable({
                 processing: true,
                 serverSide: true,
+                fixedHeader:false,
                 "ajax": {
                     "url": "/reports/get-profit/product",
                     "data": function(d) {
@@ -197,6 +198,7 @@
                         profit_by_categories_datatable = $('#profit_by_categories_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/category",
                                 "data": function(d) {
@@ -238,6 +240,7 @@
                         profit_by_brands_datatable = $('#profit_by_brands_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/brand",
                                 "data": function(d) {
@@ -279,6 +282,7 @@
                         profit_by_locations_datatable = $('#profit_by_locations_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/location",
                                 "data": function(d) {
@@ -320,6 +324,7 @@
                         profit_by_invoice_datatable = $('#profit_by_invoice_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/invoice",
                                 "data": function(d) {
@@ -361,6 +366,7 @@
                         profit_by_date_datatable = $('#profit_by_date_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/date",
                                 "data": function(d) {
@@ -402,6 +408,7 @@
                         profit_by_customers_table = $('#profit_by_customer_table').DataTable({
                             processing: true,
                             serverSide: true,
+                            fixedHeader:false,
                             "ajax": {
                                 "url": "/reports/get-profit/customer",
                                 "data": function(d) {

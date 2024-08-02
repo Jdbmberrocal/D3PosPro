@@ -99,6 +99,7 @@
 
                     $('#stock_history_table').DataTable({
                         searching: false,
+                        fixedHeader:false,
                         ordering: false
                     });
                 },

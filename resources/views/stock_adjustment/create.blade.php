@@ -96,10 +96,10 @@
                                     <th class="col-sm-2 text-center">
                                         @lang('sale.qty')
                                     </th>
-                                    <th class="col-sm-2 text-center">
+                                    <th class="col-sm-2 text-center show_price_with_permission">
                                         @lang('sale.unit_price')
                                     </th>
-                                    <th class="col-sm-2 text-center">
+                                    <th class="col-sm-2 text-center show_price_with_permission">
                                         @lang('sale.subtotal')
                                     </th>
                                     <th class="col-sm-2 text-center"><i class="fa fa-trash" aria-hidden="true"></i></th>
@@ -108,7 +108,7 @@
                             <tbody>
                             </tbody>
                             <tfoot>
-                                <tr class="text-center">
+                                <tr class="text-center show_price_with_permission">
                                     <td colspan="3"></td>
                                     <td>
                                         <div class="pull-right"><b>@lang('stock_adjustment.total_amount'):</b> <span
@@ -159,3 +159,12 @@
         __page_leave_confirmation('#stock_adjustment_form');
     </script>
 @endsection
+
+
+@cannot('view_purchase_price')
+    <style>
+        .show_price_with_permission {
+            display: none !important;
+        }
+    </style>
+@endcannot

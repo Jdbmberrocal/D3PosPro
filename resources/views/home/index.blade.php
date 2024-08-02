@@ -1038,6 +1038,7 @@
             sales_order_table = $('#sales_order_table').DataTable({
                 processing: true,
                 serverSide: true,
+                fixedHeader:false,
                 scrollY: "75vh",
                 scrollX: true,
                 scrollCollapse: true,
@@ -1109,6 +1110,7 @@
                 cash_flow_table = $('#cash_flow_table').DataTable({
                     processing: true,
                     serverSide: true,
+                    fixedHeader:false,
                     "ajax": {
                         "url": "{{ action([\App\Http\Controllers\AccountController::class, 'cashFlow']) }}",
                         "data": function(d) {
@@ -1175,6 +1177,7 @@
                 purchase_order_table = $('#purchase_order_table').DataTable({
                     processing: true,
                     serverSide: true,
+                    fixedHeader:false,
                     aaSorting: [
                         [1, 'desc']
                     ],
@@ -1239,6 +1242,7 @@
                 purchase_requisition_table = $('#purchase_requisition_table').DataTable({
                     processing: true,
                     serverSide: true,
+                    fixedHeader:false,
                     aaSorting: [
                         [1, 'desc']
                     ],
@@ -1323,6 +1327,7 @@
             sell_table = $('#shipments_table').DataTable({
                 processing: true,
                 serverSide: true,
+                fixedHeader:false,
                 aaSorting: [
                     [1, 'desc']
                 ],

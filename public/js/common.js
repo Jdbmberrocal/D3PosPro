@@ -344,7 +344,7 @@ var dateRangeSettings = {
     },
 };
 
-//Check for number string in input field, if data-decimal is 0 then don't allow decimal symbol
+//Check for number string in input field, if data-decimal is 0 then don't allow decimal symbol and if no_neg then don't allow  negative value
 $(document).on('keypress', 'input.input_number', function (event) {
     var is_decimal = $(this).data('decimal');
 
@@ -356,6 +356,11 @@ $(document).on('keypress', 'input.input_number', function (event) {
         }
     } else {
         var regex = new RegExp(/^[0-9.,-]+$/);
+    }
+
+    // Check for no negative values
+    if(is_decimal == 'no_neg'){
+        var regex = new RegExp(/^[0-9.,]+$/);
     }
 
     var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);

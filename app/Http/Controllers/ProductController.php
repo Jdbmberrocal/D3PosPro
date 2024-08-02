@@ -2179,6 +2179,7 @@ class ProductController extends Controller
         $tax_attributes = $tax_dropdown['attributes'];
 
         $price_groups = SellingPriceGroup::where('business_id', $business_id)->active()->pluck('name', 'id');
+        $business_locations = BusinessLocation::forDropdown($business_id);
 
         return view('product.partials.bulk_edit_product_row')->with(compact(
             'product',
@@ -2187,7 +2188,8 @@ class ProductController extends Controller
             'taxes',
             'tax_attributes',
             'sub_categories',
-            'price_groups'
+            'price_groups',
+            'business_locations'
         ));
     }
 

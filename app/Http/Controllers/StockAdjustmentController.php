@@ -99,13 +99,23 @@ class StockAdjustmentController extends Controller
                 ->editColumn(
                     'final_total',
                     function ($row) {
-                        return $this->transactionUtil->num_f($row->final_total, true);
+                        if (auth()->user()->can('view_purchase_price')) {
+                            return $this->transactionUtil->num_f($row->final_total, true);                     
+                         } else {
+                            return '<span>-</span>';
+                        }
+                        
                     }
                 )
+
                 ->editColumn(
                     'total_amount_recovered',
                     function ($row) {
-                        return $this->transactionUtil->num_f($row->total_amount_recovered, true);
+                        if (auth()->user()->can('view_purchase_price')) {
+                            return $this->transactionUtil->num_f($row->total_amount_recovered, true);                    
+                         } else {
+                            return '<span>-</span>';
+                        }
                     }
                 )
                 ->editColumn('transaction_date', '{{@format_datetime($transaction_date)}}')

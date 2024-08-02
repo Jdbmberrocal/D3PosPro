@@ -88,6 +88,7 @@
             purchase_return_table = $('#purchase_return_datatable').DataTable({
                 processing: true,
                 serverSide: true,
+                fixedHeader:false,
                 aaSorting: [
                     [0, 'desc']
                 ],
