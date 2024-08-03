@@ -221,13 +221,7 @@
 			</div>
 		@endif
 		
-		<!-- Total Paid-->
-		@if(!empty($receipt_details->total_paid))
-			<div class="text-right font-size: 15px ">
-				<span class="pull-left">{!! $receipt_details->total_paid_label !!}</span>
-				{{$receipt_details->total_paid}}
-			</div>
-		@endif
+		
 		<!-- Date-->
 		@if(!empty($receipt_details->date_label))
 			<div class="text-right font-size: 15px ">
@@ -621,6 +615,13 @@
 				@endif
 					
 			</table>
+			<!-- Total Paid-->
+				@if(!empty($receipt_details->total_paid))
+				<div class="text-letf font-size: 15px ">
+					<b><span class="pull-left">{!! $receipt_details->total_paid_label !!}</span></b>
+					{{$receipt_details->total_paid}}
+				</div>
+			@endif
 			<!-- Total Due-->
 			@if(!empty($receipt_details->total_due) && !empty($receipt_details->total_due_label))
 			<div class=" text-left font-size:20px">
