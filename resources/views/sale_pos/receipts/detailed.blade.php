@@ -203,22 +203,13 @@
 
 		<div class="text-right font-size: 15px">
 			@if(!empty($receipt_details->invoice_no_prefix))
-				<span class="pull-left">{!! $receipt_details->invoice_no_prefix !!}</span>
+				<b><span class="pull-left">{!! $receipt_details->invoice_no_prefix !!}</span></b>
 			@endif
 
-			{{$receipt_details->invoice_no}}
+			<b>{{$receipt_details->invoice_no}}</b>
 		</div>
 
-		<!-- Total Due-->
-		@if(!empty($receipt_details->total_due) && !empty($receipt_details->total_due_label))
-			<div class="bg-light-blue-active text-right font-size: 15px padding-5">
-				<span class="pull-left bg-light-blue-active">
-					{!! $receipt_details->total_due_label !!}
-				</span>
-
-				{{$receipt_details->total_due}}
-			</div>
-		@endif
+		
 
 		@if(!empty($receipt_details->all_due))
 			<div class="bg-light-blue-active text-right font-size: 15px padding-5">
@@ -240,22 +231,24 @@
 		<!-- Date-->
 		@if(!empty($receipt_details->date_label))
 			<div class="text-right font-size: 15px ">
-				<span class="pull-left">
-					{{$receipt_details->date_label}}
+				<span class="text-right">
+					<b>{{$receipt_details->date_label}}</b>
 				</span>
 
 				{{$receipt_details->invoice_date}}
 			</div>
 		@endif
+		
 		@if(!empty($receipt_details->due_date_label))
 			<div class="text-right font-size: 15px ">
-				<span class="pull-left">
-					{{$receipt_details->due_date_label}}
+				<span class="text-right">
+					<b>{{$receipt_details->due_date_label}}</b>
 				</span>
 
 				{{$receipt_details->due_date ?? ''}}
 			</div>
 		@endif
+		
 		@if(!empty($receipt_details->sell_custom_field_1_value))
 			<div class="text-right font-size: 15px ">
 				<span class="pull-left">
@@ -449,10 +442,10 @@
 					</td>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="font-10">
 				@foreach($receipt_details->lines as $line)
 					<tr>
-						<td class="text-center">
+						<td class="text-center ">
 							{{$loop->iteration}}
 						</td>
 						<td>
@@ -612,7 +605,7 @@
 		
 		<b class="pull-left">@lang('lang_v1.authorized_signatory')</b>
 	</div> --}}
-	<div class="col-md-6 invoice-col width-60 font-10">
+	<div class="col-md-6 invoice-col width-60 font-12">
 		<b>Método de pago</b>
 			<table class="table table-slim">
 				@if(!empty($receipt_details->payments))
@@ -621,11 +614,23 @@
 							<td>{{$payment['method']}}</td>
 							<td><b>{{$payment['amount']}}</b></td>
 							<td>{{$payment['date']}}</td>
+							
 						</tr>
 						
 					@endforeach
 				@endif
+					
 			</table>
+			<!-- Total Due-->
+			@if(!empty($receipt_details->total_due) && !empty($receipt_details->total_due_label))
+			<div class=" text-left font-size:20px">
+				<span >
+					<b>{!! $receipt_details->total_due_label !!}</b>
+				</span>
+
+				{{$receipt_details->total_due}}
+			</div>
+		@endif
 			
 			<br>
 			<br>
@@ -784,10 +789,11 @@
 					<th style="background-color: #D8D8D8 !important; color: black !important" class="font-size: 20px padding-size:10px">
 						{!! $receipt_details->total_label !!}
 					</th>
-					<td class="text-right font-size: 20px padding-size:10px" style="background-color: #D8D8D8 !important; color: black !important">
+					<td class="text-right font-size:20px padding-size:10px" style="background-color: #D8D8D8 !important; color: black !important">
 						{{$receipt_details->total}}
 					</td>
 				</tr>
+				
 				@if(!empty($receipt_details->total_in_words))
 				<tr>
 					<td colspan="2" class="text-right">
@@ -801,82 +807,83 @@
 	</div>
 </div>
 
-<div class="border-bottom col-md-8 font-size: 10px">
-    @if(empty($receipt_details->hide_price) && !empty($receipt_details->tax_summary_label) )
-        <!-- tax -->
-        @if(!empty($receipt_details->taxes))
-        	<table class="table table-slim table-bordered">
-        		<tr>
-        			<th colspan="2" class="text-center">{{$receipt_details->tax_summary_label}}</th>
-        		</tr>
-        		@foreach($receipt_details->taxes as $key => $val)
-        			<tr>
-        				<td class="text-center"><b>{{$key}}</b></td>
-        				<td class="text-center">{{$val}}</td>
-        			</tr>
-        		@endforeach
-        	</table>
-        @endif
-    @endif
-</div>
+			<div class="border-bottom col-md-8 font-size: 10px">
+				@if(empty($receipt_details->hide_price) && !empty($receipt_details->tax_summary_label) )
+					<!-- tax -->
+					@if(!empty($receipt_details->taxes))
+						<table class="table table-slim table-bordered">
+							<tr>
+								<th colspan="2" class="text-center">{{$receipt_details->tax_summary_label}}</th>
+							</tr>
+							@foreach($receipt_details->taxes as $key => $val)
+								<tr>
+									<td class="text-center"><b>{{$key}}</b></td>
+									<td class="text-center">{{$val}}</td>
+								</tr>
+							@endforeach
+						</table>
+					@endif
+				@endif
+			</div>
 
-@if(!empty($receipt_details->additional_notes))
-	<div class="row ">
-		<div class="col-xs-12">
-			<br>
-			<p>{!! nl2br($receipt_details->additional_notes) !!}</p>
-		</div>
-	</div>
-@endif
+			@if(!empty($receipt_details->additional_notes))
+				<div class="row ">
+					<div class="col-xs-12">
+						<br>
+						<p>{!! nl2br($receipt_details->additional_notes) !!}</p>
+					</div>
+				</div>
+			@endif
 
-<div class="row ">
-	@if(!empty($receipt_details->footer_text))
-   <div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-12 @else col-xs-12 @endif">
-	   {!! $receipt_details->footer_text !!}
-   </div>
-  
-   @endif 
-   @if($receipt_details->show_barcode || $receipt_details->show_qr_code)
-	   <div class="@if(!empty($receipt_details->footer_text)) col-xs-12 @else col-xs-12 @endif">
-		   {{-- Barcode --}}
-		   <br>
-		   @if($receipt_details->show_barcode)
-			   <img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
-		   @endif
-
-		   @if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-		   
-		   @if(empty($receipt_details->qrstr))
-			  <img class=" center" style="max-height: 100px; width: auto;"
-			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+			<div class="row font-10 ">
+				@if(!empty($receipt_details->footer_text))
+			<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-12 @else col-xs-12 @endif">
+				{!! $receipt_details->footer_text !!}
+			</div>
 			
-		   @else 
-		  
-			   <img class=" center" style="max-height: 100px; width: auto;"
-			   src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-			 
-		   @endif
-		   
-		   
-	   @endif
-		   
-	   </div>
-   @endif
-			   
-</div>
+			@endif 
+			@if($receipt_details->show_barcode || $receipt_details->show_qr_code)
+				<div class="@if(!empty($receipt_details->footer_text)) col-xs-12 @else col-xs-12 @endif">
+					{{-- Barcode --}}
+					<br>
+					@if($receipt_details->show_barcode)
+						<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
+					@endif
 
-  {{-- CUFE --}}
-  <div>
-	@if (!empty($receipt_details->cufe))
-	<b>Representación Gráfica de Facturación Electrónica</b><br>
-	<b><p class="text centered font-12">CUFE:</b><br>
-		{!! $receipt_details->cufe !!}</p>
-	@endif
-</div>
+					@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
+					@if(empty($receipt_details->qrstr))
+					<img class=" center" style="max-height: 100px; width: auto;"
+					src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+				
+						
+					@else 
+					<b class="font-15">Representación Gráfica de Facturación Electrónica</b><br>
+						<img class=" center" style="max-height: 100px; width: auto;"
+						src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+						
+					@endif
+					
+					
+				@endif
+					
+				</div>
+			@endif
+						
+			</div>
+		
+			{{-- CUFE --}}
+			<div>
+				@if (!empty($receipt_details->cufe))
+				<p> <br></p>
+				<b><p class="text centered font-12">CUFE:</b><br>
+					{!! $receipt_details->cufe !!}</p>
+				@endif
+			</div>
 			</td>
 		</tr>
 	</tbody>
 </table>
+
 {{-- DATOS DE ZEUS --}}
 <p class="text-center">
 <small class="text-muted-imp">
