@@ -401,7 +401,7 @@
 							$p_width = 30;
 						@endphp
 					@endif
-					<td style="background-color: #D8D8D8 !important; color: black !important; width: 40% !important">
+					<td style="background-color: #D8D8D8 !important; color: black !important; width: 49% !important">
 						<b>{{$receipt_details->table_product_label}}</b>
 					</td>
 
@@ -409,7 +409,7 @@
 						<td style="background-color: #D8D8D8 !important; color: black !important; width: 5% !important;"><b>{{$receipt_details->cat_code_label}}</b></td>
 					@endif
 					
-					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
+					<td style="background-color: #D8D8D8 !important; color: black !important;width: 8% !important;">
 						<b>{{$receipt_details->table_qty_label}}</b>
 					</td>
 					<td style="background-color: #D8D8D8 !important; color: black !important;width: 5% !important;">
@@ -429,7 +429,7 @@
 						<b>{{$receipt_details->table_unit_price_label}} </b>
 						{{-- <b>{{$receipt_details->table_unit_price_label}} </b>(@lang('product.inc_of_tax')) --}}
 					</td>
-					<td style="background-color: #D8D8D8 !important; color: black !important;width: 10% !important;">
+					<td style="background-color: #D8D8D8 !important; color: black !important;width: 8% !important;">
 						<b>{{$receipt_details->table_subtotal_label}}</b>
 					</td>
 				</tr>
