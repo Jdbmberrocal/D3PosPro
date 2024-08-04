@@ -201,16 +201,14 @@
 	</div>
 	<div class="col-md-6 invoice-col width-60">
 
-		<div class="text-right font-size: 15px">
+		<div class="text-right font-17">
 			@if(!empty($receipt_details->invoice_no_prefix))
 				<b><span class="pull-left">{!! $receipt_details->invoice_no_prefix !!}</span></b>
 			@endif
 
-			<b>{{$receipt_details->invoice_no}}</b>
+			{{$receipt_details->invoice_no}}
 		</div>
-
-		
-
+		<br>
 		@if(!empty($receipt_details->all_due))
 			<div class="bg-light-blue-active text-right font-size: 15px padding-5">
 				<span class="pull-left bg-light-blue-active">
