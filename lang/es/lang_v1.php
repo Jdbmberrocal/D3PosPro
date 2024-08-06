@@ -302,7 +302,7 @@ return [
     'client_tax_label' => 'Etiqueta de número de impuesto de cliente',
     'cat_code_label' => 'Categoría o etiqueta de código HSN',
     'list_sell_return' => 'Lista de venta de devolución',
-    'sell_return' => 'Vender el regreso',
+    'sell_return' => 'Nota Crédito',
     'layout_credit_note' => 'Nota de crédito / detalles de devolución de venta',
     'cn_heading' => 'Título',
     'cn_no_label' => 'Número de referencia',
