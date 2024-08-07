@@ -3,10 +3,10 @@
 		<tr>
 			<td>
 
-			<p class="text-right color-555 font-30">
+			<p class="text-center color-555 font-17">
               <b>@lang('lang_v1.delivery_note')</b>
 			</p>
-
+<br>
 			</td>
 		</tr>
 	</thead>
@@ -22,13 +22,13 @@
 		
 		<!-- Logo -->
 		@if(!empty($receipt_details->logo))
-			<img style="max-height: 120px; width: auto;" src="{{$receipt_details->logo}}" class="img">
+			<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img">
 			<br/>
 		@endif
 
 		<!-- Shop & Location Name  -->
 		@if(!empty($receipt_details->display_name))
-			<p><span style="font-size:24px; font-weight:900; color:black;">
+			<p><span style="font-size:20px; font-weight:900; color:black;">
 				{{$receipt_details->display_name}}</span>
 				@if(!empty($receipt_details->address))
 					<br/>{!! $receipt_details->address !!}
@@ -164,16 +164,16 @@
 <div class="row color-555">
 	<div class="col-xs-12">
 		<br/>
-		<table class="table table-bordered table-no-top-cell-border">
+		<table class="table table-bordered table-top-cell-border table-slim">
 			<thead>
-				<tr style="background-color: #357ca5 !important; color: white !important; font-size: 20px !important" class="table-no-side-cell-border table-no-top-cell-border text-center">
+				<tr style="background-color: #357ca5 !important; color: white !important; font-size: 17px !important" class="table-side-cell-border table-top-cell-border text-center">
 					<td style="background-color: #357ca5 !important; color: white !important; width: 5% !important">#</td>
 					
-					<td style="background-color: #357ca5 !important; color: white !important; width: 65% !important">
+					<td style="background-color: #357ca5 !important; color: white !important; width: 75% !important">
 						{{$receipt_details->table_product_label}}
 					</td>
 					
-					<td style="background-color: #357ca5 !important; color: white !important; width: 30% !important;">
+					<td style="background-color: #357ca5 !important; color: white !important; width: 20% !important;">
 						{{$receipt_details->table_qty_label}}
 					</td>
 				</tr>
@@ -192,7 +192,7 @@
                             @if(!empty($line['lot_number']))<br> {{$line['lot_number_label']}}:  {{$line['lot_number']}} @endif 
                             @if(!empty($line['product_expiry'])), {{$line['product_expiry_label']}}:  {{$line['product_expiry']}} @endif 
                         </td>
-						<td class="text-right">
+						<td class="text-center">
 							{{$line['quantity']}} {{$line['units']}}
 						</td>
 					</tr>
@@ -231,27 +231,38 @@
 		</table>
 	</div>
 </div>
-
+<br>
 <div class="row invoice-info color-555" style="page-break-inside: avoid !important">
 	<div class="col-md-6 invoice-col width-50">
 		<b class="pull-left">@lang('lang_v1.above_mentioned_items_received_in_good_condition')</b>
 	</div>
 </div>
 </br>
+<br>
+<br><br>
+
+____________________________ <br>
 <div class="row invoice-info color-555" style="page-break-inside: avoid !important">
 	<div class="col-md-6 invoice-col width-80">
 		<b class="pull-left">@lang('lang_v1.received_by') : </b>
 	</div>
 </div>
-</br>
+<br>
+<br><br>
+____________________________ <br>
 <div class="row invoice-info color-555" style="page-break-inside: avoid !important">
 	<div class="col-md-6 invoice-col width-50">
 		<b class="pull-left">@lang('lang_v1.date'):</b>
 	</div>
 </div>
-</br>
+
+<br>
+<br><br>
+
+____________________________ <br>
 <div class="row invoice-info color-555" style="page-break-inside: avoid !important">
 	<div class="col-md-6 invoice-col width-50">
+		
 		<b class="pull-left">@lang('lang_v1.authorized_signatory')</b>
 	</div>
 </div>
@@ -266,15 +277,24 @@
 </div>
 @endif
 
-@if(!empty($receipt_details->footer_text))
+{{-- @if(!empty($receipt_details->footer_text))
 	<div class="row color-555">
 		<div class="col-xs-12">
 			{!! $receipt_details->footer_text !!}
 		</div>
 	</div>
-@endif
+@endif --}}
+
 
 			</td>
 		</tr>
 	</tbody>
+	
 </table>
+<br>
+{{-- DATOS DE ZEUS --}}
+<p class="text-center">
+	<small class="text-muted-imp">
+		 Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - WhatsApp: 3160402010
+	</small>
+	</p>

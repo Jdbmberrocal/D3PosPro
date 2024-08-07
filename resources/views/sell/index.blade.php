@@ -69,6 +69,7 @@
                             <th>@lang('messages.action')</th>
                             <th>@lang('messages.date')</th>
                             <th>@lang('sale.invoice_no')</th>
+                            <th>DIAN</th>
                             <th>@lang('sale.customer_name')</th>
                             <th>@lang('lang_v1.contact_no')</th>
                             <th>@lang('sale.location')</th>
@@ -206,6 +207,10 @@
                     {
                         data: 'invoice_no',
                         name: 'invoice_no'
+                    },
+                    { 
+                        data: 'is_valid', 
+                        name: 'is_valid'
                     },
                     {
                         data: 'conatct_name',
