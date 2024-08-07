@@ -37,7 +37,9 @@
 				</small>
 	
 		</div>
-			
+		<small class="text-muted font-10">
+			Stock: {{ number_format($product->qty_available, 2) }} 
+		</small>
 		</div>
 	</div>
 @empty

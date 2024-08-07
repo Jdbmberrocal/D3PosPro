@@ -85,7 +85,11 @@
       		@endif
       	</div>
       	<div class="modal-footer">
-	      	<button type="button" class="btn btn-default no-print" data-dismiss="modal">@lang( 'messages.close' )</button>
+	      	<button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('messages.close')</button>
+	      	<a href="https://wa.me/?text={{ urlencode("¡Mira este producto!\n\n" . $product->name . "\n\nPrecio: " . $product->variations->first()->sell_price_inc_tax . "\nSKU: " . $product->sku . "\nCategoría: " . ($product->category->name ?? '--') . "\nMarca: " . ($product->brand->name ?? '--') . "\n\nDescripción: " . strip_tags($product->product_description) . "\n\nVer más: " . route('products.show', $product->id)) }}" 
+	      	class="btn btn-success btn-sm" target="_blank">
+	        	<i class="fab fa-whatsapp"></i> Compartir
+	      	</a>
 	    </div>
 	</div>
 </div>

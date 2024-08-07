@@ -10,6 +10,18 @@
 </section>
 <section class="no-print ">
     <div class="container">
+        <!-- Buscador de productos -->
+        <div class="row mb-3">
+            <div class="col-md-6 col-md-offset-3">
+                <input type="text" id="product-search" class="form-control" placeholder="Buscar productos...">
+            </div>
+        </div>
+        
+        <!-- Vista previa de resultados -->
+        <div id="search-results" class="row" style="display: none;">
+            <!-- Los resultados se mostrarán aquí -->
+        </div>
+
         <!-- Static navbar -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -190,6 +202,34 @@
                 scrollTop: $(cat_id).offset().top
             }, 1000);
         }
+    });
+
+    $(document).ready(function() {
+        $('#product-search').on('input', function() {
+            var searchTerm = $(this).val().toLowerCase();
+            
+            if (searchTerm.length > 2) {
+                var results = [];
+                $('.product-box').each(function() {
+                    var productName = $(this).find('.catalogue-title').text().toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        results.push($(this).clone());
+                    }
+                });
+                
+                $('#search-results').empty();
+                if (results.length > 0) {
+                    results.forEach(function(result) {
+                        $('#search-results').append(result);
+                    });
+                    $('#search-results').show();
+                } else {
+                    $('#search-results').hide();
+                }
+            } else {
+                $('#search-results').hide();
+            }
+        });
     });
 
     })(jQuery);

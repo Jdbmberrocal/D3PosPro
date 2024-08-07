@@ -882,12 +882,14 @@
 		</tr>
 	</tbody>
 </table>
-
+<br>
 {{-- DATOS DE ZEUS --}}
 <p class="text-center">
 <small class="text-muted-imp">
-	 Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - WhatsApp: 3160402010
+	 Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsApp {{ env('APP_CONTACT', '') }}
 </small>
+
+
 </p>
 <style type="text/css">
 	body {
