@@ -732,7 +732,7 @@
 			{{-- <b>Software | app.zeusplus.co</b> <br>
 			Zeus Soluciones Ns - Nit 1091663313 <br>
 			WhatsApp: 3160402010 --}}
-			<small class="text-muted-imp">
+			<small class="">
 				Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsApp {{ env('APP_CONTACT', '') }}
 		   </small>
 		</div>
