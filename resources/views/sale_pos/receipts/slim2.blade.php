@@ -729,9 +729,12 @@
         </div>
 		<div class="border-bottom width-100">&nbsp;</div>
 		<div class="textbox-info">
-			<b>Software | app.zeusplus.co</b> <br>
+			{{-- <b>Software | app.zeusplus.co</b> <br>
 			Zeus Soluciones Ns - Nit 1091663313 <br>
-			WhatsApp: 3160402010
+			WhatsApp: 3160402010 --}}
+			<small class="text-muted-imp">
+				Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsApp {{ env('APP_CONTACT', '') }}
+		   </small>
 		</div>
         <!-- <button id="btnPrint" class="hidden-print">Print</button>
         <script src="script.js"></script> -->
