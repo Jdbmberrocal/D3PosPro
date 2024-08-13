@@ -419,7 +419,7 @@
 			                            @if($receipt_details->show_base_unit_details && $line['quantity'] && $line['base_unit_multiplier'] !== 1)
 				                            <br><small>
 				                            	1 {{$line['units']}} = {{$line['base_unit_multiplier']}} {{$line['base_unit_name']}} <br> {{$line['quantity']}} x {{$line['base_unit_multiplier']}} = {{$line['orig_quantity']}} {{$line['base_unit_name']}} <br>
-                            					{{$line['base_unit_price']}} x {{$line['orig_quantity']}} = {{$line['line_total']}}
+                            					{{$line['base_unit_price']}} x {{$line['orig_quantity']}} = {{$line['line_total']}}  
 				                            </small>
 				                            @endif
 	                        		</p>
@@ -428,11 +428,20 @@
 	                        		<p class="text-left width-60 quantity m-0 bw" style="direction: ltr;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	                        			{{$line['quantity']}} 
 	                        			@if(empty($receipt_details->hide_price))
-	                        			x {{$line['unit_price_before_discount']}}
+	                        			x {{$line['unit_price_before_discount']}} 
+										
+										  
 	                        			
 	                        			@if(!empty($line['total_line_discount']) && $line['total_line_discount'] != 0)
 	                        				- {{$line['total_line_discount']}}
 	                        			@endif
+										<small>
+										@if (!empty($line['tax_name']))
+										{{ $line['tax_name'] }}
+										@else
+										Exc
+										@endif
+									</small>
 	                        			@endif
 	                        		</p>
 	                        		@if(empty($receipt_details->hide_price))
@@ -462,7 +471,7 @@
 	                        				<p class="text-left width-50 quantity">
 	                        					{{$modifier['quantity']}}
 	                        					@if(empty($receipt_details->hide_price))
-	                        					x hola{{$modifier['unit_price_inc_tax']}}
+	                        					x {{$modifier['unit_price_inc_tax']}}
 	                        					@endif
 	                        				</p>
 	                        				<p class="text-right width-50 price">
@@ -614,7 +623,7 @@
 				</div>
 			@endif
 				{{-- TOTAL --}}
-			<div class="flex-box" >
+			<div class="flex-box " >
 				<p class="width-50 text-right" >
 					<strong>{!! $receipt_details->total_label !!}</strong>
 				</p>
@@ -729,9 +738,12 @@
         </div>
 		<div class="border-bottom width-100">&nbsp;</div>
 		<div class="textbox-info">
-			<b>Software | app.zeusplus.co</b> <br>
-			Zeus Soluciones Ns - Nit 1091663313 <br>
-			WhatsApp: 3160402010
+			{{-- DATOS DE ZEUS --}}
+            <p class="text-center">
+                
+                    Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
+                    </b> &copy; {{ date('Y') }}<br>Empresa {{ env('COMPANY', '') }}<br>Nit:{{ env('APP_NIT', '') }} <br>WhatsApp: {{ env('APP_CONTACT', '') }}
+            </p>
 		</div>
         <!-- <button id="btnPrint" class="hidden-print">Print</button>
         <script src="script.js"></script> -->

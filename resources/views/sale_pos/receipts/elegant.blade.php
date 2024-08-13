@@ -907,10 +907,7 @@
 				@endif
 							
 			</div>
-			</td>
-		</tr>
-	</tbody>
-	{{-- CUFE --}}
+				{{-- CUFE --}}
 	<div>
 		@if (!empty($receipt_details->cufe))
 		
@@ -924,4 +921,8 @@
 		<small>
 			<b> Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Zeus Soluciones - Nit 1091663313-7 - <b>WhatsApp: 3160402010</b>
 		</small>
+			</td>
+		</tr>
+	</tbody>
+
 </table>
