@@ -742,7 +742,7 @@
             <p class="text-center">
                 
                     Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
-                    </b> &copy; {{ date('Y') }}<br>Empresa {{ env('COMPANY', '') }}<br>Nit:{{ env('APP_NIT', '') }} <br>WhatsApp: {{ env('APP_CONTACT', '') }}
+                    </b> &copy; {{ date('Y') }}<br>Empresa {{ env('COMPANY', '') }}<br>Nit:{{ env('APP_NIT', '') }} <br>WhatsApp: {{ env('APP_CONTACT', '') }}.
             </p>
 		</div>
         <!-- <button id="btnPrint" class="hidden-print">Print</button>
