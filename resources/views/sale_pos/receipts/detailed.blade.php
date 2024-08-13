@@ -886,7 +886,6 @@
                                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                             @endif
 
-
                         @endif
 
                     </div>
@@ -897,10 +896,8 @@
             {{-- CUFE --}}
             <div>
                 @if (!empty($receipt_details->cufe))
-                    <p> <br></p>
-                    <b>
-                        <p class="text centered font-12">CUFE:
-                    </b><br>
+                    
+                    <b><p class="text centered font-12">CUFE:</b><br>
                     {!! $receipt_details->cufe !!}</p>
                 @endif
             </div>
@@ -917,7 +914,7 @@
         </tr>
 
     </tbody>
-    <br>
+    
 
 </table>
 <style type="text/css">
