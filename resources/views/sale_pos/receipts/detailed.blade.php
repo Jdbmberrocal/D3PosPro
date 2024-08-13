@@ -7,7 +7,7 @@
             <!-- business information here -->
             <div class="row invoice-info">
 
-                <div class="col-md-6 invoice-col width-40">
+                <div class="col-md-6 invoice-col width-40" style="font-size:11px">
                     @if (empty($receipt_details->letter_head))
                         <!-- Logo -->
                         @if (!empty($receipt_details->logo))
@@ -150,7 +150,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-6 invoice-col width-60">
+                <div class="col-md-6 invoice-col width-60" style="font-size:11px">
 
                     <div class="text-right font-17">
                         @if (!empty($receipt_details->invoice_no_prefix))
@@ -485,7 +485,7 @@
                                         </td>
                                     @endif
 
-                                    <td class="text-right">
+                                    <td class="text-center">
                                         {{ $line['quantity'] }} {{ $line['units'] }}
 
                                         @if ($receipt_details->show_base_unit_details && $line['quantity'] && $line['base_unit_multiplier'] !== 1)
@@ -663,7 +663,7 @@
                     <br>
                 </div>
 
-                <div class="col-md-6 invoice-col width-40">
+                <div class="col-md-6 invoice-col width-40"style="font-size:12px">
                     <table class="table-no-side-cell-border table-no-top-cell-border width-100 table-slim">
                         <tbody>
                             @if (!empty($receipt_details->total_quantity_label))
@@ -809,12 +809,11 @@
 
                             <!-- Total -->
                             <tr>
-                                <th style="background-color: #D8D8D8 !important; color: black !important"
-                                    class="font-size: 20px padding-size:10px">
+                                <th style="background-color: #D8D8D8 !important; color: black !important font-size:20px" class=" padding-size:10px">
                                     {!! $receipt_details->total_label !!}
                                 </th>
                                 <td class="text-right font-size:20px padding-size:10px"
-                                    style="background-color: #D8D8D8 !important; color: black !important">
+                                    style="background-color: #D8D8D8 !important; color: black !important ">
                                     {{ $receipt_details->total }}
                                 </td>
                             </tr>
@@ -822,7 +821,7 @@
                             @if (!empty($receipt_details->total_in_words))
                                 <tr>
                                     <td colspan="2" class="text-right">
-                                        <b><small>Valor en Letras: </small></b><br>
+                                        <b><small>Valor en Letras: </small></b>
                                         <small>{{ $receipt_details->total_in_words }} pesos m/cte</small>
                                     </td>
                                 </tr>
@@ -832,19 +831,19 @@
                 </div>
             </div>
 
-            <div class="border-bottom col-md-8 font-size: 10px">
+            <div class="border-bottom col-md-8 ">
                 @if (empty($receipt_details->hide_price) && !empty($receipt_details->tax_summary_label))
                     <!-- tax -->
                     @if (!empty($receipt_details->taxes))
-                        <table class="table table-slim table-bordered">
+                        <table class="table table-slim table-bordered ">
                             <tr>
-                                <th colspan="2" class="text-center">{{ $receipt_details->tax_summary_label }}
+                                <th colspan="2" class="text-center " style="font-size:10px">{{ $receipt_details->tax_summary_label }}
                                 </th>
                             </tr>
                             @foreach ($receipt_details->taxes as $key => $val)
                                 <tr>
-                                    <td class="text-center"><b>{{ $key }}</b></td>
-                                    <td class="text-center">{{ $val }}</td>
+                                    <td class="text-center " style="font-size:10px"><b>{{ $key }}</b></td>
+                                    <td class="text-center" style="font-size:10px">{{ $val }}</td>
                                 </tr>
                             @endforeach
                         </table>
@@ -903,8 +902,9 @@
             </div>
 
             <div class="text-center">
-            <small class="text-muted-imp ">
-				Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsApp {{ env('APP_CONTACT', '') }}
+            <small class="">
+                <br>
+				<b>Software</b> {{ config('app.name', 'ultimatePOS') }} - </b>V</b>{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} |<b> Empresa</b> {{ env('COMPANY', '') }} | <b>Nit </b>{{ env('APP_NIT', '') }} |<b> WhatsAp</b> {{ env('APP_CONTACT', '') }}
 		   </small>
             </div>
 
