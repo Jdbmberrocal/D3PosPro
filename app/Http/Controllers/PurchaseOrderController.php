@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Business;
 use App\BusinessLocation;
 use App\Contact;
+use App\Country;
 use App\CustomerGroup;
+use App\Department;
 use App\Media;
+use App\municipality;
 use App\PurchaseLine;
 use App\TaxRate;
 use App\Transaction;
+use App\TypeDocumentIdentification;
+use App\TypeLiability;
+use App\TypeRegime;
 use App\User;
 use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
@@ -283,8 +289,21 @@ class PurchaseOrderController extends Controller
 
         $common_settings = ! empty(session('business.common_settings')) ? session('business.common_settings') : [];
 
+        $type_document_identifications = TypeDocumentIdentification::pluck('name','id');
+        $countries = Country::pluck('name','id');
+        $departments = Department::pluck('name','id');
+        $municipalities = municipality::pluck('name','id');
+        $type_regimes = TypeRegime::pluck('name','id');
+        $type_liabilities = TypeLiability::pluck('name','id');
+        
+
         return view('purchase_order.create')
-            ->with(compact('taxes', 'business_locations', 'currency_details', 'customer_groups', 'types', 'shortcuts', 'bl_attributes', 'shipping_statuses', 'users', 'common_settings'));
+            ->with(compact('type_document_identifications',
+                'countries',
+                'departments',
+                'municipalities',
+                'type_regimes',
+                'type_liabilities','taxes', 'business_locations', 'currency_details', 'customer_groups', 'types', 'shortcuts', 'bl_attributes', 'shipping_statuses', 'users', 'common_settings'));
     }
 
     /**

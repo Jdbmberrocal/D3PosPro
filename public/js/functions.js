@@ -518,6 +518,7 @@ function __is_online() {
 function __disable_submit_button(element) {
     if (__is_online()) {
         element.attr('disable', true);
+        element.innerText = 'Cargando..'
     }
 }
 
