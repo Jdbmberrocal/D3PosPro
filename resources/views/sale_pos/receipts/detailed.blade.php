@@ -422,7 +422,7 @@
                                 </td>
                             </tr>
                         </thead>
-                        <tbody class="font-10">
+                        <tbody class="font-8">
                             @foreach ($receipt_details->lines as $line)
                                 <tr>
                                     <td class="text-center ">
@@ -904,7 +904,7 @@
             <div class="text-center">
             <small class="">
                 <br>
-				<b>Software</b> {{ config('app.name', 'ultimatePOS') }} - </b>V</b>{{config('author.app_version',"title")}} </b> &copy; {{ date('Y') }} |<b> Empresa</b> {{ env('COMPANY', '') }} | <b>Nit </b>{{ env('APP_NIT', '') }} |<b> WhatsAp</b> {{ env('APP_CONTACT', '') }}
+				Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsAp {{ env('APP_CONTACT', '') }}
 		   </small>
             </div>
 
