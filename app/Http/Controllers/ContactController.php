@@ -597,6 +597,51 @@ class ContactController extends Controller
             );
     }
 
+    private function calcularDigitoVerificacion($myNit) {
+        $vpri = array();
+        $x = 0;
+        $y = 0;
+        $z = 0;
+    
+        // Se limpia el Nit
+        $myNit = str_replace(array(" ", ",", ".", "-"), "", $myNit);
+    
+        // Se valida el nit
+        if (!is_numeric($myNit)) {
+            // echo "El nit/cédula '" . $myNit . "' no es válido(a).";
+            return false;
+        }
+    
+        // Procedimiento
+        $vpri[1] = 3;
+        $vpri[2] = 7;
+        $vpri[3] = 13;
+        $vpri[4] = 17;
+        $vpri[5] = 19;
+        $vpri[6] = 23;
+        $vpri[7] = 29;
+        $vpri[8] = 37;
+        $vpri[9] = 41;
+        $vpri[10] = 43;
+        $vpri[11] = 47;
+        $vpri[12] = 53;
+        $vpri[13] = 59;
+        $vpri[14] = 67;
+        $vpri[15] = 71;
+    
+        $z = strlen($myNit);
+        $x = 0;
+    
+        for ($i = 0; $i < $z; $i++) {
+            $y = substr($myNit, $i, 1);
+            $x += $y * $vpri[$z - $i];
+        }
+    
+        $y = $x % 11;
+    
+        return ($y > 1) ? 11 - $y : $y;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -621,9 +666,11 @@ class ContactController extends Controller
 
             $name_array = [];
 
-            if (! empty($input['dv'])) {
-                $input['dv'] = $input['dv'];
-            }
+            // if (! empty($input['dv'])) {
+            //     $input['dv'] = $input['dv'];
+            // }
+            $input['dv'] = $this->calcularDigitoVerificacion($input['contact_id']);
+
             if (! empty($input['first_name'])) {
                 $name_array[] = $input['first_name'];
             }
@@ -829,6 +876,9 @@ class ContactController extends Controller
                     'export_custom_field_6', 'assigned_to_users','department_id','municipality_id','country_id','type_document_identification_id','type_regime_id','merchant_registration','liability_id' ]);
 
                 $name_array = [];
+
+                $input['dv'] = $this->calcularDigitoVerificacion($input['contact_id']);
+                $name_array[] = $input['dv'];
 
                 if (! empty($input['prefix'])) {
                     $name_array[] = $input['prefix'];
