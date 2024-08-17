@@ -947,6 +947,11 @@ class TransactionUtil extends Util
         return $payment_lines;
     }
 
+    private function separarLetrasYNumeros($input) {
+        $letras = preg_replace('/[^a-zA-Z]/', '', $input);
+        $numeros = preg_replace('/[^0-9]/', '', $input);
+        return $letras;
+    }
     /**
      * Gives the receipt details in proper format.
      *
@@ -962,10 +967,13 @@ class TransactionUtil extends Util
     {
         $il = $invoice_layout;
 
+        
         $transaction = Transaction::find($transaction_id);
-        $invoice_scheme = InvoiceScheme::findOrFail($business_details->id);
+        $prefix = $this->separarLetrasYNumeros($transaction->invoice_no);
+        $invoice_scheme = InvoiceScheme::where('is_fe','=','si')->where('prefix','=',$prefix)->where('business_id',$business_details->id)->first();
+        // dd($invoice_scheme);
         $transaction_type = $transaction->type;
-
+        
         $output = [
             'header_text' => isset($il->header_text) ? $il->header_text : '',
             'business_name' => ($il->show_business_name == 1) ? $business_details->name : '',
@@ -981,6 +989,9 @@ class TransactionUtil extends Util
             'table_subtotal_label' => $il->table_subtotal_label,
         ];
 
+        // $output['invoice_no'] = $transaction->invoice_no;
+        // $output['invoice_no_prefix'] = $il->invoice_no_prefix;
+
         $output['cufe'] = $transaction->cufe;
         $output['qrstr'] = $transaction->qrstr;
         $output['nit'] = $business_details->nit;
@@ -988,7 +999,12 @@ class TransactionUtil extends Util
         $output['type_document'] = $business_details->type_document;
         $output['type_organization'] = $business_details->type_organization;
         $output['type_regime'] = $business_details->type_regime;
+        // $output['resolution'] = $prefix;
         $output['resolution'] = $invoice_scheme->resolution;
+        $output['resolution_prefix'] = $invoice_scheme->prefix;
+        $output['resolution_start_number'] = $invoice_scheme->start_number;
+        $output['resolution_end_number'] = $invoice_scheme->end_number;
+        $output['resolution_date'] = $invoice_scheme->start_date;
 
         //Display name
         $output['display_name'] = $output['business_name'];
@@ -1098,8 +1114,9 @@ class TransactionUtil extends Util
 
         //Customer show_customer
         $customer = Contact::find($transaction->contact_id);
-
+        // dd($customer);
         $output['customer_info'] = '';
+        $output['customer_identification'] = '';
         $output['customer_tax_number'] = '';
         $output['customer_tax_label'] = '';
         $output['customer_custom_fields'] = '';
@@ -1107,9 +1124,18 @@ class TransactionUtil extends Util
             $output['customer_label'] = ! empty($il->customer_label) ? $il->customer_label : '';
             $output['customer_name'] = ! empty($customer->name) ? $customer->name : $customer->supplier_business_name;
             $output['customer_mobile'] = $customer->mobile;
+            
 
             if ($receipt_printer_type != 'printer') {
                 $output['customer_info'] .= $customer->contact_address;
+                if (! empty($customer->contact_id)) {
+                $output['customer_info'] .= '<br>';
+                $output['customer_info'] .= $customer->contact_id.'-'.$customer->dv.= '<br>';
+                }
+                if (! empty($customer->email)) {
+                // $output['customer_info'] .= '<br>';
+                $output['customer_info'] .= $customer->email;
+                }
                 if (! empty($customer->contact_address)) {
                     $output['customer_info'] .= '<br>';
                 }
@@ -1157,10 +1183,19 @@ class TransactionUtil extends Util
                 $output['customer_custom_fields'] .= implode('<br>', $temp);
             }
 
+            // $output['customer_identification'] = $customer->contact_id;
+
             //To be used in pdfs
             $customer_address = [];
             if (! empty($customer->supplier_business_name)) {
                 $customer_address[] = $customer->supplier_business_name;
+                // $customer_address[] = $transaction->contact_id;
+            }
+            // if (! empty($customer->contact_id)) {
+            //     $customer_address[] = $customer->contact_id;
+            // }
+            if (! empty($customer->contact_id)) {
+                $customer_address[] = '<br>'.$customer->contact_id;
             }
             if (! empty($customer->address_line_1)) {
                 $customer_address[] = '<br>'.$customer->address_line_1;
