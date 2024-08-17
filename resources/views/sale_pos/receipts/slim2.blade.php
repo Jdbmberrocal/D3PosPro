@@ -35,7 +35,7 @@
 					
 					<div class="tett-box">
 						<p class="left"></p>
-						<b>Factura Electrónica de Venta</b>
+						<b>Factura Electrónica de Venta</b><br>
 						@if (!empty($receipt_details->nit))
 						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
 					 @endif
