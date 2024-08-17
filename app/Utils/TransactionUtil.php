@@ -1001,8 +1001,8 @@ class TransactionUtil extends Util
         $output['type_regime'] = $business_details->type_regime;
         // $output['resolution'] = $prefix;
         // dd($invoice_scheme);
-        // if($invoice_scheme != null)
-        // {
+        if($invoice_scheme != null)
+        {
             
             $output['resolution'] = $invoice_scheme->resolution;
             $output['resolution_prefix'] = $invoice_scheme->prefix;
@@ -1010,13 +1010,13 @@ class TransactionUtil extends Util
             $output['resolution_end_number'] = $invoice_scheme->end_number;
             $output['resolution_date'] = $invoice_scheme->start_date;
             
-        // }else{
-        //     $output['resolution'] = '';
-        //     $output['resolution_prefix'] = '';
-        //     $output['resolution_start_number'] = '';
-        //     $output['resolution_end_number'] = '';
-        //     $output['resolution_date'] = '';
-        // }
+        }else{
+            $output['resolution'] = '-';
+            $output['resolution_prefix'] = '-';
+            $output['resolution_start_number'] = '-';
+            $output['resolution_end_number'] = '-';
+            $output['resolution_date'] = '-';
+        }
         // dd($output);
         //Display name
         $output['display_name'] = $output['business_name'];
