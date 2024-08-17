@@ -48,6 +48,7 @@
 					 @if (!empty($receipt_details->type_regime))
 						 {!! $receipt_details->type_regime !!} <br>
 					 @endif
+					 @dd($receipt_details->resolution)
 					 @if (!empty($receipt_details->resolution))
 						 Resolución: {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
 					 @endif
