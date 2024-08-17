@@ -878,7 +878,7 @@ class ContactController extends Controller
                 $name_array = [];
 
                 $input['dv'] = $this->calcularDigitoVerificacion($input['contact_id']);
-                $name_array[] = $input['dv'];
+                // $name_array[] = $input['dv'];
 
                 if (! empty($input['prefix'])) {
                     $name_array[] = $input['prefix'];
