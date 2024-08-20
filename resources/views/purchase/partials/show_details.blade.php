@@ -70,6 +70,7 @@
     <div class="col-sm-4 invoice-col">
       <b>@lang('purchase.ref_no'):</b> #{{ $purchase->ref_no }}<br/>
       <b>@lang('messages.date'):</b> {{ @format_date($purchase->transaction_date) }}<br/>
+      <b>Cufe:</b> <markdown style="z-index: -1;">{{ $purchase->cufe}}</markdown><br/>
       @if(!empty($purchase->status))
         <b>@lang('purchase.purchase_status'):</b> @if($purchase->type == 'purchase_order'){{$po_statuses[$purchase->status]['label'] ?? ''}} @else {{ __('lang_v1.' . $purchase->status) }} @endif<br>
       @endif
