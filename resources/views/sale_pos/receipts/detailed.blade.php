@@ -422,7 +422,7 @@
                                 </td>
                             </tr>
                         </thead>
-                        <tbody class="font-8">
+                        <tbody class="font-10">
                             @foreach ($receipt_details->lines as $line)
                                 <tr>
                                     <td class="text-center ">
