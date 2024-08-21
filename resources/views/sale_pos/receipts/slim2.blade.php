@@ -32,15 +32,17 @@
 						</span>
 						
 					@endif
-					
-					<div class="tett-box">
-						<p class="left"></p>
-						<b>Factura Electrónica de Venta</b><br>
+					<br>
+
+					<b class="centered">Factura Electrónica de Venta</b><br>
+					<div class="text-box">
 						@if (!empty($receipt_details->nit))
+						<p class="left"></p>
+						
 						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
 					 @endif
 					 @if (!empty($receipt_details->address))
-					 <b>Dirección: </b> {!! $receipt_details->address !!} <br>
+					 <b>Dirección: </b><br> {!! $receipt_details->address !!} <br>
 					 @endif
 					 @if (!empty($receipt_details->type_organization))
 						 {!! $receipt_details->type_organization !!} <br>
@@ -49,9 +51,12 @@
 						 {!! $receipt_details->type_regime !!} <br>
 					 @endif
 					 @if ($receipt_details->resolution != '-')
-						 Resolución: {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
+					 <b>Resolución N°: </b> {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
 					 @endif
- 
+				{{-- @if(!empty($receipt_details->prefix))
+					<b>Prefix: </b> {!! $receipt_details->prefix !!}<br>
+				@endif
+  --}}
 				</div>
 					@if(!empty($receipt_details->contact))
 						{!! $receipt_details->contact !!}
@@ -61,7 +66,7 @@
 						, 
 					@endif
 					@if(!empty($receipt_details->website))
-						{{ $receipt_details->website }}
+						<br>{{ $receipt_details->website }}
 					@endif
 					@if(!empty($receipt_details->location_custom_fields))
 						<br>{{ $receipt_details->location_custom_fields }}

@@ -342,17 +342,15 @@
                 @includeIf('sale_pos.receipts.partial.common_repair_invoice')
             </div>
 			
-{{--
+
 					<div class="text-right">
-						<small class="text-muted-imp">
-							@if (!empty($receipt_details->invoice_no_prefix))
-								{!! $receipt_details->invoice_no_prefix !!}
-							@endif
-	
-							{{ $receipt_details->invoice_no }}
+						<small>
+								 @if ($receipt_details->resolution != '-')
+					 <b>Resolución N°: </b> {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
+					 @endif
 						</small>
 					</div>
-					--}}
+					
 				
 			
 
