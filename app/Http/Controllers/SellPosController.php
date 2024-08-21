@@ -2233,7 +2233,7 @@ class SellPosController extends Controller
                         $output = [
                             'success' => 0, 
                             // 'msg' => $msg, 
-                            'msg' => $respuesta, 
+                            'msg' => $respuesta['error'][0], 
                             'receipt' => $receipt,
                             'input_curl'=> $data, 
                             // 'response' => $respuesta['errors']

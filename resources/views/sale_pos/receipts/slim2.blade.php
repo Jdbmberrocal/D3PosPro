@@ -35,7 +35,7 @@
 					
 					<div class="tett-box">
 						<p class="left"></p>
-				
+						<b>Factura Electrónica de Venta</b><br>
 						@if (!empty($receipt_details->nit))
 						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
 					 @endif
@@ -48,13 +48,14 @@
 					 @if (!empty($receipt_details->type_regime))
 						 {!! $receipt_details->type_regime !!} <br>
 					 @endif
-					 @if (!empty($receipt_details->resolution))
-						 {!! $receipt_details->resolution !!} <br>
+					 @if ($receipt_details->resolution != '-')
+						 Resolución: {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
 					 @endif
  
 				</div>
 					@if(!empty($receipt_details->contact))
 						{!! $receipt_details->contact !!}
+						{{-- {!! $receipt_details->customer_identification !!} --}}
 					@endif
 					@if(!empty($receipt_details->contact) && !empty($receipt_details->website))
 						, 

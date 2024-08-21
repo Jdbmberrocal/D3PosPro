@@ -54,7 +54,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-id-badge"></i>
                         </span>
-                        {!! Form::text('contact_id', null, ['class' => 'form-control','required','placeholder' => __('Número de documento de la empresa')]); !!}
+                        {!! Form::text('contact_id', null, ['class' => 'form-control','required','id' => 'contact_id','placeholder' => __('Número de documento de la empresa')]); !!}
                     </div>
                     {{-- <p class="help-block">
                         @lang('lang_v1.leave_empty_to_autogenerate')
@@ -68,11 +68,9 @@
                         <span class="input-group-addon">
                             <i class="fa fa-id-badge"></i>
                         </span>
-                        {!! Form::text('dv', null, ['class' => 'form-control','required','placeholder' => __('Digito de verificación')]); !!}
+                        {!! Form::text('dv', null, ['class' => 'form-control','id' => 'dv','disabled','placeholder' => __('Digito de verificación')]); !!}
                     </div>
-                    {{-- <p class="help-block">
-                        @lang('lang_v1.leave_empty_to_autogenerate')
-                    </p> --}}
+                    
                 </div>
             </div>
             
