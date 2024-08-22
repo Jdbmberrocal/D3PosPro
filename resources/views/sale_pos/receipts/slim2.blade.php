@@ -719,14 +719,14 @@
 			@endif
 
 				<br>
-			@if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-                @if (empty($receipt_details->qrstr))
+			@if ($receipt_details->show_qr_code && !empty($receipt_details->qrstr))
+                {{-- @if (empty($receipt_details->qrstr))
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-                @else
+                @else --}}
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-                @endif
+                {{-- @endif --}}
                 
             @endif
 				<br>
