@@ -1009,6 +1009,7 @@ class TransactionUtil extends Util
             $output['resolution_start_number'] = $invoice_scheme->start_number;
             $output['resolution_end_number'] = $invoice_scheme->end_number;
             $output['resolution_date'] = $invoice_scheme->start_date;
+            $output['resolution_end_date'] = $invoice_scheme->end_date;
             
         }else{
             $output['resolution'] = '-';

@@ -4,22 +4,22 @@
 		<!-- Logo -->
 		@if(empty($receipt_details->letter_head))
 			@if(!empty($receipt_details->logo))
-				<img style="max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img img-responsive center-block">
+				<img style=" max-height: 100px; width: auto;" src="{{$receipt_details->logo}}" class="img img-responsive center-block padding-5">
 			@endif
 
 			<!-- Header text -->
 			@if(!empty($receipt_details->header_text))
-				<div class="col-xs-12">
+				<div class="col-xs-12 text-center ">
 					{!! $receipt_details->header_text !!}
 				</div>
 			@endif
 
 			<!-- business information here -->
-			<div class="col-xs-12 text-center">
+			<div class="col-xs-12 text-center ">
 				{{-- <h2 class="text-center"> --}}
 					<!-- Shop & Location Name  -->
 					@if(!empty($receipt_details->display_name))
-						{{$receipt_details->display_name}}
+						<b>{{$receipt_details->display_name}}</b>
 					@endif
 				{{-- </h2> --}}
 
@@ -74,7 +74,7 @@
 
 			<!--TITULO -->
 			@if(!empty($receipt_details->invoice_heading))
-				<h2 class="text-right"> 
+				<h2 class="text-right font-15"> 
 					{!! $receipt_details->invoice_heading !!}
 				</h2>
 			@endif
@@ -287,7 +287,14 @@
 				$p_width -= 10;
 			@endphp
 		@endif
-
+   {{-- Informacion de Resolución --}}
+   <div class="text-right font-15">
+	<small>
+		@if ($receipt_details->resolution != '-')
+		<b>Resolución N°: </b> {!! $receipt_details->resolution !!} <b>Prefijo: </b> <b>Consecutivo: </b>{!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<b> Fecha:</b> {!! $receipt_details->resolution_date !!} - 
+		@endif
+	</small>
+</div>
 		{{-- TABLA DE PRODUCTO --}}
 		<table class="table table-responsive table-slim">
 			<thead>
@@ -600,12 +607,17 @@
 						</th>
 						<td class="text-right">
 							{{$receipt_details->total}}
-							@if(!empty($receipt_details->total_in_words))
-								<br>
-								<small>({{$receipt_details->total_in_words}})</small>
-							@endif
+						
 						</td>
 					</tr>
+					@if (!empty($receipt_details->total_in_words))
+                                <tr>
+                                    <td colspan="2" class="text-right">
+                                        <b><small>Valor en Letras: </small></b>
+                                        <small>{{ $receipt_details->total_in_words }} pesos m/cte</small>
+                                    </td>
+                                </tr>
+                            @endif
 				</tbody>
         	</table>
         </div>
@@ -617,12 +629,12 @@
 	        @if(!empty($receipt_details->taxes))
 	        	<table class="table table-slim table-bordered">
 	        		<tr>
-	        			<th colspan="2" class="text-center">{{$receipt_details->tax_summary_label}}</th>
+	        			<th colspan="2" class="text-center font-10">{{$receipt_details->tax_summary_label}}</th>
 	        		</tr>
 	        		@foreach($receipt_details->taxes as $key => $val)
 	        			<tr>
-	        				<td class="text-center"><b>{{$key}}</b></td>
-	        				<td class="text-center">{{$val}}</td>
+	        				<td class="text-center font-10"><b>{{$key}}</b></td>
+	        				<td class="text-center font-10">{{$val}}</td>
 	        			</tr>
 	        		@endforeach
 	        	</table>
@@ -638,7 +650,7 @@
     
 </div>
 
-<div class="row" style="color: #000000 !important;">
+<div class="row font-10" style="color: #000000 !important;">
 	@if(!empty($receipt_details->footer_text))
 	<div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
 		{!! $receipt_details->footer_text !!}
@@ -650,15 +662,34 @@
 				{{-- Barcode --}}
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
+			@if ($receipt_details->show_qr_code && !empty($receipt_details->qrstr))
+			{{-- @if (empty($receipt_details->qrstr))
+				<img class="center-block mt-5" style="max-height: 130px; width: auto;"
+				src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+			@else --}}
+			<b class="font-15">Representación Gráfica de Facturación Electrónica</b>
+				<img class="center-block mt-5" style="max-height: 100px; width: auto;"
+				src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+			{{-- @endif --}}
 			
-			@if($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-				<img class="center-block mt-5" src="data:image/png;base64,{{DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE', 3, 3, [39, 48, 54])}}">
-			@endif
+		@endif
+		
 		</div>
+		
 	@endif
 	
 </div>
-
-<div style="page-break-inside: avoid !important col-md-12"><hr/>
-	<small><b>Software | app.zeusplus.co</b> Zeus Soluciones Ns - Nit 1091663313 - WhatsApp:3160402010</small>
+<br>
+ {{-- CUFE --}}
+ <div>
+	@if (!empty($receipt_details->cufe))
+		<b><p class="text centered font-12">CUFE:</b>
+		{!! $receipt_details->cufe !!}</p>
+	@endif
 </div>
+<div style="page-break-inside: avoid !important col-md-12 " class="text-center"><hr/>
+		<small>
+			Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsAp {{ env('APP_CONTACT', '') }}
+	   </small>
+</div>
+   

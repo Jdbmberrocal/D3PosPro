@@ -33,8 +33,8 @@
 						
 					@endif
 					<br>
-
-					<b class="centered">Factura Electrónica de Venta</b><br>
+					<b class="centered">FACTURA ELECTRÓNICA DE VENTA</b><br>
+					{{-- <b class="centered">Factura Electrónica de Venta</b><br> --}}
 					<div class="text-box">
 						@if (!empty($receipt_details->nit))
 						<p class="left"></p>
@@ -42,7 +42,7 @@
 						<b> {!! $receipt_details->type_document !!}:</b> {!! $receipt_details->nit !!}-{!! $receipt_details->dv !!} <br>
 					 @endif
 					 @if (!empty($receipt_details->address))
-					 <b>Dirección: </b><br> {!! $receipt_details->address !!} <br>
+					 <b>Dirección: </b>{!! $receipt_details->address !!} <br>
 					 @endif
 					 @if (!empty($receipt_details->type_organization))
 						 {!! $receipt_details->type_organization !!} <br>
@@ -51,7 +51,7 @@
 						 {!! $receipt_details->type_regime !!} <br>
 					 @endif
 					 @if ($receipt_details->resolution != '-')
-					 <b>Resolución N°: </b> {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
+					 <b>Resolución N°: </b> {!! $receipt_details->resolution !!} <b>Prefijo:</b> {!!$receipt_details->resolution_prefix!!} <br> <b>Consecutivo: </b>{!! $receipt_details->resolution_start_number !!} Hasta {!! $receipt_details->resolution_end_number !!}<b> <br>Fecha:</b> {!! $receipt_details->resolution_date !!} Hasta {!! $receipt_details->resolution_end_date !!}
 					 @endif
 				{{-- @if(!empty($receipt_details->prefix))
 					<b>Prefix: </b> {!! $receipt_details->prefix !!}<br>
@@ -266,7 +266,7 @@
 	        	</p>
 	        </div>
 			
-			@if(!empty($receipt_details->client_id_label))
+			{{-- @if(!empty($receipt_details->client_id_label))
 				<div class="textbox-info">
 					<p class="f-left"><strong>
 						{{ $receipt_details->client_id_label }}
@@ -275,7 +275,7 @@
 						{{ $receipt_details->client_id }}
 					</p>
 				</div>
-			@endif
+			@endif --}}
 			
 			@if(!empty($receipt_details->customer_tax_label))
 				<div class="textbox-info">
@@ -724,7 +724,8 @@
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else --}}
-                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+				<b><p class="centered">Representación Gráfica de <br>Facturación Electrónica</b>
+                    <img class="center-block mt-5" style="max-height: 110px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 {{-- @endif --}}
                 

@@ -34,9 +34,7 @@
                             @if (!empty($receipt_details->type_regime))
                                 {!! $receipt_details->type_regime !!} <br>
                             @endif
-                            @if (!empty($receipt_details->resolution))
-                                {!! $receipt_details->resolution !!} <br>
-                            @endif
+                           
 
                             {{-- @if (!empty($receipt_details->tax_info1))
 			<br/><b>{{ $receipt_details->tax_label1 }}</b> {{ $receipt_details->tax_info1 }}
@@ -342,21 +340,17 @@
                 @includeIf('sale_pos.receipts.partial.common_repair_invoice')
             </div>
 			
-
+            {{-- Informacion de Resolución --}}
 					<div class="text-right">
 						<small>
-								 @if ($receipt_details->resolution != '-')
-					 <b>Resolución N°: </b> {!! $receipt_details->resolution !!} de {!! $receipt_details->resolution_date !!} - {!! $receipt_details->resolution_start_number !!} hasta {!! $receipt_details->resolution_end_number !!}<br>
-					 @endif
+                            @if ($receipt_details->resolution != '-')
+                            <b>Resolución N°: </b> {!! $receipt_details->resolution !!} <b>Prefijo:</b> {!!$receipt_details->resolution_prefix!!}  <b>Consecutivo: </b>{!! $receipt_details->resolution_start_number !!} Hasta {!! $receipt_details->resolution_end_number !!}<b> Fecha:</b> {!! $receipt_details->resolution_date !!} Hasta {!! $receipt_details->resolution_end_date !!}
+                            @endif
 						</small>
 					</div>
-					
-				
 			
-
-			
-
             <div class="row font-10">
+
 				
                 <div class="col-xs-12">
                     <br />
@@ -652,9 +646,8 @@
 
                     <br>
                     <br>
-                    <br>
-                    <br>
-                    _____________________________________
+                    
+________________________________
                     <br>
                     <b class="pull-left">{{ __('lang_v1.authorized_signatory') }}</b>
                     <br>
@@ -858,43 +851,41 @@
                 </div>
             @endif
 
-            <div class="row font-10 ">
-                @if (!empty($receipt_details->footer_text))
-                    <div class="@if ($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-12 @else col-xs-12 @endif">
-                        {!! $receipt_details->footer_text !!}
-                    </div>
+            <div class="row font-10" style="color: #000000 !important;">
+                @if(!empty($receipt_details->footer_text))
+                <div class="@if($receipt_details->show_barcode || $receipt_details->show_qr_code) col-xs-8 @else col-xs-12 @endif">
+                    {!! $receipt_details->footer_text !!}
+                </div>
                 @endif
-                @if ($receipt_details->show_barcode || $receipt_details->show_qr_code)
-                    <div class="@if (!empty($receipt_details->footer_text)) col-xs-12 @else col-xs-12 @endif">
-                        {{-- Barcode --}}
-                        <br>
-                        @if ($receipt_details->show_barcode)
-                            <img class="center-block"
-                                src="data:image/png;base64,{{ DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2, 30, [39, 48, 54], true) }}">
+                @if($receipt_details->show_barcode || $receipt_details->show_qr_code)
+                    <div class="@if(!empty($receipt_details->footer_text)) col-xs-4 @else col-xs-12 @endif text-center">
+                        @if($receipt_details->show_barcode)
+                            {{-- Barcode --}}
+                            <img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
                         @endif
-
-                        @if ($receipt_details->show_qr_code && !empty($receipt_details->qr_code_text))
-                            @if (empty($receipt_details->qrstr))
-                                <img class=" center" style="max-height: 100px; width: auto;"
-                                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
-                            @else
-                                <b class="font-15">Representación Gráfica de Facturación Electrónica</b><br>
-                                <img class=" center" style="max-height: 100px; width: auto;"
-                                    src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
-                            @endif
-
-                        @endif
-
+                        @if ($receipt_details->show_qr_code && !empty($receipt_details->qrstr))
+                        {{-- @if (empty($receipt_details->qrstr))
+                            <img class="center-block mt-5" style="max-height: 130px; width: auto;"
+                            src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
+                        @else --}}
+                        <b class="font-13">Representación Gráfica de Facturación Electrónica</b>
+                            <img class="center-block mt-5" style="max-height: 100px; width: auto;"
+                            src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
+                        {{-- @endif --}}
+                        
+                    @endif
+                    
                     </div>
+                    
                 @endif
-
+                
             </div>
 
             {{-- CUFE --}}
             <div>
                 @if (!empty($receipt_details->cufe))
                     
-                    <b><p class="text centered font-12">CUFE:</b><br>
+                    <b><p class="text centered font-12">CUFE:</b> <br>
                     {!! $receipt_details->cufe !!}</p>
                 @endif
             </div>
