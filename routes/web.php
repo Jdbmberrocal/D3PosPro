@@ -197,8 +197,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/sells/convert-to-proforma/{id}', 'SellPosController@convertToProforma');
     Route::get('/sells/quotations', 'SellController@getQuotations');
     Route::get('/sells/draft-dt', 'SellController@getDraftDatables');
-    Route::resource('sells', 'SellController')->except(['show']);
+    // Route::get('/sells/resend/{id}', 'SellController@resend')->name('resend');
+    Route::resource('sells', 'SellController')->except(['show','resend']);
     Route::get('/sells/copy-quotation/{id}', [SellPosController::class, 'copyQuotation']);
+    Route::get('/sells/resend/{id}', [SellController::class, 'resend'])->name('resend');
+    Route::post('/sells/send_invoice', [SellController::class, 'send_invoice'])->name('send_invoice');
 
     Route::post('/import-purchase-products', [PurchaseController::class, 'importPurchaseProducts']);
     Route::post('/purchases/update-status', [PurchaseController::class, 'updateStatus']);
