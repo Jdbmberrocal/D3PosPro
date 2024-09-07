@@ -27,6 +27,7 @@ use App\Utils\ContactUtil;
 use App\Utils\ModuleUtil;
 use App\Utils\ProductUtil;
 use App\Utils\TransactionUtil;
+use App\Utils\ElectronicDocumentsUtil;
 use App\Warranty;
 use DB;
 use Illuminate\Http\Request;
@@ -48,19 +49,22 @@ class SellController extends Controller
 
     protected $productUtil;
 
+    protected $electronicDocumentUtil;
+
     /**
      * Constructor
      *
      * @param  ProductUtils  $product
      * @return void
      */
-    public function __construct(ContactUtil $contactUtil, BusinessUtil $businessUtil, TransactionUtil $transactionUtil, ModuleUtil $moduleUtil, ProductUtil $productUtil)
+    public function __construct(ContactUtil $contactUtil, BusinessUtil $businessUtil, TransactionUtil $transactionUtil, ModuleUtil $moduleUtil, ProductUtil $productUtil, ElectronicDocumentsUtil $electronicDocumentUtil)
     {
         $this->contactUtil = $contactUtil;
         $this->businessUtil = $businessUtil;
         $this->transactionUtil = $transactionUtil;
         $this->moduleUtil = $moduleUtil;
         $this->productUtil = $productUtil;
+        $this->electronicDocumentUtil = $electronicDocumentUtil;
 
         $this->dummyPaymentLine = ['method' => '', 'amount' => 0, 'note' => '', 'card_transaction_number' => '', 'card_number' => '', 'card_type' => '', 'card_holder_name' => '', 'card_month' => '', 'card_year' => '', 'card_security' => '', 'cheque_number' => '', 'bank_account_number' => '',
             'is_return' => 0, 'transaction_no' => '', ];
@@ -366,6 +370,9 @@ class SellController extends Controller
                         }
                         if (auth()->user()->can('sell.view') || auth()->user()->can('direct_sell.view') || auth()->user()->can('view_own_sell_only')) {
                             $html .= '<li><a href="'.route('resend',$row->id).'"   ><i class="fas fa-paper-plane" ></i> '.__('Reenviar correo').'</a></li>';
+                        }
+                        if (auth()->user()->can('sell.view') || auth()->user()->can('direct_sell.view') || auth()->user()->can('view_own_sell_only')) {
+                            $html .= '<li><a href="'.route('resend_invoice',$row->id).'"   ><i class="fas fa-file-code" ></i> '.__('Reenviar FE a DIAN').'</a></li>';
                         }
                         if (! $only_shipments) {
                             if ($row->is_direct_sale == 0) {
@@ -1020,8 +1027,8 @@ class SellController extends Controller
             ]);
             $res = $response->object();
             
-                // flash()->success($res->message);
-                return redirect()->back()->with('success', $res->message);
+            
+            return redirect()->back()->with('success', $res->message);
             
             
         } catch (\Throwable $th) {

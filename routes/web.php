@@ -202,6 +202,8 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/sells/copy-quotation/{id}', [SellPosController::class, 'copyQuotation']);
     Route::get('/sells/resend/{id}', [SellController::class, 'resend'])->name('resend');
     Route::post('/sells/send_invoice', [SellController::class, 'send_invoice'])->name('send_invoice');
+    
+    Route::get('/sells/resend_invoice/{id}', [SellPosController::class, 'resend_invoice'])->name('resend_invoice');
 
     Route::post('/import-purchase-products', [PurchaseController::class, 'importPurchaseProducts']);
     Route::post('/purchases/update-status', [PurchaseController::class, 'updateStatus']);

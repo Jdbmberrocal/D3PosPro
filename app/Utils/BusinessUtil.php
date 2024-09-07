@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\VariationLocationDetails;
 
+use App\Utils\UnitsUtil;
+
 
 class BusinessUtil extends Util
 {
@@ -67,7 +69,7 @@ class BusinessUtil extends Util
         //create default invoice setting for new business
         InvoiceScheme::create(['name' => 'Default',
             'scheme_type' => 'blank',
-            'prefix' => '',
+            'prefix' => 'FV',
             'start_number' => 1,
             'total_digits' => 4,
             'is_default' => 1,
@@ -128,41 +130,168 @@ class BusinessUtil extends Util
         //     'code_dian' => "70",
         //     'created_by' => $user_id,
         // ];
-        Unit::create(
-            [
-                'business_id' => $business_id,
-                'actual_name' => 'Spray pequeño',
-                'short_name' => 'Sp',
-                'allow_decimal' => 0,
-                'code_dian' => "1",
-                'created_by' => $user_id,
-            ],
-            [
-                'business_id' => $business_id,
-                'actual_name' => 'Levantar',
-                'short_name' => 'Lv',
-                'allow_decimal' => 0,
-                'code_dian' => "2",
-                'created_by' => $user_id,
-            ],
-            [
-                'business_id' => $business_id,
-                'actual_name' => 'Lote calor',
-                'short_name' => 'Lc',
-                'allow_decimal' => 0,
-                'code_dian' => "3",
-                'created_by' => $user_id,
-            ],
-            [
-                'business_id' => $business_id,
-                'actual_name' => 'Unidades',
-                'short_name' => 'Unds',
-                'allow_decimal' => 0,
-                'code_dian' => "70",
-                'created_by' => $user_id,
-            ],
 
-        );
+        //asignación masi¿va de las unidades al crear la empresa
+        $rutaArchivoJson = public_path('data/units.json'); // Ejemplo de ruta
+        $datos = UnitsUtil::leerJson($rutaArchivoJson);
+        // dd($datos);
+        if ($datos !== null) {
+            foreach ($datos as $value) {
+                # code...
+                
+                Unit::create([
+                    'business_id' => $business_id,
+                    'actual_name' => $value->name,
+                    'short_name' => $value->code,
+                    'allow_decimal' => 0,
+                    'code_dian' => $value->id,
+                    'created_by' => $user_id,
+                ]);
+
+            }
+        } else {
+            Unit::create(
+                    [
+                        'business_id' => $business_id,
+                        'actual_name' => 'Unidades',
+                        'short_name' => 'Unds',
+                        'allow_decimal' => 0,
+                        'code_dian' => "70",
+                        'created_by' => $user_id,
+                    ]
+                    );
+        }
+        // Unit::create(
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Spray pequeño',
+        //         'short_name' => 'Sp',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "1",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Levantar',
+        //         'short_name' => 'Lv',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "2",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Lote calor',
+        //         'short_name' => 'Lc',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "3",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Grupo',
+        //         'short_name' => '10',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "4",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Equipar',
+        //         'short_name' => '11',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "5",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Ración',
+        //         'short_name' => '13',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "6",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Disparo',
+        //         'short_name' => '14',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "7",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Palo',
+        //         'short_name' => '15',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "8",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Tambor de ciento quince kg',
+        //         'short_name' => '16',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "9",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Tambor de cien libras',
+        //         'short_name' => '17',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "10",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Tambor de cincuenta y cinco galones (US)',
+        //         'short_name' => '18',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "11",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Camión cisterna',
+        //         'short_name' => '19',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "12",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Contenedor de veinte pies',
+        //         'short_name' => '20',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "13",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Contenedor de cuarenta pies',
+        //         'short_name' => '21',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "14",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Decilitro por gramo',
+        //         'short_name' => '22',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "15",
+        //         'created_by' => $user_id,
+        //     ],
+        //     [
+        //         'business_id' => $business_id,
+        //         'actual_name' => 'Unidades',
+        //         'short_name' => 'Unds',
+        //         'allow_decimal' => 0,
+        //         'code_dian' => "70",
+        //         'created_by' => $user_id,
+        //     ],
+
+        // );
 
         //Create default notification templates
         $notification_templates = NotificationTemplate::defaultNotificationTemplates($business_id);

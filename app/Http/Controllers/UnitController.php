@@ -42,9 +42,9 @@ class UnitController extends Controller
 
             $unit = Unit::where('business_id', $business_id)
                         ->with(['base_unit'])
-                        ->select(['actual_name', 'short_name', 'allow_decimal', 'id',
+                        ->select(['actual_name', 'short_name','code_dian', 'allow_decimal', 'id',
                             'base_unit_id', 'base_unit_multiplier', ]);
-
+            
             return Datatables::of($unit)
                 ->addColumn(
                     'action',
@@ -53,7 +53,9 @@ class UnitController extends Controller
                         &nbsp;
                     @endcan
                     @can("unit.delete")
+                        @if($base_unit_id)
                         <button data-href="{{action(\'App\Http\Controllers\UnitController@destroy\', [$id])}}" class="tw-dw-btn tw-dw-btn-outline tw-dw-btn-xs tw-dw-btn-error delete_unit_button"><i class="glyphicon glyphicon-trash"></i> @lang("messages.delete")</button>
+                        @endif
                     @endcan'
                 )
                 ->editColumn('allow_decimal', function ($row) {
@@ -63,6 +65,7 @@ class UnitController extends Controller
                         return __('messages.no');
                     }
                 })
+                // ->editColumn('code_dian', 'Hi ')
                 ->editColumn('actual_name', function ($row) {
                     if (! empty($row->base_unit_id)) {
                         return  $row->actual_name.' ('.(float) $row->base_unit_multiplier.$row->base_unit->short_name.')';
@@ -70,6 +73,7 @@ class UnitController extends Controller
 
                     return  $row->actual_name;
                 })
+                
                 ->removeColumn('id')
                 ->rawColumns(['action'])
                 ->make(true);
@@ -115,19 +119,22 @@ class UnitController extends Controller
         }
 
         try {
-            $input = $request->only(['actual_name', 'short_name', 'allow_decimal']);
+            $input = $request->only(['actual_name','code_dian', 'short_name', 'allow_decimal']);
             $input['business_id'] = $request->session()->get('user.business_id');
             $input['created_by'] = $request->session()->get('user.id');
 
-            if ($request->has('define_base_unit')) {
+            // if ($request->has('define_base_unit')) {
                 if (! empty($request->input('base_unit_id')) && ! empty($request->input('base_unit_multiplier'))) {
                     $base_unit_multiplier = $this->commonUtil->num_uf($request->input('base_unit_multiplier'));
                     if ($base_unit_multiplier != 0) {
                         $input['base_unit_id'] = $request->input('base_unit_id');
                         $input['base_unit_multiplier'] = $base_unit_multiplier;
                     }
+                    //asignamos el codigo dian a la subunidad
+                    $unit_code = Unit::findOrFail($request->input('base_unit_id'));
+                    $input['code_dian'] = $unit_code->code_dian;
                 }
-            }
+            // }
 
             $unit = Unit::create($input);
             $output = ['success' => true,

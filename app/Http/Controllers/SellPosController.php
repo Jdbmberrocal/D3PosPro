@@ -54,6 +54,7 @@ use App\Utils\ModuleUtil;
 use App\Utils\NotificationUtil;
 use App\Utils\ProductUtil;
 use App\Utils\TransactionUtil;
+use App\Utils\ElectronicDocumentsUtil;
 use App\Variation;
 use App\Warranty;
 use Illuminate\Http\Request;
@@ -90,6 +91,8 @@ class SellPosController extends Controller
 
     protected $notificationUtil;
 
+    protected $electronicDocumentUtil;
+
     /**
      * Constructor
      *
@@ -103,7 +106,8 @@ class SellPosController extends Controller
         TransactionUtil $transactionUtil,
         CashRegisterUtil $cashRegisterUtil,
         ModuleUtil $moduleUtil,
-        NotificationUtil $notificationUtil
+        NotificationUtil $notificationUtil,
+        ElectronicDocumentsUtil $electronicDocumentUtil
     ) {
         $this->contactUtil = $contactUtil;
         $this->productUtil = $productUtil;
@@ -112,6 +116,7 @@ class SellPosController extends Controller
         $this->cashRegisterUtil = $cashRegisterUtil;
         $this->moduleUtil = $moduleUtil;
         $this->notificationUtil = $notificationUtil;
+        $this->electronicDocumentUtil = $electronicDocumentUtil;
 
         $this->dummyPaymentLine = ['method' => 'cash', 'amount' => 0, 'note' => '', 'card_transaction_number' => '', 'card_number' => '', 'card_type' => '', 'card_holder_name' => '', 'card_month' => '', 'card_year' => '', 'card_security' => '', 'cheque_number' => '', 'bank_account_number' => '',
             'is_return' => 0, 'transaction_no' => ''];
@@ -672,376 +677,402 @@ class SellPosController extends Controller
                 // if ($print_invoice) {
                 //     $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
                 // }
-                $i_echeme = '';
-                if(!empty($request->input('invoice_scheme_id')))
-                {
-                    //consultar datos de la empresa 
-                    $business_data = Business::find($business_id);
+                //FACTURA ELECTRONICA
+                // $i_echeme = '';
+                // if(!empty($request->input('invoice_scheme_id')))
+                // {
+                //     //consultar datos de la empresa 
+                //     $business_data = Business::find($business_id);
 
-                    //consultar el tipo de factura
-                    $invoice_scheme = InvoiceScheme::findOrFail($request->input('invoice_scheme_id'));
-                    $i_echeme = $invoice_scheme->is_fe;
-                    //consultar los datos del cliente
-                    $customer_data = Contact::findOrFail($request->input('contact_id'));
-                }else{
-                    $invoice_scheme = InvoiceScheme::where('business_id',$business_id)->where('is_default',1)->get();
-                    $i_echeme == $invoice_scheme->is_fe;
-                }
+                //     //consultar el tipo de factura
+                //     $invoice_scheme = InvoiceScheme::findOrFail($request->input('invoice_scheme_id'));
+                //     $i_echeme = $invoice_scheme->is_fe;
+                //     //consultar los datos del cliente
+                //     $customer_data = Contact::findOrFail($request->input('contact_id'));
+                // }else{
+                //     $invoice_scheme = InvoiceScheme::where('business_id',$business_id)->where('is_default',1)->get();
+                //     $i_echeme == $invoice_scheme->is_fe;
+                // }
                 
 
-                //validamos si se va a enviar factua electronica o no
-                if($i_echeme == 'si' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
-                {
+                // //validamos si se va a enviar factua electronica o no
+                // if($i_echeme == 'si' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
+                // {
 
                     
-                    $actual_date = Carbon::now('America/Bogota')->format('Y-m-d');
-                    $actual_hous = Carbon::now('America/Bogota')->format('H:m:s');
+                //     $actual_date = Carbon::now('America/Bogota')->format('Y-m-d');
+                //     $actual_hous = Carbon::now('America/Bogota')->format('H:m:s');
 
-                    $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count) -1;
+                //     $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count) -1;
 
-                    $total_tax_products = 0;
-                    $total_not_tax_products = 0;
-                    // $total_not_tax_products = 0;
-                    $line_extension_amount = 0;
-                    $tax_inclusive_amount = 0;
-                    $tax_exclusive_amount = 0;
-                    // $taxes = [];//impuesto por linea de producto
-                    $payable_amount = 0;
+                //     $total_tax_products = 0;
+                //     $total_not_tax_products = 0;
+                //     // $total_not_tax_products = 0;
+                //     $line_extension_amount = 0;
+                //     $tax_inclusive_amount = 0;
+                //     $tax_exclusive_amount = 0;
+                //     // $taxes = [];//impuesto por linea de producto
+                //     $payable_amount = 0;
                     
 
-                    $invoiceLines = array();
+                //     $invoiceLines = array();
 
-                    $tax_totals_map = [];//array para agregar y sumar los impuestos a nivel de factura
+                //     $tax_totals_map = [];//array para agregar y sumar los impuestos a nivel de factura
 
-                    $tax_total_invoice = [];
+                //     $tax_total_invoice = [];
 
                     
-                    // $final_total = $this->convert_numeric($input['final_total']);
+                //     // $final_total = $this->convert_numeric($input['final_total']);
 
 
 
-                    if(isset($input['products']))
-                    {
-                        foreach ($input['products'] as $product){
-                            $tax_totals = [];//impuestos totales de la factura
-                            // $total_product = 0;
-                            // $tax_total_product = 0;
+                //     if(isset($input['products']))
+                //     {
+                //         foreach ($input['products'] as $product){
+                //             $tax_totals = [];//impuestos totales de la factura
+                //             // $total_product = 0;
+                //             // $tax_total_product = 0;
 
-                            $product_db = Product::findOrFail($product['product_id']);
+                //             $product_db = Product::findOrFail($product['product_id']);
 
-                            $unit_price = $this->convert_numeric($product['unit_price']);
+                //             $unit_price = $this->convert_numeric($product['unit_price']);
 
-                            //calculo de los campos de cada linea convert_numeric($number)
-                            $line_extension_amount_product = (intval($product['quantity']) * floatval($unit_price));
+                //             //calculo de los campos de cada linea convert_numeric($number)
+                //             $line_extension_amount_product = (intval($product['quantity']) * floatval($unit_price));
 
-                            //CONSTRUCCIÓN DEL JSON DE IMPUESTOS
-                            if(isset($product['tax_id'])){
-                                $tax = TaxRate::find($product['tax_id']);
+                //             //CONSTRUCCIÓN DEL JSON DE IMPUESTOS
+                //             if(isset($product['tax_id'])){
+                //                 $tax = TaxRate::find($product['tax_id']);
 
-                                $tax_amount_product = $this->tax($line_extension_amount_product,floatval($tax['amount']));
-                                // $tax_total_product = $tax_amount_product + $line_extension_amount_product;
+                //                 $tax_amount_product = $this->tax($line_extension_amount_product,floatval($tax['amount']));
+                //                 // $tax_total_product = $tax_amount_product + $line_extension_amount_product;
 
-                                $tax_totals[] = [
-                                    // "tax_id" =>intval($product['tax_id']),//ERROR AQUI
-                                    "tax_id" =>$tax->code,
-                                    "tax_amount" => $this->round_number($tax_amount_product),
-                                    "taxable_amount" => $this->round_number($line_extension_amount_product),//valor del producto sin impuesto
-                                    "percent" => intval($tax['amount'])
-                                ];
+                //                 $tax_totals[] = [
+                //                     // "tax_id" =>intval($product['tax_id']),//ERROR AQUI
+                //                     "tax_id" =>$tax->code,
+                //                     "tax_amount" => $this->round_number($tax_amount_product),
+                //                     "taxable_amount" => $this->round_number($line_extension_amount_product),//valor del producto sin impuesto
+                //                     "percent" => intval($tax['amount'])
+                //                 ];
 
-                                // Sumar el impuesto al total de impuestos de la factura
-                                $tax_key = intval($tax['code']) . '_' . floatval($tax['amount']);
-                                if (isset($tax_totals_map[$tax_key])) {
-                                    // $tax_totals_map[$tax_key]['tax_id'] = intval($tax['tax_id']);
-                                    $tax_totals_map[$tax_key]['tax_amount'] += $this->round_number($tax_amount_product);
-                                    $tax_totals_map[$tax_key]['taxable_amount'] += $this->round_number($line_extension_amount_product);
-                                } else {
-                                    $tax_totals_map[$tax_key] = [
-                                        "tax_id" => $tax->code,
-                                        "tax_amount" => $this->round_number($tax_amount_product),
-                                        "taxable_amount" => $this->round_number($line_extension_amount_product),
-                                        "percent" => floatval($tax['amount'])
-                                    ];
-                                }
+                //                 // Sumar el impuesto al total de impuestos de la factura
+                //                 $tax_key = intval($tax['code']) . '_' . floatval($tax['amount']);
+                //                 if (isset($tax_totals_map[$tax_key])) {
+                //                     // $tax_totals_map[$tax_key]['tax_id'] = intval($tax['tax_id']);
+                //                     $tax_totals_map[$tax_key]['tax_amount'] += $this->round_number($tax_amount_product);
+                //                     $tax_totals_map[$tax_key]['taxable_amount'] += $this->round_number($line_extension_amount_product);
+                //                 } else {
+                //                     $tax_totals_map[$tax_key] = [
+                //                         "tax_id" => $tax->code,
+                //                         "tax_amount" => $this->round_number($tax_amount_product),
+                //                         "taxable_amount" => $this->round_number($line_extension_amount_product),
+                //                         "percent" => floatval($tax['amount'])
+                //                     ];
+                //                 }
         
 
-                                //sumamos el total de las bases productos con impuestos
-                                $tax_exclusive_amount +=  $line_extension_amount_product;
+                //                 //sumamos el total de las bases productos con impuestos
+                //                 $tax_exclusive_amount +=  $line_extension_amount_product;
 
-                                //sumamos el excedente del impuesto al total de la linea
-                                $line_extension_amount_product += $tax_amount_product;
+                //                 //sumamos el excedente del impuesto al total de la linea
+                //                 $line_extension_amount_product += $tax_amount_product;
 
 
                                 
-                            }
-                            $total_line = intval($product['quantity']) * $unit_price;
+                //             }
+                //             $total_line = intval($product['quantity']) * $unit_price;
                             
-                            if(isset($product['tax_id'])){
-                                $invoiceLines[] = [
-                                    "unit_measure_id" => 70,
-                                    "invoiced_quantity" => intval($product['quantity']),
-                                    "line_extension_amount" => $this->round_number($total_line),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
-                                    // "line_extension_amount" => $this->round_number($line_extension_amount_product),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
-                                    "free_of_charge_indicator" => false,
+                //             if(isset($product['tax_id'])){
+                //                 $invoiceLines[] = [
+                //                     "unit_measure_id" => 70,
+                //                     "invoiced_quantity" => intval($product['quantity']),
+                //                     "line_extension_amount" => $this->round_number($total_line),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
+                //                     // "line_extension_amount" => $this->round_number($line_extension_amount_product),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
+                //                     "free_of_charge_indicator" => false,
                                     
-                                    "description" => $product_db->name,
-                                    "code" => $product_db->sku,
-                                    "type_item_identification_id" => 4,
-                                    "price_amount" => $this->round_number($line_extension_amount_product),//Valor de la linea de la factura
-                                    "base_quantity" =>intval($product['quantity']),
-                                    "tax_totals" => $tax_totals
+                //                     "description" => $product_db->name,
+                //                     "code" => $product_db->sku,
+                //                     "type_item_identification_id" => 4,
+                //                     "price_amount" => $this->round_number($line_extension_amount_product),//Valor de la linea de la factura
+                //                     "base_quantity" =>intval($product['quantity']),
+                //                     "tax_totals" => $tax_totals
 
-                                ];
-                                unset($tax_totals);
-                            }else{
-                                $invoiceLines[] = [
-                                    "unit_measure_id" => 70,
-                                    "invoiced_quantity" => intval($product['quantity']),
-                                    "line_extension_amount" => $this->round_number($total_line),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
-                                    "free_of_charge_indicator" => false,
+                //                 ];
+                //                 unset($tax_totals);
+                //             }else{
+                //                 $invoiceLines[] = [
+                //                     "unit_measure_id" => 70,
+                //                     "invoiced_quantity" => intval($product['quantity']),
+                //                     "line_extension_amount" => $this->round_number($total_line),//Valor total de la línea. Cantidad x Precio Unidad menos descuentos más recargos que apliquen para la línea.
+                //                     "free_of_charge_indicator" => false,
                                     
-                                    "description" => $product_db->name,
-                                    "code" => $product_db->sku,
-                                    "type_item_identification_id" => 4,
-                                    "price_amount" => $this->round_number($line_extension_amount_product),//Valor de la linea de la factura
-                                    "base_quantity" =>intval($product['quantity']),
+                //                     "description" => $product_db->name,
+                //                     "code" => $product_db->sku,
+                //                     "type_item_identification_id" => 4,
+                //                     "price_amount" => $this->round_number($line_extension_amount_product),//Valor de la linea de la factura
+                //                     "base_quantity" =>intval($product['quantity']),
 
-                                ];
-                            }
-
-
-                            $tax_inclusive_amount += $line_extension_amount_product;
-                        }
-
-                    }
-
-                    // Convertir el mapa de impuestos a un array de totales de impuestos
-                    $tax_total_invoice = array_values($tax_totals_map);
-
-                    //calcular los invoice line
-                    if(isset($invoiceLines)){
-                        foreach($invoiceLines as $invoice_product)
-                        {
-                            if(isset($invoice_product['tax_id']))
-                            {
-                                $total_tax_products += floatval($invoice_product['line_extension_amount']);
-                            }else{
-                                $total_not_tax_products +=  floatval($invoice_product['line_extension_amount']);
-                            }
-                            $line_extension_amount += floatval($invoice_product['line_extension_amount']);
-
-                            //calculñar el total de la factura
-                            $payable_amount = $payable_amount + $invoice_product['price_amount'];
-                        }
-                    }
+                //                 ];
+                //             }
 
 
-                    //ENVIO DE FE zposs.co
+                //             $tax_inclusive_amount += $line_extension_amount_product;
+                //         }
+
+                //     }
+
+                //     // Convertir el mapa de impuestos a un array de totales de impuestos
+                //     $tax_total_invoice = array_values($tax_totals_map);
+
+                //     //calcular los invoice line
+                //     if(isset($invoiceLines)){
+                //         foreach($invoiceLines as $invoice_product)
+                //         {
+                //             if(isset($invoice_product['tax_id']))
+                //             {
+                //                 $total_tax_products += floatval($invoice_product['line_extension_amount']);
+                //             }else{
+                //                 $total_not_tax_products +=  floatval($invoice_product['line_extension_amount']);
+                //             }
+                //             $line_extension_amount += floatval($invoice_product['line_extension_amount']);
+
+                //             //calculñar el total de la factura
+                //             $payable_amount = $payable_amount + $invoice_product['price_amount'];
+                //         }
+                //     }
+
+
+                //     //ENVIO DE FE zposs.co
                 
 
-                    // Parámetros dinámicos
-                    $invoiceNumber = $invoice_number;
-                    $prefix = $invoice_scheme->prefix;
-                    $typeDocumentId = 1;
-                    $date = $actual_date;
-                    $time = $actual_hous;
-                    $sendmail = false;
-                    $resolutionNumber = $invoice_scheme->resolution;
-                    if($customer_data->contact_id == 222222222222)
-                    {
-                        $customer = array(
-                            "identification_number" => "222222222222",
-                            "name" => "Consumidor Final",
-                            "merchant_registration" => "0000000-00",
-                        );
-                    }else{
-                        $contact_type = 0;
-                        $name = '';
-                        if($customer_data->contact_type == 'individual')
-                        {
-                            $contact_type = 2;
-                            $name = $customer_data->name;
-                        }else{
-                            $contact_type = 1;
-                            $name = $customer_data->supplier_business_name;
-                        }
-                        $customer = array(
-                            "identification_number" => $customer_data->contact_id,
-                            "dv" => $customer_data->dv,
-                            "name" => $name,
-                            "type_organization_id" => $contact_type,
-                            "phone" => $customer_data->mobile,
-                            "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000-00",
-                            "type_document_identification_id" => ($customer_data->type_document_identification_id)?$customer_data->type_document_identification_id : "",
-                            "type_regime_id" => ($customer_data->type_regime_id)?$customer_data->type_regime_id : "",
-                            "type_liability_id" => ($customer_data->liability_id)?$customer_data->liability_id : "",
-                            "municipality_id" => ($customer_data->municipality_id)?$customer_data->municipality_id : "",
-                            "email" => $customer_data->email,
-                            "address" => ($customer_data->address_line_1)? $customer_data->address_line_1: 'no'
-                        );
-                        $sendmail = true;
-                    }
-                    //leer los metodos y formas de pago
-                    // $payment_form = 1;
-                    // if($input['payment']['change_return']['method'] == 'cash')//efectivo
-                    // {
-                    //     $payment_form = 1;
-                    // }else{
-                    //     $payment_form = 2;//credito
-                    // }
-                    $paymentForm = array(
-                        "duration_measure" => 1,//dias de plazo para pago
-                        "payment_form_id" => 1,//1 contado 2 credito
-                        "payment_method_id" => 1,
-                        "payment_due_date" => $actual_date
-                    );
-                    // $previousBalance = "0";
-                    $legalMonetaryTotals = array(
-                        "line_extension_amount" => $this->round_number($line_extension_amount),
-                        "tax_exclusive_amount" => $this->round_number($tax_exclusive_amount),//
-                        "tax_inclusive_amount" => $this->round_number($tax_inclusive_amount),
-                        "charge_total_amount" => "0.00",
-                        // "payable_amount" => $this->round_number($final_total),
-                        "payable_amount" => $this->round_number($tax_inclusive_amount),
-                        "allowance_total_amount" => "0.00"
-                    );
+                //     // Parámetros dinámicos
+                //     $invoiceNumber = $invoice_number;
+                //     $prefix = $invoice_scheme->prefix;
+                //     $typeDocumentId = 1;
+                //     $date = $actual_date;
+                //     $time = $actual_hous;
+                //     $sendmail = false;
+                //     $resolutionNumber = $invoice_scheme->resolution;
+                //     if($customer_data->contact_id == 222222222222)
+                //     {
+                //         $customer = array(
+                //             "identification_number" => "222222222222",
+                //             "name" => "Consumidor Final",
+                //             "merchant_registration" => "0000000-00",
+                //         );
+                //     }else{
+                //         $contact_type = 0;
+                //         $name = '';
+                //         if($customer_data->contact_type == 'individual')
+                //         {
+                //             $contact_type = 2;
+                //             $name = $customer_data->name;
+                //         }else{
+                //             $contact_type = 1;
+                //             $name = $customer_data->supplier_business_name;
+                //         }
+                //         $customer = array(
+                //             "identification_number" => $customer_data->contact_id,
+                //             "dv" => $customer_data->dv,
+                //             "name" => $name,
+                //             "type_organization_id" => $contact_type,
+                //             "phone" => $customer_data->mobile,
+                //             "merchant_registration" => ($customer_data->merchant_registration)?$customer_data->merchant_registration : "0000000-00",
+                //             "type_document_identification_id" => ($customer_data->type_document_identification_id)?$customer_data->type_document_identification_id : "",
+                //             "type_regime_id" => ($customer_data->type_regime_id)?$customer_data->type_regime_id : "",
+                //             "type_liability_id" => ($customer_data->liability_id)?$customer_data->liability_id : "",
+                //             "municipality_id" => ($customer_data->municipality_id)?$customer_data->municipality_id : "",
+                //             "email" => $customer_data->email,
+                //             "address" => ($customer_data->address_line_1)? $customer_data->address_line_1: 'no'
+                //         );
+                //         $sendmail = true;
+                //     }
+                //     //leer los metodos y formas de pago
+                //     // $payment_form = 1;
+                //     // if($input['payment']['change_return']['method'] == 'cash')//efectivo
+                //     // {
+                //     //     $payment_form = 1;
+                //     // }else{
+                //     //     $payment_form = 2;//credito
+                //     // }
+                //     $paymentForm = array(
+                //         "duration_measure" => 1,//dias de plazo para pago
+                //         "payment_form_id" => 1,//1 contado 2 credito
+                //         "payment_method_id" => 1,
+                //         "payment_due_date" => $actual_date
+                //     );
+                //     // $previousBalance = "0";
+                //     $legalMonetaryTotals = array(
+                //         "line_extension_amount" => $this->round_number($line_extension_amount),
+                //         "tax_exclusive_amount" => $this->round_number($tax_exclusive_amount),//
+                //         "tax_inclusive_amount" => $this->round_number($tax_inclusive_amount),
+                //         "charge_total_amount" => "0.00",
+                //         // "payable_amount" => $this->round_number($final_total),
+                //         "payable_amount" => $this->round_number($tax_inclusive_amount),
+                //         "allowance_total_amount" => "0.00"
+                //     );
 
                 
 
 
-                    // Construcción del JSON dinámicamente
-                    $data = array(
-                        "number" => $invoiceNumber,
-                        "prefix" => $prefix,
-                        "type_document_id" => $typeDocumentId,
-                        "date" => $date,
-                        "time" => $time,
-                        "sendmail" => $sendmail,
-                        "resolution_number" => $resolutionNumber,
-                        "customer" => $customer,
-                        "payment_form" => $paymentForm,
-                        // "previous_balance" => $previousBalance,
-                        "legal_monetary_totals" => $legalMonetaryTotals,
-                        // "allowance_charges" => $allowanceCharges,
-                    );
+                //     // Construcción del JSON dinámicamente
+                //     $data = array(
+                //         "number" => $invoiceNumber,
+                //         "prefix" => $prefix,
+                //         "type_document_id" => $typeDocumentId,
+                //         "date" => $date,
+                //         "time" => $time,
+                //         "sendmail" => $sendmail,
+                //         "resolution_number" => $resolutionNumber,
+                //         "customer" => $customer,
+                //         "payment_form" => $paymentForm,
+                //         // "previous_balance" => $previousBalance,
+                //         "legal_monetary_totals" => $legalMonetaryTotals,
+                //         // "allowance_charges" => $allowanceCharges,
+                //     );
 
-                    if (!empty($invoiceLines)) {
-                        $data["invoice_lines"] = $invoiceLines;
-                    }
+                //     if (!empty($invoiceLines)) {
+                //         $data["invoice_lines"] = $invoiceLines;
+                //     }
 
-                    if (!empty($tax_total_invoice)) {
-                        $data["tax_totals"] = $tax_total_invoice;
-                    }
+                //     if (!empty($tax_total_invoice)) {
+                //         $data["tax_totals"] = $tax_total_invoice;
+                //     }
 
-                    // return $data;
+                //     // return $data;
 
-                    $jsonData = json_encode($data);
-                    // return $jsonData;
-                    $curl = curl_init();
+                //     $jsonData = json_encode($data);
+                //     // return $jsonData;
+                //     $curl = curl_init();
 
-                    curl_setopt_array($curl, array(
-                    CURLOPT_URL => env('APP_API_FE').'/api/ubl2.1/invoice',
-                    // CURLOPT_URL => 'https://jl-technology.online/api/ubl2.1/invoice',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_POSTFIELDS => $jsonData,
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                        // 'Authorization: Bearer 35ce3c09a915c29752359f33455b43bed988a47c35ee347de5947a2192e793a7'
-                        'Authorization: Bearer '.$business_data->token
-                    ),
-                    ));
+                //     curl_setopt_array($curl, array(
+                //     CURLOPT_URL => env('APP_API_FE').'/api/ubl2.1/invoice',
+                //     // CURLOPT_URL => 'https://jl-technology.online/api/ubl2.1/invoice',
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => '',
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 0,
+                //     CURLOPT_FOLLOWLOCATION => true,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => 'POST',
+                //     CURLOPT_POSTFIELDS => $jsonData,
+                //     CURLOPT_HTTPHEADER => array(
+                //         'Content-Type: application/json',
+                //         'Accept: application/json',
+                //         // 'Authorization: Bearer 35ce3c09a915c29752359f33455b43bed988a47c35ee347de5947a2192e793a7'
+                //         'Authorization: Bearer '.$business_data->token
+                //     ),
+                //     ));
 
-                    $response = curl_exec($curl);
+                //     $response = curl_exec($curl);
 
-                    curl_close($curl);
+                //     curl_close($curl);
 
-                    $respuesta = json_decode($response, true);
+                //     $respuesta = json_decode($response, true);
 
-                    // $cufe = ($respuesta)?$respuesta['cufe']:'';
-                    // $cufe = $respuesta;
+                //     // $cufe = ($respuesta)?$respuesta['cufe']:'';
+                //     // $cufe = $respuesta;
 
-                    if(isset($respuesta['ResponseDian']))
-                    {
+                //     if(isset($respuesta['ResponseDian']))
+                //     {
                         
 
-                        $response_dian =  $respuesta['ResponseDian'];
-                        $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
-                        $ErrorRules = isset($response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'])? $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string']: '';
-                        $cufe = $respuesta['cufe'];
-                        $QRStr = $respuesta['QRStr'];
+                //         $response_dian =  $respuesta['ResponseDian'];
+                //         $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
+                //         $ErrorRules = isset($response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'])? $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string']: '';
+                //         $cufe = $respuesta['cufe'];
+                //         $QRStr = $respuesta['QRStr'];
 
 
-                        if($IsValid == "true")
-                        {
-                            //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
-                            $transaction = Transaction::find($transaction->id);
-                            $transaction->cufe = $cufe;
-                            $transaction->is_valid = true;
-                            $transaction->qrstr = $QRStr;
-                            $transaction->save();
+                //         if($IsValid == "true")
+                //         {
+                //             //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
+                //             $transaction = Transaction::find($transaction->id);
+                //             $transaction->cufe = $cufe;
+                //             $transaction->is_valid = true;
+                //             $transaction->qrstr = $QRStr;
+                //             $transaction->save();
 
                             
-                        }
+                //         }
 
-                        if ($print_invoice) {
-                            $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
-                        }
+                //         if ($print_invoice) {
+                //             $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                //         }
         
-                        $output = [
-                            'success' => 1, 
-                            'msg' => $msg, 
-                            'receipt' => $receipt,
-                            'input_curl'=> $data, 
-                            'input_factura'=> $input, 
-                            'response' => ($respuesta) ? $respuesta : '',  
-                            'cufe' => ($cufe) ? $cufe : '',
-                            'IsValid' => ($IsValid) ? $IsValid : '',
-                            'QRStr' => ($QRStr) ? $QRStr : '',
-                            'ErrorMessage' => $ErrorRules
-                        ];
+                //         $output = [
+                //             'success' => 1, 
+                //             'msg' => $msg, 
+                //             'receipt' => $receipt,
+                //             'input_curl'=> $data, 
+                //             'input_factura'=> $input, 
+                //             'response' => ($respuesta) ? $respuesta : '',  
+                //             'cufe' => ($cufe) ? $cufe : '',
+                //             'IsValid' => ($IsValid) ? $IsValid : '',
+                //             'QRStr' => ($QRStr) ? $QRStr : '',
+                //             'ErrorMessage' => $ErrorRules
+                //         ];
                         
-                    }else{
-                        // foreach ($respuesta['errors'] as $key => $value) {
-                        //     // Si el valor es un array, iterar sobre sus elementos
-                        //     if (is_array($value)) {
-                        //         foreach ($value as $item) {
-                        //             echo "Clave: $key, Valor: $item\n";
-                        //         }
-                        //     } else {
-                        //         echo "Clave: $key, Valor: $value\n";
-                        //     }
-                        // }
+                //     }else{
+                //         // foreach ($respuesta['errors'] as $key => $value) {
+                //         //     // Si el valor es un array, iterar sobre sus elementos
+                //         //     if (is_array($value)) {
+                //         //         foreach ($value as $item) {
+                //         //             echo "Clave: $key, Valor: $item\n";
+                //         //         }
+                //         //     } else {
+                //         //         echo "Clave: $key, Valor: $value\n";
+                //         //     }
+                //         // }
                         
-                        $output = [
-                            'success' => 0, 
-                            // 'msg' => $msg, 
-                            'msg' => $respuesta, 
-                            'receipt' => $receipt,
-                            'input_curl'=> $data, 
-                            // 'response' => $respuesta['errors']
-                        ];
-                    }
+                //         $output = [
+                //             'success' => 0, 
+                //             // 'msg' => $msg, 
+                //             'msg' => $respuesta, 
+                //             'receipt' => $receipt,
+                //             'input_curl'=> $data, 
+                //             // 'response' => $respuesta['errors']
+                //         ];
+                //     }
 
-                }else{
-                    if ($print_invoice) {
-                        $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
-                    }
+                // }else{
+                //     if ($print_invoice) {
+                //         $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
+                //     }
     
-                    $output = [
-                        'success' => 1, 
-                        'msg' => $msg, 
-                        'receipt' => $receipt
-                    ];
+                //     $output = [
+                //         'success' => 1, 
+                //         'msg' => $msg, 
+                //         'receipt' => $receipt
+                //     ];
+                // }
+
+                //FIN DE LA FACTURA ELECTRONICA
+
+                // flash()->success('Enviando factura a la DIAN');
+
+                $response_invoice = $this->electronicDocumentUtil->send_invoice(
+                    $request->input('invoice_scheme_id'), 
+                    $business_id, 
+                    $contact_id, 
+                    $input, 
+                    $transaction
+                );
+
+                // dd($response_invoice);
+                if ($print_invoice) {
+                    $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
                 }
 
-                
+                $output = [
+                    'success' => 1, 
+                    'msg' => $msg, 
+                    'msg_error_dian' => $response_invoice['ErrorMessage'], 
+                    'invoice' => $response_invoice, 
+                    'receipt' => $receipt,
+                    // 'input_curl'=> $data, 
+                    // 'response' => $respuesta['errors']
+                ];
 
                 if (!empty($whatsapp_link)) {
                     $output['whatsapp_link'] = $whatsapp_link;
@@ -1114,6 +1145,66 @@ class SellPosController extends Controller
      * @param  string  $printer_type = null
      * @return array
      */
+    public function resend_invoice($id)
+    {
+        try {
+            $business_id = request()->session()->get('user.business_id');
+            // $taxes = TaxRate::where('business_id', $business_id)
+            //                     ->pluck('name', 'id');
+            $query = Transaction::where('business_id', $business_id)
+                        ->where('id', $id)
+                        ->with(['contact', 'delivery_person_user', 'sell_lines' => function ($q) {
+                            $q->whereNull('parent_sell_line_id');
+                        }, 'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.product.second_unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff', 'types_of_service', 'sell_lines.warranties', 'media']);
+    
+            if (! auth()->user()->can('sell.view') && ! auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+                $query->where('transactions.created_by', request()->session()->get('user.id'));
+            }
+    
+            $sell = $query->firstOrFail();
+            return $sell;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function resend_invoice_data($id)
+    {
+        try {
+            $business_id = request()->session()->get('user.business_id');
+            // $taxes = TaxRate::where('business_id', $business_id)
+            //                     ->pluck('name', 'id');
+            $query = Transaction::where('business_id', $business_id)
+                        ->where('id', $id)
+                        ->with(['contact', 'delivery_person_user', 'sell_lines' => function ($q) {
+                            $q->whereNull('parent_sell_line_id');
+                        }, 'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.product.second_unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff', 'types_of_service', 'sell_lines.warranties', 'media']);
+    
+            if (! auth()->user()->can('sell.view') && ! auth()->user()->can('direct_sell.access') && auth()->user()->can('view_own_sell_only')) {
+                $query->where('transactions.created_by', request()->session()->get('user.id'));
+            }
+    
+            $sell = $query->firstOrFail();
+            $transaction_before = Transaction::find($id);
+            // return $sell;
+
+            $response_invoice = $this->electronicDocumentUtil->resend_invoice(
+                $transaction_before,
+                // $invoice_scheme_id, 
+                $business_id, 
+                $contact_id, 
+                $input, 
+                $transaction
+            );
+
+           dd($response_invoice);
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+
     private function receiptContent(
         $business_id,
         $location_id,
@@ -2219,16 +2310,7 @@ class SellPosController extends Controller
                         ];
                         
                     }else{
-                        // foreach ($respuesta['errors'] as $key => $value) {
-                        //     // Si el valor es un array, iterar sobre sus elementos
-                        //     if (is_array($value)) {
-                        //         foreach ($value as $item) {
-                        //             echo "Clave: $key, Valor: $item\n";
-                        //         }
-                        //     } else {
-                        //         echo "Clave: $key, Valor: $value\n";
-                        //     }
-                        // }
+
                         
                         $output = [
                             'success' => 0, 
@@ -2251,6 +2333,15 @@ class SellPosController extends Controller
                         'receipt' => $receipt
                     ];
                 }
+
+                $response_invoice = $this->electronicDocumentUtil->send_invoice(
+                    $transaction_before,
+                    // $request->input('invoice_scheme_id'), 
+                    $business_id, 
+                    $contact_id, 
+                    $input, 
+                    $transaction
+                );
 
                 // $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt];
 
