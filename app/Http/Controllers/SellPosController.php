@@ -607,6 +607,8 @@ class SellPosController extends Controller
 
                     $transaction->payment_status = $payment_status;
 
+                    
+
                     if ($request->session()->get('business.enable_rp') == 1) {
                         $redeemed = !empty($input['rp_redeemed']) ? $input['rp_redeemed'] : 0;
                         $this->transactionUtil->updateCustomerRewardPoints($contact_id, $transaction->rp_earned, 0, $redeemed);
@@ -639,6 +641,7 @@ class SellPosController extends Controller
 
                 $this->transactionUtil->activityLog($transaction, 'added');
 
+   
                 DB::commit();
 
                 SellCreatedOrModified::dispatch($transaction);
@@ -1067,7 +1070,7 @@ class SellPosController extends Controller
                 $output = [
                     'success' => 1, 
                     'msg' => $msg, 
-                    'msg_error_dian' => $response_invoice['ErrorMessage'], 
+                    // 'msg_error_dian' => $response_invoice['ErrorMessage'], 
                     'invoice' => $response_invoice, 
                     'receipt' => $receipt,
                     // 'input_curl'=> $data, 
@@ -1162,20 +1165,23 @@ class SellPosController extends Controller
             }
     
             $sell = $query->firstOrFail();
-            return $sell;
+
+            // return $sell;
+            // return $sell->sell_lines[0]->product->name;
+            return view('sale_pos.resend_invoice',compact('sell'));
         } catch (\Throwable $th) {
-            //throw $th;
+            return redirect()->back()->with('success', $th->getMessage());
         }
     }
 
-    public function resend_invoice_data($id)
+    public function resend_invoice_data(Request $request, $id)
     {
         try {
             $business_id = request()->session()->get('user.business_id');
             // $taxes = TaxRate::where('business_id', $business_id)
             //                     ->pluck('name', 'id');
             $query = Transaction::where('business_id', $business_id)
-                        ->where('id', $id)
+                        ->where('id', $request->id)
                         ->with(['contact', 'delivery_person_user', 'sell_lines' => function ($q) {
                             $q->whereNull('parent_sell_line_id');
                         }, 'sell_lines.product', 'sell_lines.product.unit', 'sell_lines.product.second_unit', 'sell_lines.variations', 'sell_lines.variations.product_variation', 'payment_lines', 'sell_lines.modifiers', 'sell_lines.lot_details', 'tax', 'sell_lines.sub_unit', 'table', 'service_staff', 'sell_lines.service_staff', 'types_of_service', 'sell_lines.warranties', 'media']);
@@ -1185,22 +1191,36 @@ class SellPosController extends Controller
             }
     
             $sell = $query->firstOrFail();
-            $transaction_before = Transaction::find($id);
+            $transaction_before = Transaction::find($request->id);
+
+            $invoice_schemes = InvoiceScheme::findOrFail($sell->invoice_scheme->id);
+
+            $num_character = strlen($invoice_schemes->prefix);
+            $string = $sell->invoice_no;
+            $prefix = substr($string, 0, $num_character);
+            $num_fact = substr($string, 4);
+
+            $prefix;
+            $num_fact; 
             // return $sell;
+            // return $sell->sell_lines->product;
 
             $response_invoice = $this->electronicDocumentUtil->resend_invoice(
                 $transaction_before,
-                // $invoice_scheme_id, 
-                $business_id, 
-                $contact_id, 
-                $input, 
-                $transaction
+                $sell->business_id, 
+                $sell->contact_id, 
+                $sell->sell_lines,
+                $prefix,
+                $num_fact,
+                $invoice_schemes->resolution
             );
 
-           dd($response_invoice);
+            return redirect()->back()->with('success', $response_invoice['msg']);
+
+        //    dd($response_invoice);
 
         } catch (\Throwable $th) {
-            //throw $th;
+            return redirect()->back()->with('success', $th->getMessage());
         }
     }
 
@@ -2334,14 +2354,14 @@ class SellPosController extends Controller
                     ];
                 }
 
-                $response_invoice = $this->electronicDocumentUtil->send_invoice(
-                    $transaction_before,
-                    // $request->input('invoice_scheme_id'), 
-                    $business_id, 
-                    $contact_id, 
-                    $input, 
-                    $transaction
-                );
+                // $response_invoice = $this->electronicDocumentUtil->send_invoice(
+                //     $transaction_before,
+                //     // $request->input('invoice_scheme_id'), 
+                //     $business_id, 
+                //     $contact_id, 
+                //     $input, 
+                //     $transaction
+                // );
 
                 // $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt];
 

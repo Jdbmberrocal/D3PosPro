@@ -204,6 +204,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::post('/sells/send_invoice', [SellController::class, 'send_invoice'])->name('send_invoice');
     
     Route::get('/sells/resend_invoice/{id}', [SellPosController::class, 'resend_invoice'])->name('resend_invoice');
+    Route::post('/sells/resend_invoice_dian/{id}', [SellPosController::class, 'resend_invoice_data'])->name('resend_invoice_data');
 
     Route::post('/import-purchase-products', [PurchaseController::class, 'importPurchaseProducts']);
     Route::post('/purchases/update-status', [PurchaseController::class, 'updateStatus']);

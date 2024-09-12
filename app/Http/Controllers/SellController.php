@@ -925,13 +925,8 @@ class SellController extends Controller
 
     public function resend($id)
     {
-        // // if (!auth()->user()->can('sell.view') && !auth()->user()->can('direct_sell.access') && !auth()->user()->can('view_own_sell_only')) {
-        // //     abort(403, 'Unauthorized action.');
-        // // }
-
         $business_id = request()->session()->get('user.business_id');
-        // $taxes = TaxRate::where('business_id', $business_id)
-        //                     ->pluck('name', 'id');
+
         $query = Transaction::where('business_id', $business_id)
                     ->where('id', $id)
                     ->with(['contact', 'delivery_person_user', 'sell_lines' => function ($q) {
@@ -943,71 +938,17 @@ class SellController extends Controller
         }
 
         $sell = $query->firstOrFail();
-        // return $sell;
-        // $activities = Activity::forSubject($sell)
-        //    ->with(['causer', 'subject'])
-        //    ->latest()
-        //    ->get();
 
-        // $line_taxes = [];
-        // foreach ($sell->sell_lines as $key => $value) {
-        //     if (! empty($value->sub_unit_id)) {
-        //         $formated_sell_line = $this->transactionUtil->recalculateSellLineTotals($business_id, $value);
-        //         $sell->sell_lines[$key] = $formated_sell_line;
-        //     }
+        $invoice_schemes = InvoiceScheme::findOrFail($sell->invoice_scheme->id);
 
-        //     if (! empty($taxes[$value->tax_id])) {
-        //         if (isset($line_taxes[$taxes[$value->tax_id]])) {
-        //             $line_taxes[$taxes[$value->tax_id]] += ($value->item_tax * $value->quantity);
-        //         } else {
-        //             $line_taxes[$taxes[$value->tax_id]] = ($value->item_tax * $value->quantity);
-        //         }
-        //     }
-        // }
+        $num_character = strlen($invoice_schemes->prefix);
+        $string = $sell->invoice_no;
+        $part1 = substr($string, 0, $num_character);
+        $num_fact = substr($string, 4);
 
-        // $payment_types = $this->transactionUtil->payment_types($sell->location_id, true);
-        // $order_taxes = [];
-        // if (! empty($sell->tax)) {
-        //     if ($sell->tax->is_tax_group) {
-        //         $order_taxes = $this->transactionUtil->sumGroupTaxDetails($this->transactionUtil->groupTaxDetails($sell->tax, $sell->tax_amount));
-        //     } else {
-        //         $order_taxes[$sell->tax->name] = $sell->tax_amount;
-        //     }
-        // }
-
-        // $business_details = $this->businessUtil->getDetails($business_id);
-        // $pos_settings = empty($business_details->pos_settings) ? $this->businessUtil->defaultPosSettings() : json_decode($business_details->pos_settings, true);
-        // $shipping_statuses = $this->transactionUtil->shipping_statuses();
-        // $shipping_status_colors = $this->shipping_status_colors;
-        // $common_settings = session()->get('business.common_settings');
-        // $is_warranty_enabled = ! empty($common_settings['enable_product_warranty']) ? true : false;
-
-        // $statuses = Transaction::sell_statuses();
-
-        // if ($sell->type == 'sales_order') {
-        //     $sales_order_statuses = Transaction::sales_order_statuses(true);
-        //     $statuses = array_merge($statuses, $sales_order_statuses);
-        // }
-        // $status_color_in_activity = Transaction::sales_order_statuses();
-        // $sales_orders = $sell->salesOrders();
-
-        // return view('sale_pos.resend')
-        //     ->with(compact(
-        //         'taxes',
-        //         'sell',
-        //         'payment_types',
-        //         'order_taxes',
-        //         'pos_settings',
-        //         'shipping_statuses',
-        //         'shipping_status_colors',
-        //         'is_warranty_enabled',
-        //         'activities',
-        //         'statuses',
-        //         'status_color_in_activity',
-        //         'sales_orders',
-        //         'line_taxes'
-        //     ));
-        return view('sale_pos.resend', compact('sell'));
+        $part1;
+        $num_fact; 
+        return view('sale_pos.resend', compact('sell', 'invoice_schemes','num_fact'));
     }
 
     public function send_invoice(Request $request)
@@ -1026,14 +967,10 @@ class SellController extends Controller
                 'number' => $request->number,
             ]);
             $res = $response->object();
-            
-            
+
             return redirect()->back()->with('success', $res->message);
-            
-            
+   
         } catch (\Throwable $th) {
-            //throw $th;
-            // flash()->error('Error: '.$th->getMessage());
             return redirect()->back()->with('success', $th->getMessage());;
         }
         

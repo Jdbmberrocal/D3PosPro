@@ -23,20 +23,24 @@
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label for="" class="form-label">Cliente</label>
+                      @if($sell->contact->supplier_business_name)
                       <input type="text" class="form-control" disabled value="{{$sell->contact->supplier_business_name}}">
+                      @else
+                      <input type="text" class="form-control" disabled value="{{$sell->contact->name}}">
+                      @endif
                     </div>
                   </div>
    
                   <div class="col-md-3">
                     <div class="mb-3">
                       <label for="" class="form-label">Prefijo</label>
-                      <input type="text" class="form-control" name="prefix" id="" value="">
+                      <input type="text" class="form-control" name="prefix" id="" value="{{$invoice_schemes->prefix}}">
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="mb-3">
                       <label for="" class="form-label">Número</label>
-                      <input type="text" class="form-control" name="number" id="" value="">
+                      <input type="text" class="form-control" name="number" id="" value="{{$num_fact}}">
                     </div>
                   </div>
                   

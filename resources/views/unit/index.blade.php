@@ -33,7 +33,7 @@
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
-                            </svg> @lang('messages.add')
+                            </svg> Añadir Subunidad
                         </a>
                     </div>
                 @endslot
@@ -45,6 +45,7 @@
                             <tr>
                                 <th>@lang('unit.name')</th>
                                 <th>@lang('unit.short_name')</th>
+                                {{-- <th>Código DIAN</th> --}}
                                 <th>@lang('unit.allow_decimal') @show_tooltip(__('tooltip.unit_allow_decimal'))</th>
                                 <th>@lang('messages.action')</th>
                             </tr>

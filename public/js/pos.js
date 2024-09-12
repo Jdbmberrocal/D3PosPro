@@ -540,7 +540,8 @@ $(document).ready(function() {
                 enable_pos_form_actions();
                 if (result.success == 1) {
                     reset_pos_form();
-                    toastr.success(result.msg);
+                    toastr.success(result.msg,'Factura creada');
+                    toastr.warning(result.msg_error_dian);
                     // $('#res_dian').html(result.ErrorMessage)
                 } else {
                     toastr.error(result.msg);

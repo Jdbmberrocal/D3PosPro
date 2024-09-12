@@ -10,6 +10,7 @@ use App\Product;
 use App\TaxRate;
 use App\Transaction;
 use Carbon\Carbon;
+use App\Utils\TransactionUtil;
 
 
 class ElectronicDocumentsUtil
@@ -47,21 +48,20 @@ class ElectronicDocumentsUtil
         return array($letras, $numeros);
     }
     
-    public static function resend_invoice($transaction_before,$invoice_scheme_id, $business_id, $contact_id, $input, $transaction)
+    public static function resend_invoice($transaction_before, $business_id, $contact_id, $input,$prefix, $number, $resolution)
     {
         $customer_data = Contact::findOrFail($contact_id);
         $business_data = Business::find($business_id);
 
         //validamos si se va a enviar factua electronica o no
-        if($transaction_before->is_valid != 1 && $transaction_before->cufe == '' && $input['status'] == "final" && $input['is_suspend'] == "0")//final
+        if($transaction_before->is_valid != 1 && $transaction_before->cufe == '' && $transaction_before->status == "final" && $transaction_before->is_suspend == "0")//final
+        // if($transaction_before->is_valid == 1  && $transaction_before->status == "final" && $transaction_before->is_suspend == "0")//final
         {
 
             
             $actual_date = Carbon::now('America/Bogota')->format('Y-m-d');
             $actual_hous = Carbon::now('America/Bogota')->format('H:m:s');
 
-            // $invoice_number = intval($invoice_scheme->start_number) + intval($invoice_scheme->invoice_count) -1;
-            $invoice_number = $transaction_before->invoice_no;
 
             $total_tax_products = 0;
             $total_not_tax_products = 0;
@@ -79,14 +79,10 @@ class ElectronicDocumentsUtil
 
             $tax_total_invoice = [];
 
-            
-            // $final_total = $this->convert_numeric($input['final_total']);
 
-
-
-            if(isset($input['products']))
+            if(isset($input))
             {
-                foreach ($input['products'] as $product){
+                foreach ($input as $product){
                     $tax_totals = [];//impuestos totales de la factura
                     // $total_product = 0;
                     // $tax_total_product = 0;
@@ -201,31 +197,11 @@ class ElectronicDocumentsUtil
 
 
             //ENVIO DE FE zposs.co
-        
-            list($letras, $numeros) = self::separarLetrasYNumeros($invoice_number);
-            // Parámetros dinámicos
-            $invoiceNumber = $numeros;
-            $prefix = $letras;
-            $typeDocumentId = 1;
+
             $date = $actual_date;
             $time = $actual_hous;
             $sendmail = true;
-            $resolutions = InvoiceScheme::where('business_id',$business_id)->where('prefix',$letras)->where('is_fe','si')->get();
-            $resolution_s = 0;
-            if(count($resolutions) == 1)
-            {
-                $resolution_s = $resolutions[0]->resolution;
-                
-            }else if($resolutions > 1){
-                foreach ($resolutions as $resolution) {
-                    if($resolution->start_number >= $numeros || $resolution->end_number <= $numeros)
-                    {
-                        $resolution_s = $resolution->resolution;
-                    }
-                }
-            }
-            // $resolutionNumber = $invoice_scheme->resolution;
-            $resolutionNumber = $resolution_s;
+            
             if($customer_data->contact_id == 222222222222)
             {
                 $customer = array(
@@ -289,13 +265,13 @@ class ElectronicDocumentsUtil
 
             // Construcción del JSON dinámicamente
             $data = array(
-                "number" => $invoiceNumber,
+                "number" => $number,
                 "prefix" => $prefix,
-                "type_document_id" => $typeDocumentId,
+                "type_document_id" => 1,
                 "date" => $date,
                 "time" => $time,
                 "sendmail" => $sendmail,
-                "resolution_number" => $resolutionNumber,
+                "resolution_number" => $resolution,
                 "customer" => $customer,
                 "payment_form" => $paymentForm,
                 // "previous_balance" => $previousBalance,
@@ -319,7 +295,6 @@ class ElectronicDocumentsUtil
 
             curl_setopt_array($curl, array(
             CURLOPT_URL => env('APP_API_FE').'/api/ubl2.1/invoice',
-            // CURLOPT_URL => 'https://jl-technology.online/api/ubl2.1/invoice',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -331,7 +306,6 @@ class ElectronicDocumentsUtil
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Accept: application/json',
-                // 'Authorization: Bearer 35ce3c09a915c29752359f33455b43bed988a47c35ee347de5947a2192e793a7'
                 'Authorization: Bearer '.$business_data->token
             ),
             ));
@@ -340,69 +314,65 @@ class ElectronicDocumentsUtil
 
             curl_close($curl);
 
-            $respuesta = json_decode($response, true);
+            $respuesta = json_decode($response);
 
-            // $cufe = ($respuesta)?$respuesta['cufe']:'';
-            // $cufe = $respuesta;
-
-            if(isset($respuesta['ResponseDian']))
-            {
-                
-
-                $response_dian =  $respuesta['ResponseDian'];
-                $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
-                $ErrorRules = isset($response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'])? $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string']: '';
-                $cufe = $respuesta['cufe'];
-                $QRStr = $respuesta['QRStr'];
-
-
-                if($IsValid == "true")
+            if($respuesta->success){
+                if(isset($respuesta->ResponseDian))
                 {
-                    //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
-                    $transaction = Transaction::find($transaction->id);
-                    $transaction->cufe = $cufe;
-                    $transaction->is_valid = true;
-                    $transaction->qrstr = $QRStr;
-                    $transaction->save();
+                    
+
+                    $response_dian =  $respuesta->ResponseDian;
+                    $IsValid = $response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->IsValid;
+                    $ErrorRules = isset($response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string)? $response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string : '';
+                    $cufe = $respuesta->cufe;
+                    $QRStr = $respuesta->QRStr;
+
+
+                    if($IsValid == "true")
+                    {
+                        //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
+                        $transaction = Transaction::find($transaction_before->id);
+                        $transaction->cufe = $cufe;
+                        $transaction->is_valid = true;
+                        $transaction->qrstr = $QRStr;
+                        $transaction->save();
+
+                        
+                    }
+
+                    $output = [
+                        'success' => 1, 
+                        'msg' => 'Factura aceptada por la DIAN', 
+                        'input_curl'=> $data, 
+                        'input_factura'=> $input, 
+                        'response' => ($respuesta) ? $respuesta : '',  
+                        'cufe' => ($cufe) ? $cufe : '',
+                        'IsValid' => ($IsValid) ? $IsValid : '',
+                        'QRStr' => ($QRStr) ? $QRStr : '',
+                        'ErrorMessage' => $ErrorRules
+                    ];
+                    return $output;
+                }else{
 
                     
+                    $output = [
+                        'success' => 0, 
+                        'msg' => $respuesta->error[0], 
+                        'input_curl'=> $data, 
+                    ];
+                    return $output;
                 }
-
-                // if ($print_invoice) {
-                //     $receipt = $this->receiptContent($business_id, $input['location_id'], $transaction->id, null, false, true, $invoice_layout_id);
-                // }
-
+            }else{
                 $output = [
                     'success' => 1, 
-                    // 'msg' => $msg, 
-                    // 'receipt' => $receipt,
-                    'input_curl'=> $data, 
-                    'input_factura'=> $input, 
-                    'response' => ($respuesta) ? $respuesta : '',  
-                    'cufe' => ($cufe) ? $cufe : '',
-                    'IsValid' => ($IsValid) ? $IsValid : '',
-                    'QRStr' => ($QRStr) ? $QRStr : '',
-                    'ErrorMessage' => $ErrorRules
-                ];
-                return $output;
-            }else{
-
-                
-                $output = [
-                    'success' => 0, 
-                    // 'msg' => $msg, 
-                    'msg' => $respuesta['error'][0], 
-                    // 'receipt' => $receipt,
-                    'input_curl'=> $data, 
-                    // 'response' => $respuesta['errors']
+                    'msg' => $respuesta->message, 
                 ];
                 return $output;
             }
-
         }else{
             $output = [
                 'success' => 1, 
-                'msg' => 'No es una factura electrónica', 
+                'msg' => 'No es una factura electrónica o ya fue enviada anteriormente', 
             ];
             return $output;
         }
@@ -410,9 +380,6 @@ class ElectronicDocumentsUtil
     
     public static function send_invoice($invoice_scheme_id, $business_id, $contact_id, $input, $transaction)
     {
-        
-        flash()->success('Enviando factura a la DIAN');
-
         $i_echeme = '';
         if(!empty($invoice_scheme_id))
         {
@@ -703,61 +670,60 @@ class ElectronicDocumentsUtil
 
             curl_close($curl);
 
-            $respuesta = json_decode($response, true);
+            $respuesta = json_decode($response);
 
-            // $cufe = ($respuesta)?$respuesta['cufe']:'';
-            // $cufe = $respuesta;
-
-            if(isset($respuesta['ResponseDian']))
-            {
-                
-
-                $response_dian =  $respuesta['ResponseDian'];
-                $IsValid = $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['IsValid'];
-                $ErrorRules = isset($response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string'])? $response_dian['Envelope']['Body']['SendBillSyncResponse']['SendBillSyncResult']['ErrorMessage']['string']: '';
-                $cufe = $respuesta['cufe'];
-                $QRStr = $respuesta['QRStr'];
-
-
-                if($IsValid == "true")
+            if(!isset($respuesta->success) || $respuesta->success){
+                if(isset($respuesta->ResponseDian))
                 {
-                    //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
-                    $transaction = Transaction::find($transaction->id);
+                    
 
-                    $transaction->cufe = $cufe;
-                    $transaction->is_valid = true;
-                    $transaction->qrstr = $QRStr;
-                    $transaction->save();
+                    $response_dian =  $respuesta->ResponseDian;
+                    $IsValid = $response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->IsValid;
+                    // $ErrorRules = isset($response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage)? $response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string : '';
+                    $cufe = $respuesta->cufe;
+                    $QRStr = $respuesta->QRStr;
+                    $ErrorRules = '';
 
-                    flash()->success('Factura enviada a la DIAN, cufe: '.$cufe);
+                    if($IsValid == "true")
+                    {
+                        //guardamos el cufe de la factura y cambiamos estado de la facturA en el sistema
+                        $transaction = Transaction::find($transaction->id);
+                        $transaction->cufe = $cufe;
+                        $transaction->is_valid = true;
+                        $transaction->qrstr = $QRStr;
+                        $transaction->save();
+
+                        
+                    }else{
+                        $ErrorRules = isset($response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage)? $response_dian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string : '';
+                    }
+
+                    $output = [
+                        'success' => 1, 
+                        'msg' => 'Factura aceptada por la DIAN', 
+                        'input_curl'=> $data, 
+                        'input_factura'=> $input, 
+                        'response' => ($respuesta) ? $respuesta : '',  
+                        'cufe' => ($cufe) ? $cufe : '',
+                        'IsValid' => ($IsValid) ? $IsValid : '',
+                        'QRStr' => ($QRStr) ? $QRStr : '',
+                        'ErrorMessage' => $ErrorRules
+                    ];
+                    return $output;
+                }else{
+
+                    
+                    $output = [
+                        'success' => 0, 
+                        'msg' => $respuesta->error[0], 
+                        'input_curl'=> $data, 
+                    ];
+                    return $output;
                 }
-
-
-
+            }else{
                 $output = [
                     'success' => 1, 
-                    // 'msg' => $msg, 
-                    // 'receipt' => $receipt,
-                    'input_curl'=> $data, 
-                    'input_factura'=> $input, 
-                    'response' => ($respuesta) ? $respuesta : '',  
-                    'cufe' => ($cufe) ? $cufe : '',
-                    'IsValid' => ($IsValid) ? $IsValid : '',
-                    'QRStr' => ($QRStr) ? $QRStr : '',
-                    'ErrorMessage' => $ErrorRules[0]
-                ];
-                return $output;
-                
-            }else{
-
-                
-                $output = [
-                    'success' => 0, 
-                    // 'msg' => $msg, 
-                    'msg' => $respuesta, 
-                    // 'receipt' => $receipt,
-                    'input_curl'=> $data, 
-                    // 'response' => $respuesta['errors']
+                    'msg' => $respuesta->message, 
                 ];
                 return $output;
             }
@@ -767,7 +733,7 @@ class ElectronicDocumentsUtil
 
             $output = [
                 'success' => 1, 
-                // 'msg' => $msg, 
+                'msg' => 'No es una factura electrónica', 
                 // 'receipt' => $receipt
             ];
             return $output;

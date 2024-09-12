@@ -51,6 +51,8 @@ class TransactionUtil extends Util
         $pay_term_number = isset($input['pay_term_number']) ? $input['pay_term_number'] : null;
         $pay_term_type = isset($input['pay_term_type']) ? $input['pay_term_type'] : null;
 
+        // $invoice_scheme_id = $this->getInvoiceScheme($business_id, $input['location_id']);
+
         //if pay term empty set contact pay term
         if (empty($pay_term_number) || empty($pay_term_type)) {
             $contact = Contact::find($input['contact_id']);
@@ -66,6 +68,7 @@ class TransactionUtil extends Util
             'contact_id' => $input['contact_id'],
             'customer_group_id' => ! empty($input['customer_group_id']) ? $input['customer_group_id'] : null,
             'invoice_no' => $invoice_no,
+            'invoice_scheme_id' => $invoice_scheme_id,
             'ref_no' => '',
             'source' => ! empty($input['source']) ? $input['source'] : null,
             'total_before_tax' => $invoice_total['total_before_tax'],

@@ -281,6 +281,7 @@ $(document).ready(function() {
         columns: [
             { data: 'actual_name', name: 'actual_name' },
             { data: 'short_name', name: 'short_name' },
+            // { data: 'code_dian', name: 'code_dian' },
             { data: 'allow_decimal', name: 'allow_decimal' },
             { data: 'action', name: 'action' },
         ],
