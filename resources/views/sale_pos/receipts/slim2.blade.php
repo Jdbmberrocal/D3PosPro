@@ -1,6 +1,6 @@
 <!-- business information here -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
 						
 					@endif
 					<br>
-					<b class="centered">FACTURA ELECTRÓNICA DE VENTA</b><br>
+					
 					{{-- <b class="centered">Factura Electrónica de Venta</b><br> --}}
 					<div class="text-box">
 						@if (!empty($receipt_details->nit))
@@ -104,10 +104,10 @@
 						<img style="width: 100%;margin-bottom: 10px;" src="{{$receipt_details->letter_head}}">
 					</div>
 				@endif
-			<div class="border-top textbox-info">
-				<p class="f-left"><strong>{!! $receipt_details->invoice_no_prefix !!}</strong></p>
+			<div class="border-top textbox-info centered">
+				<p class="f-left"><strong>{!! $receipt_details->invoice_no_prefix !!}<b> Nro:</b></p></strong>
 				<p class="f-right">
-					{{$receipt_details->invoice_no}}
+					<b>{{$receipt_details->invoice_no}}</b> 
 				</p>
 			</div>
 			<div class="textbox-info">
@@ -724,6 +724,7 @@
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else --}}
+				<b><p class="centered">DOCUMENTO ELECTRÓNICO DE VENTA</b></p>
 				<b><p class="centered">Representación Gráfica de <br>Facturación Electrónica</b>
                     <img class="center-block mt-5" style="max-height: 110px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
@@ -732,7 +733,7 @@
             @endif
 				<br>
             @if (!empty($receipt_details->cufe))
-            <b><p class="centered">Cufe:</b>
+            <b><p class="centered">CUFE:</b>
 				<br>
                 {!! $receipt_details->cufe !!}</p>
             @endif
