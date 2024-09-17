@@ -629,12 +629,13 @@
 				</div>
 			@endif
 				{{-- TOTAL --}}
-			<div class="flex-box " >
-				<p class="width-50 text-right" >
-					<strong>{!! $receipt_details->total_label !!}</strong>
+			<div class="flex-box ">
+				<p class="width-50 text-right">
+					<b style="font-size: 15px">{!! $receipt_details->total_label !!}</b>
 				</p>
 				<p class="width-50 text-right">
-					<strong>{{$receipt_details->total}}</strong>
+					<b style="font-size: 15px">{{$receipt_details->total}}</b>
+					</p>
 			</div>
 			@if(!empty($receipt_details->total_in_words))
 				<p colspan="2" class="text-left mb-0">
@@ -725,8 +726,8 @@
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else --}}
 				<b><p class="centered">DOCUMENTO ELECTRÓNICO DE VENTA</b></p>
-				<b><p class="centered">Representación Gráfica de <br>Facturación Electrónica</b>
-                    <img class="center-block mt-5" style="max-height: 110px; width: auto;"
+				<b><p class="centered">Representación Gráfica de<br>Facturación Electrónica</b>
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 {{-- @endif --}}
                 
