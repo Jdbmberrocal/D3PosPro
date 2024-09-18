@@ -356,7 +356,7 @@
 		<table class="table table-bordered table-top-cell-border table-slim mb-12">
 			<thead>
 				<!-- <tr style="background-color: #D8D8D8 !important; color: black !important" class="table-no-side-cell-border table-no-top-cell-border text-center"> -->
-				<tr style="background-color: #D8D8D8 !important; color: black !important" class="table-no-side-cell-border table-no-top-cell-border text-center">
+				<tr style="background-color: #D8D8D8 !important; color: black !important" class="table-side-cell-border table-top-cell-border text-center">
 					<td style="background-color: #D8D8D8 !important; color: black !important; width: 3% !important"><b>#</b></td>
 					
 					@php

@@ -104,10 +104,10 @@
 						<img style="width: 100%;margin-bottom: 10px;" src="{{$receipt_details->letter_head}}">
 					</div>
 				@endif
-			<div class="border-top textbox-info centered">
-				<p class="f-left"><strong>{!! $receipt_details->invoice_no_prefix !!}<b> Nro:</b></p></strong>
-				<p class="f-right">
-					<b>{{$receipt_details->invoice_no}}</b> 
+			<div class="border-top textbox-info centered font-13">
+				<p class="centered"><strong>{!! $receipt_details->invoice_no_prefix !!}</p></strong>
+				<p class="centered">
+					<b> Nro. </b>{{$receipt_details->invoice_no}}
 				</p>
 			</div>
 			<div class="textbox-info">
@@ -719,7 +719,7 @@
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
 
-				<br>
+				
 			@if ($receipt_details->show_qr_code && !empty($receipt_details->qrstr))
                 {{-- @if (empty($receipt_details->qrstr))
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
@@ -749,8 +749,7 @@
 		<div class="textbox-info">
 			{{-- DATOS DE ZEUS --}}
             <p class="text-center">
-                
-                    Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
+                        Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
                     </b> &copy; {{ date('Y') }}<br>Empresa {{ env('COMPANY', '') }}<br>Nit:{{ env('APP_NIT', '') }} <br>WhatsApp: {{ env('APP_CONTACT', '') }}.
             </p>
 		</div>
