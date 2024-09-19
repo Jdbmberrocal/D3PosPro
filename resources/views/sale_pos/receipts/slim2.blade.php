@@ -1,6 +1,6 @@
 <!-- business information here -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
 						
 					@endif
 					<br>
-					<b class="centered">FACTURA ELECTRÓNICA DE VENTA</b><br>
+					
 					{{-- <b class="centered">Factura Electrónica de Venta</b><br> --}}
 					<div class="text-box">
 						@if (!empty($receipt_details->nit))
@@ -104,10 +104,10 @@
 						<img style="width: 100%;margin-bottom: 10px;" src="{{$receipt_details->letter_head}}">
 					</div>
 				@endif
-			<div class="border-top textbox-info">
-				<p class="f-left"><strong>{!! $receipt_details->invoice_no_prefix !!}</strong></p>
-				<p class="f-right">
-					{{$receipt_details->invoice_no}}
+			<div class="border-top textbox-info centered font-13">
+				<p class="centered"><strong>{!! $receipt_details->invoice_no_prefix !!}</p></strong>
+				<p class="centered">
+					<b> Nro. </b>{{$receipt_details->invoice_no}}
 				</p>
 			</div>
 			<div class="textbox-info">
@@ -629,12 +629,13 @@
 				</div>
 			@endif
 				{{-- TOTAL --}}
-			<div class="flex-box " >
-				<p class="width-50 text-right" >
-					<strong>{!! $receipt_details->total_label !!}</strong>
+			<div class="flex-box ">
+				<p class="width-50 text-right">
+					<b style="font-size: 15px">{!! $receipt_details->total_label !!}</b>
 				</p>
 				<p class="width-50 text-right">
-					<strong>{{$receipt_details->total}}</strong>
+					<b style="font-size: 15px">{{$receipt_details->total}}</b>
+					</p>
 			</div>
 			@if(!empty($receipt_details->total_in_words))
 				<p colspan="2" class="text-left mb-0">
@@ -718,21 +719,22 @@
 				<img class="center-block" src="data:image/png;base64,{{DNS1D::getBarcodePNG($receipt_details->invoice_no, 'C128', 2,30,array(39, 48, 54), true)}}">
 			@endif
 
-				<br>
+				
 			@if ($receipt_details->show_qr_code && !empty($receipt_details->qrstr))
                 {{-- @if (empty($receipt_details->qrstr))
                     <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qr_code_text, 'QRCODE') }}">
                 @else --}}
-				<b><p class="centered">Representación Gráfica de <br>Facturación Electrónica</b>
-                    <img class="center-block mt-5" style="max-height: 110px; width: auto;"
+				<b><p class="centered">DOCUMENTO ELECTRÓNICO DE VENTA</b></p>
+				<b><p class="centered">Representación Gráfica de<br>Facturación Electrónica</b>
+                    <img class="center-block mt-5" style="max-height: 130px; width: auto;"
                     src="data:image/png;base64,{{ DNS2D::getBarcodePNG($receipt_details->qrstr, 'QRCODE') }}">
                 {{-- @endif --}}
                 
             @endif
 				<br>
             @if (!empty($receipt_details->cufe))
-            <b><p class="centered">Cufe:</b>
+            <b><p class="centered">CUFE:</b>
 				<br>
                 {!! $receipt_details->cufe !!}</p>
             @endif
@@ -747,8 +749,7 @@
 		<div class="textbox-info">
 			{{-- DATOS DE ZEUS --}}
             <p class="text-center">
-                
-                    Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
+                        Software {{ config('app.name', 'ultimatePOS') }} - V{{ config('author.app_version', 'title') }}
                     </b> &copy; {{ date('Y') }}<br>Empresa {{ env('COMPANY', '') }}<br>Nit:{{ env('APP_NIT', '') }} <br>WhatsApp: {{ env('APP_CONTACT', '') }}.
             </p>
 		</div>

@@ -444,7 +444,7 @@ tr.footer-total > td {
     vertical-align: middle !important;
 }
 .error{
-	color: red !important;
+	color: rgb(161, 20, 20) !important;
 }
 /*  pos tab */
 div.pos-tab-container{
