@@ -683,7 +683,136 @@ class BusinessUtil extends Util
                 'allow_decimal' => 0,
                 'code_dian' => "70",
                 'created_by' => $user_id,
-            ]
+            ],
+
+
+            //Galon - 213
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Galón',
+                'short_name' => 'A76',
+                'allow_decimal' => 0,
+                'code_dian' => "213",
+                'created_by' => $user_id,
+            ],
+
+            //	botella - 372
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Botella',
+                'short_name' => 'BO',
+                'allow_decimal' => 0,
+                'code_dian' => "372",
+                'created_by' => $user_id,
+            ],
+            //Caja - 381
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Caja',
+                'short_name' => 'BX',
+                'allow_decimal' => 0,
+                'code_dian' => "381",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Centímetro',
+                'short_name' => 'CMT',
+                'allow_decimal' => 0,
+                'code_dian' => "495",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Libro',
+                'short_name' => 'D63',
+                'allow_decimal' => 0,
+                'code_dian' => "567",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Tambor',
+                'short_name' => 'DR',
+                'allow_decimal' => 0,
+                'code_dian' => "624",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Docena',
+                'short_name' => 'DZN',
+                'allow_decimal' => 0,
+                'code_dian' => "636",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Pulgada',
+                'short_name' => 'INH',
+                'allow_decimal' => 0,
+                'code_dian' => "739",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Kilogramo',
+                'short_name' => 'KGM',
+                'allow_decimal' => 0,
+                'code_dian' => "767",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Libra',
+                'short_name' => 'LBR',
+                'allow_decimal' => 0,
+                'code_dian' => "802",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Litro',
+                'short_name' => 'LTR',
+                'allow_decimal' => 0,
+                'code_dian' => "821",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Onza',
+                'short_name' => 'ONZ',
+                'allow_decimal' => 0,
+                'code_dian' => "907",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Saco',
+                'short_name' => 'SA',
+                'allow_decimal' => 0,
+                'code_dian' => "986",
+                'created_by' => $user_id,
+            ],
+
+            [
+                'business_id' => $business_id,
+                'actual_name' => 'Barril',
+                'short_name' => 'Z3',
+                'allow_decimal' => 0,
+                'code_dian' => "1087",
+                'created_by' => $user_id,
+            ],
         ];
 
         DB::table('units')->insert($units);
