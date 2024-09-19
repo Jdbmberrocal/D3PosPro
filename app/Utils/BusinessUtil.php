@@ -122,46 +122,8 @@ class BusinessUtil extends Util
         //             ]);
 
         //Add Default Unit for new business
-        // $unit = [
-        //     'business_id' => $business_id,
-        //     'actual_name' => 'Unidades',
-        //     'short_name' => 'Unds',
-        //     'allow_decimal' => 0,
-        //     'code_dian' => "70",
-        //     'created_by' => $user_id,
-        // ];
 
-        //asignación masi¿va de las unidades al crear la empresa
-        // $rutaArchivoJson = public_path('data/units.json'); // Ejemplo de ruta
-        // $datos = UnitsUtil::leerJson($rutaArchivoJson);
-        // // dd($datos);
-        // if ($datos !== null) {
-        //     foreach ($datos as $value) {
-        //         # code...
-                
-        //         Unit::create([
-        //             'business_id' => $business_id,
-        //             'actual_name' => $value->name,
-        //             'short_name' => $value->code,
-        //             'allow_decimal' => 0,
-        //             'code_dian' => $value->id,
-        //             'created_by' => $user_id,
-        //         ]);
-
-        //     }
-        // } else {
-        //     Unit::create(
-        //             [
-        //                 'business_id' => $business_id,
-        //                 'actual_name' => 'Unidades',
-        //                 'short_name' => 'Unds',
-        //                 'allow_decimal' => 0,
-        //                 'code_dian' => "70",
-        //                 'created_by' => $user_id,
-        //             ]
-        //             );
-        // }
-        Unit::create(
+        $units = [
             [
                 'business_id' => $business_id,
                 'actual_name' => 'Spray pequeño',
@@ -289,9 +251,11 @@ class BusinessUtil extends Util
                 'allow_decimal' => 0,
                 'code_dian' => "70",
                 'created_by' => $user_id,
-            ],
+            ]
+        ];
 
-        );
+        DB::table('units')->insert($units);
+
 
         //Create default notification templates
         $notification_templates = NotificationTemplate::defaultNotificationTemplates($business_id);
