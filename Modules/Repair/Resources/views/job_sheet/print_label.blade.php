@@ -47,7 +47,9 @@
         padding: 1px !important;
         font-size: 12px;
     }
-
+    .font-8 {
+        font-size: 8px;
+    }
     .font-10 {
         font-size: 10px;
     }
@@ -70,16 +72,18 @@ $contact_custom_fields = !empty($jobsheet_settings['contact_custom_fields']) ?
 $jobsheet_settings['contact_custom_fields'] : [];
 @endphp
 <div class="width-100 box mb-10">
+    
 
     <div class="width-100" align="center">
+        
         <p style="text-align: center;">
-            <strong class="font-14">
+            <strong class="font-10">
                 {{$job_sheet->customer->business->name}}<br>
             </strong>
 
             @if(!empty($jobsheet_settings['show_location_in_label']) && 
             ($job_sheet->customer->business->name != $job_sheet->businessLocation->name))
-            <span class="font-12">
+            <span class="font-10">
                 {!!$job_sheet->businessLocation->name!!} <br>
             </span>
             @endif
@@ -90,28 +94,28 @@ $jobsheet_settings['contact_custom_fields'] : [];
             </span>
             @endif
 
-            <span class="font-12">
+            {{-- <span class="font-10">
                 <b>@lang('repair::lang.job_sheet_no'):</b> {{$job_sheet->job_sheet_no}}<br>
             </span>
             @if(!empty($jobsheet_settings['show_brand_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     {{$job_sheet->brand?->name}} {{$job_sheet->deviceModel?->name}}<br>
                 </span>
-            @endif
+            @endif --}}
 
             @if(!empty($jobsheet_settings['show_password_in_label']) && !empty($job_sheet->security_pwd))
-            <span class="font-12">
+            <span class="font-8">
                 <b>@lang('lang_v1.password'):</b> {{$job_sheet->security_pwd}}<br>
             </span>
             @endif
 
             @if(!empty($job_sheet->security_pattern))
-            <span class="font-12">
+            <span class="font-8">
                 <b>@lang('repair::lang.security_pattern_code'):</b> {{$job_sheet->security_pattern}}<br>
             </span>
             @endif
-            @if(!empty($jobsheet_settings['show_problem_in_label']))
-                <span class="font-12">
+            {{-- @if(!empty($jobsheet_settings['show_problem_in_label']))
+                <span class="font-10">
                     <b>@lang('repair::lang.problem'):</b>
                     @php
                     $defects = json_decode($job_sheet->defects, true);
@@ -126,61 +130,62 @@ $jobsheet_settings['contact_custom_fields'] : [];
                     @endif
                     <br>
                 </span>
-            @endif
-            @if(!empty($jobsheet_settings['show_sales_person_in_label']))
-                <span class="font-12">
+            @endif --}}
+            {{-- @if(!empty($jobsheet_settings['show_sales_person_in_label']))
+                <span class="font-8">
                     <b>@lang('repair::lang.sales_person'):</b> {{$job_sheet->createdBy->user_full_name}}<br>
                 </span>
-            @endif
+            @endif --}}
             @if(!empty($jobsheet_settings['show_status_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     <b>@lang('sale.status'):</b> {{$job_sheet->status->name ?? ''}}<br>
                 </span>
             @endif
             @if(!empty($jobsheet_settings['show_due_date_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     <b>@lang('lang_v1.due_date'):</b> @if(!empty($job_sheet->delivery_date))
                     {{@format_datetime($job_sheet->delivery_date)}}<br>@endif
                 </span>
             @endif
-            @if(!empty($jobsheet_settings['show_technician_in_label']))
-                <span class="font-12">
+            {{-- @if(!empty($jobsheet_settings['show_technician_in_label']))
+                <span class="font-10">
                     <b>@lang('repair::lang.technician'):</b> {{$job_sheet->technician->user_full_name ?? ''}}<br>
                 </span>
-            @endif
+            @endif --}}
             @if(!empty($jobsheet_settings['show_sr_no_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     <b>@lang('repair::lang.imei_sr_no'):</b> {{$job_sheet->serial_no ?? ''}}<br>
                 </span>
             @endif
 
             @if(!empty($jobsheet_settings['show_customer_name_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     <b>@lang('contact.customer'):</b>
                     {{$job_sheet->customer->name}}<br>
                 </span>
             @endif
 
             @if(!empty($jobsheet_settings['show_customer_address_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     {!!implode(', ', $job_sheet->customer->contact_address_array) !!}<br>
                 </span>
             @endif
             @if(!empty($jobsheet_settings['show_customer_phone_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     {{$job_sheet->customer->mobile}},
                 </span>
             @endif
             @if(!empty($jobsheet_settings['show_customer_alt_phone_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                 {{$job_sheet->customer->alternate_number}}
                 </span>
             @endif
             @if(!empty($jobsheet_settings['show_customer_email_in_label']))
-                <span class="font-12">
+                <span class="font-8">
                     {{$job_sheet->customer->email}}
                 </span>
             @endif
+            
         </p>
     </div>
 </div>

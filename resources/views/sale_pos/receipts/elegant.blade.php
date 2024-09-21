@@ -427,7 +427,7 @@
 
 							<div class="text-left font-10">
                             {{$line['name']}} {{$line['product_variation']}} {{$line['variation']}} 
-                            @if(!empty($line['sub_sku'])), {{$line['sub_sku']}} @endif @if(!empty($line['brand'])), {{$line['brand']}} @endif
+                            @if(!empty($line['sub_sku'])),<b> CÓD: </b> {{$line['sub_sku']}} @endif @if(!empty($line['brand'])), {{$line['brand']}} @endif
                             @if(!empty($line['product_custom_fields'])), {{$line['product_custom_fields']}} @endif
                             @if(!empty($line['product_description']))
                             	<small>
@@ -462,7 +462,7 @@
 	                        </td>
 	                    @endif
 						</div>
-						<td class="text-right text-center font-10">
+						<td class="text-right text-center font-10 padding-3">
 							{{$line['quantity']}} {{$line['units']}}
 
 							@if($receipt_details->show_base_unit_details && $line['quantity'] && $line['base_unit_multiplier'] !== 1)
@@ -471,31 +471,31 @@
                             </small>
                             @endif
 						</td>
-						<td class="text-right">
+						<td class="text-right padding-3">
 							{{$line['unit_price_before_discount']}} 
 						</td>
 						@if(!empty($receipt_details->discounted_unit_price_label))
-						<td class="text-right">
+						<td class="text-right padding-3">
 							{{$line['unit_price_inc_tax']}} 
 						</td>
 						@endif
 
 						@if(!empty($receipt_details->item_discount_label))
-						<td class="text-right">
+						<td class="text-right padding-3">
 							{{$line['total_line_discount'] ?? '0.00'}}
 							@if(!empty($line['line_discount_percent']))
 								 ({{$line['line_discount_percent']}}%)
 							@endif
 						</td>
 						@endif
-						<td class="text-right">
+						<td class="text-right padding-3">
 							{{$line['line_total_exc_tax']}}
 						</td>
 					</tr>
 					@if(!empty($line['modifiers']))
 						@foreach($line['modifiers'] as $modifier)
 							<tr>
-								<td class="text-center">
+								<td class="text-center padding-3">
 									&nbsp;
 								</td>
 								<td>
@@ -512,19 +512,19 @@
 			                        </td>
 			                    @endif
 
-								<td class="text-right">
+								<td class="text-right padding-3">
 									{{$modifier['quantity']}} {{$modifier['units']}}
 								</td>
-								<td class="text-right">
+								<td class="text-right padding-3">
 									{{$modifier['unit_price_exc_tax']}}
 								</td>
 								@if(!empty($receipt_details->discounted_unit_price_label))
-									<td class="text-right">{{$modifier['unit_price_exc_tax']}}</td>
+									<td class="text-right padding-3">{{$modifier['unit_price_exc_tax']}}</td>
 								@endif
 								@if(!empty($receipt_details->item_discount_label))
-									<td class="text-right">0.00</td>
+									<td class="text-right padding-3">0.00</td>
 								@endif
-								<td class="text-right">
+								<td class="text-right padding-3">
 									{{$modifier['line_total']}}
 								</td>
 							</tr>
@@ -581,7 +581,7 @@
 		@if (!empty($receipt_details->total_paid))
 			<div class="text-letf font-size: 15px ">
 				<b><span class="pull-left">{!! $receipt_details->total_paid_label !!}</span></b>
-				{{ $receipt_details->total_paid }}
+			 : {{ $receipt_details->total_paid }}
 			</div>
 		@endif
 		<!-- Total Due-->
