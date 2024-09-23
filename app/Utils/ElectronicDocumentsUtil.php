@@ -376,6 +376,7 @@ class ElectronicDocumentsUtil
                     
                     $output = [
                         'success' => 0, 
+                        // 'msg' => $respuesta->error[0], 
                         'msg' => $respuesta->error[0], 
                         'input_curl'=> $data, 
                     ];
@@ -751,7 +752,8 @@ class ElectronicDocumentsUtil
                     
                     $output = [
                         'success' => 0, 
-                        'msg' => $respuesta->error[0], 
+                        // 'msg' => $respuesta->error[0], 
+                        'msg' => $respuesta, 
                         'input_curl'=> $data, 
                     ];
                     return $output;
