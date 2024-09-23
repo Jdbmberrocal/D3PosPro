@@ -762,7 +762,7 @@ class ProductController extends Controller
             }
 
             //upload document
-            $file_name = $this->productUtil->uploadFile($request, 'image', config('constants.product_img_path'), 'image');
+            $file_name = $this->productUtil->uploadImageProduct($request, 'image', 'uploads/img', 'image');
             if (! empty($file_name)) {
 
                 //If previous image found then remove
