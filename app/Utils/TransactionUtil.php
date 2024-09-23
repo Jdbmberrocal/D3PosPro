@@ -52,6 +52,7 @@ class TransactionUtil extends Util
         $pay_term_type = isset($input['pay_term_type']) ? $input['pay_term_type'] : null;
 
         // $invoice_scheme_id = $this->getInvoiceScheme($business_id, $input['location_id']);
+        $invoice_number = explode("-", $invoice_no);
 
         //if pay term empty set contact pay term
         if (empty($pay_term_number) || empty($pay_term_type)) {
@@ -67,7 +68,10 @@ class TransactionUtil extends Util
             'sub_status' => ! empty($input['sub_status']) ? $input['sub_status'] : null,
             'contact_id' => $input['contact_id'],
             'customer_group_id' => ! empty($input['customer_group_id']) ? $input['customer_group_id'] : null,
-            'invoice_no' => $invoice_no,
+            'invoice_no' => $invoice_number[0].$invoice_number[1],
+            'prefix' => $invoice_number[0],
+            'number_invoice' => $invoice_number[1],
+            'resolution' => $invoice_number[2],
             'invoice_scheme_id' => $invoice_scheme_id,
             'ref_no' => '',
             'source' => ! empty($input['source']) ? $input['source'] : null,
@@ -2381,7 +2385,7 @@ class TransactionUtil extends Util
             $count = str_pad($count, $scheme->total_digits, '0', STR_PAD_LEFT);
 
             //Prefix + count
-            $invoice_no = $prefix.$count;
+            $invoice_no = $prefix.'-'.$count.'-'.$scheme->resolution;
 
             //Increment the invoice count
             $scheme->invoice_count = $scheme->invoice_count + 1;

@@ -88,6 +88,7 @@ class SellReturnController extends Controller
                         'transactions.id',
                         'transactions.transaction_date',
                         'transactions.invoice_no',
+                        'transactions.is_valid',
                         'contacts.name',
                         'contacts.supplier_business_name',
                         'transactions.final_total',
@@ -135,7 +136,7 @@ class SellReturnController extends Controller
             }
 
             $sells->groupBy('transactions.id');
-
+            
             return Datatables::of($sells)
                 ->addColumn(
                     'action',
@@ -179,6 +180,17 @@ class SellReturnController extends Controller
 
                     return '<span class="display_currency payment_due" data-currency_symbol="true" data-orig-value="'.$due.'">'.$due.'</sapn>';
                 })
+                ->addColumn('send_dian', function ($row) {
+                    // $due = $row->final_total - $row->amount_paid;
+                    
+                    if($row->is_valid == 1)
+                    {
+                        return '<span class="badge rounded-pill bg-info">Enviado</span>';
+                    }else{
+                        return '<a href="'.route('send_credit_note_dian',$row->parent_sale_id).'" class="btn btn-warning btn-sm">Enviar</a>';
+                    }
+                    // return '<span class="display_currency payment_due" data-currency_symbol="true" data-orig-value="'.$due.'">'.$due.'</sapn>';
+                })
                 ->setRowAttr([
                     'data-href' => function ($row) {
                         if (auth()->user()->can('sell.view')) {
@@ -187,7 +199,7 @@ class SellReturnController extends Controller
                             return '';
                         }
                     }, ])
-                ->rawColumns(['final_total', 'action', 'parent_sale', 'payment_status', 'payment_due', 'name'])
+                ->rawColumns(['final_total', 'action', 'parent_sale', 'payment_status', 'payment_due','send_dian', 'name'])
                 ->make(true);
         }
         $business_locations = BusinessLocation::forDropdown($business_id, false);
@@ -196,6 +208,36 @@ class SellReturnController extends Controller
         $sales_representative = User::forDropdown($business_id, false, false, true);
 
         return view('sell_return.index')->with(compact('business_locations', 'customers', 'sales_representative'));
+    }
+
+
+    public function send_dian($id)
+    {
+        // if (! auth()->user()->can('access_sell_return') && ! auth()->user()->can('access_own_sell_return')) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+
+        $business_id = request()->session()->get('user.business_id');
+        //Check if subscribed or not
+        if (! $this->moduleUtil->isSubscribed($business_id)) {
+            return $this->moduleUtil->expiredResponse();
+        }
+
+        $sell = Transaction::where('business_id', $business_id)
+                            ->with(['sell_lines', 'location', 'return_parent', 'contact', 'tax', 'sell_lines.sub_unit', 'sell_lines.product', 'sell_lines.product.unit'])
+                            ->find($id);
+
+        foreach ($sell->sell_lines as $key => $value) {
+            if (! empty($value->sub_unit_id)) {
+                $formated_sell_line = $this->transactionUtil->recalculateSellLineTotals($business_id, $value);
+                $sell->sell_lines[$key] = $formated_sell_line;
+            }
+
+            $sell->sell_lines[$key]->formatted_qty = $this->transactionUtil->num_f($value->quantity, false, null, true);
+        }
+        return $sell;
+        // return view('sell_return.add')
+            // ->with(compact('sell'));
     }
 
     /**
