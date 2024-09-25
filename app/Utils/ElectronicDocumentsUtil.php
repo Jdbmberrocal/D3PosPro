@@ -385,7 +385,7 @@ class ElectronicDocumentsUtil
             }else{
                 $output = [
                     'success' => 1, 
-                    'msg' => 'Respuesta: '.$respuesta->ResponseDian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->IsValid.' Alerta: '.$respuesta->ResponseDian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string, 
+                    'msg' => 'Respuesta: '.$respuesta->ResponseDian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->IsValid.' Alerta: '.$respuesta->ResponseDian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string[0], 
                     // 'msg' => $respuesta->message, 
                     'input_curl'=> $data,
                     'response' => $respuesta
@@ -766,6 +766,7 @@ class ElectronicDocumentsUtil
                     'success' => 1, 
                     'msg' => $respuesta->message, 
                     'response' => $respuesta, 
+                    'input_curl'=> $data
                 ];
                 return $output;
             }
