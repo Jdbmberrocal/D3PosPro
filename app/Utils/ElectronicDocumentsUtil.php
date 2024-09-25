@@ -385,7 +385,8 @@ class ElectronicDocumentsUtil
             }else{
                 $output = [
                     'success' => 1, 
-                    'msg' => $respuesta->message, 
+                    'msg' => $respuesta->ResponseDian->Envelope->Body->SendBillSyncResponse->SendBillSyncResult->ErrorMessage->string, 
+                    // 'msg' => $respuesta->message, 
                     'input_curl'=> $data,
                     'response' => $respuesta
                 ];
