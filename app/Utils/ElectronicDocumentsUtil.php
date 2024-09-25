@@ -386,6 +386,8 @@ class ElectronicDocumentsUtil
                 $output = [
                     'success' => 1, 
                     'msg' => $respuesta->message, 
+                    'input_curl'=> $data,
+                    'response' => $respuesta
                 ];
                 return $output;
             }
