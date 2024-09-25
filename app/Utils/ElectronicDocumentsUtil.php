@@ -764,6 +764,7 @@ class ElectronicDocumentsUtil
                 $output = [
                     'success' => 1, 
                     'msg' => $respuesta->message, 
+                    'response' => $respuesta, 
                 ];
                 return $output;
             }
