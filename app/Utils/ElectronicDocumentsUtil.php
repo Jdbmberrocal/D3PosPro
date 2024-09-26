@@ -325,9 +325,7 @@ class ElectronicDocumentsUtil
                 return ['success' => 0, 'msg' => 'Error decoding API response'];
             }
 
-            if(!isset($respuesta->success)){
-            // dd($respuesta);
-            // if(!in_array('success', $respuesta)){
+            if($respuesta->success){
                 if(isset($respuesta->ResponseDian))
                 {
                     
@@ -706,7 +704,7 @@ class ElectronicDocumentsUtil
                 return ['success' => 0, 'msg' => 'Error decoding API response'];
             }
 
-            if(!isset($respuesta->success)){
+            if($respuesta->success){
 
                 if(isset($respuesta->ResponseDian))
                 {
