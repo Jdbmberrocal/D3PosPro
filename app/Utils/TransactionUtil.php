@@ -52,7 +52,8 @@ class TransactionUtil extends Util
         $pay_term_type = isset($input['pay_term_type']) ? $input['pay_term_type'] : null;
 
         // $invoice_scheme_id = $this->getInvoiceScheme($business_id, $input['location_id']);
-        $invoice_number = explode("-", $invoice_no);
+        // dd($invoice_no['invoice_no']);
+        // $invoice_number = explode("-", $invoice_no);
 
         //if pay term empty set contact pay term
         if (empty($pay_term_number) || empty($pay_term_type)) {
@@ -68,10 +69,10 @@ class TransactionUtil extends Util
             'sub_status' => ! empty($input['sub_status']) ? $input['sub_status'] : null,
             'contact_id' => $input['contact_id'],
             'customer_group_id' => ! empty($input['customer_group_id']) ? $input['customer_group_id'] : null,
-            'invoice_no' => $invoice_number[0].$invoice_number[1],
-            'prefix' => $invoice_number[0],
-            'number_invoice' => $invoice_number[1],
-            'resolution' => $invoice_number[2],
+            'invoice_no' => $invoice_no['invoice_no'],
+            'prefix' => $invoice_no['prefix'],
+            'number_invoice' => $invoice_no['count'],
+            'resolution' => $invoice_no['resolution'],
             'invoice_scheme_id' => $invoice_scheme_id,
             'ref_no' => '',
             'source' => ! empty($input['source']) ? $input['source'] : null,
@@ -2385,25 +2386,53 @@ class TransactionUtil extends Util
             $count = str_pad($count, $scheme->total_digits, '0', STR_PAD_LEFT);
 
             //Prefix + count
-            $invoice_no = $prefix.'-'.$count.'-'.$scheme->resolution;
+            $invoice_no = $prefix.$count;
 
             //Increment the invoice count
             $scheme->invoice_count = $scheme->invoice_count + 1;
             $scheme->save();
 
-            return $invoice_no;
+            // return $invoice_no;
+            return array(
+                'id' => 1,
+                'prefix' => $prefix,
+                'count' => $count,
+                'resolution' => $scheme->resolution,
+                'invoice_no' => $invoice_no
+            );
         } elseif ($status == 'draft') {
             $ref_count = $this->setAndGetReferenceCount('draft', $business_id);
             $invoice_no = $this->generateReferenceNumber('draft', $ref_count, $business_id);
 
-            return $invoice_no;
+            // return $invoice_no;
+            return array(
+                'id' => 2,
+                'invoice_no' => $invoice_no,
+                'prefix' => '',
+                'count' => '',
+                'resolution' => ''
+            );
         } elseif ($sale_type == 'sales_order') {
             $ref_count = $this->setAndGetReferenceCount('sales_order', $business_id);
             $invoice_no = $this->generateReferenceNumber('sales_order', $ref_count, $business_id);
 
-            return $invoice_no;
+            // return $invoice_no;
+            return array(
+                'id' => 3,
+                'invoice_no' => $invoice_no,
+                'prefix' => '',
+                'count' => '',
+                'resolution' => ''
+            );
         } else {
-            return Str::random(5);
+            // return Str::random(5);
+            return array(
+                'id' => 4,
+                'invoice_no' => Str::random(5),
+                'prefix' => '',
+                'count' => '',
+                'resolution' => ''
+            );
         }
     }
 
@@ -4414,7 +4443,8 @@ class TransactionUtil extends Util
             unset($data['business']);
         }
 
-        $data['invoice_no'] = $this->getInvoiceNumber($transaction->business_id, $data['status'], $data['location_id']);
+        $invoice_no = $this->getInvoiceNumber($transaction->business_id, $data['status'], $data['location_id']);
+        $data['invoice_no'] = $invoice_no['invoice_no'];
 
         $recurring_invoice = Transaction::create($data);
 

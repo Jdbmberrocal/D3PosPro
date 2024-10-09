@@ -1575,8 +1575,8 @@ class SellController extends Controller
             $duplicate_transaction_data['invoice_token'] = null;
 
             DB::beginTransaction();
-            $duplicate_transaction_data['invoice_no'] = $this->transactionUtil->getInvoiceNumber($business_id, 'draft', $duplicate_transaction_data['location_id']);
-
+            $invoice_no = $this->transactionUtil->getInvoiceNumber($business_id, 'draft', $duplicate_transaction_data['location_id']);
+             $duplicate_transaction_data['invoice_no'] = $invoice_no['invoice_no'];
             //Create duplicate transaction
             $duplicate_transaction = Transaction::create($duplicate_transaction_data);
 
