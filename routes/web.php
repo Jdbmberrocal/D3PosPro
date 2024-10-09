@@ -377,6 +377,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('sell-return/get-product-row', [SellReturnController::class, 'getProductRow']);
     Route::get('/sell-return/print/{id}', [SellReturnController::class, 'printInvoice']);
     Route::get('/sell-return/add/{id}', [SellReturnController::class, 'add']);
+    Route::get('/sell-return/send_credit_note_dian/{id}', [SellReturnController::class, 'send_dian'])->name('send_credit_note_dian');
 
     //Backup
     Route::get('backup/download/{file_name}', [BackUpController::class, 'download']);
