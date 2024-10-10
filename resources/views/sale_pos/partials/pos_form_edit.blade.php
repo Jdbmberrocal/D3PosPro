@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<p><strong>@lang('sale.invoice_no'):</strong> {{$transaction->invoice_no}}</p>
+		<p><strong>@lang('sale.invoice_no'):</strong> {{$transaction->invoice_no}}</p><!-- AQUI SE CARGA EL NUMERO DE FACTURA -->
 	</div>
 	<div class="col-md-4">
 		<div class="form-group" style="width: 100% !important">

@@ -4,6 +4,7 @@
             <tr>
                 <th>@lang('messages.date')</th>
                 <th>@lang('sale.invoice_no')</th>
+                <th>DIAN</th>
                 <th>@lang('lang_v1.parent_sale')</th>
                 <th>@lang('sale.customer_name')</th>
                 <th>@lang('sale.location')</th>

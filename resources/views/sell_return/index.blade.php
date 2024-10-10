@@ -104,6 +104,7 @@
             columns: [
                 { data: 'transaction_date', name: 'transaction_date'  },
                 { data: 'invoice_no', name: 'invoice_no'},
+                { data: 'send_dian', name: 'send_dian'},
                 { data: 'parent_sale', name: 'T1.invoice_no'},
                 { data: 'name', name: 'contacts.name'},
                 { data: 'business_location', name: 'bl.name'},

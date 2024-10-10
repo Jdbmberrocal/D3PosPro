@@ -29,6 +29,7 @@
                         <div class="tw-shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] tw-rounded-2xl tw-bg-white tw-mb-2 md:tw-mb-8 tw-p-2">
 
                             {{-- <div class="box box-solid mb-12 @if (!isMobile()) mb-40 @endif"> --}}
+                                
                                 <div class="box-body pb-0">
                                     {!! Form::hidden('location_id', $default_location->id ?? null, [
                                         'id' => 'location_id',
@@ -56,6 +57,11 @@
                                     @endif
                                 </div>
                             {{-- </div> --}}
+                            <div class="send_fe_loader" id="load_animation"  style="display:none;">
+                                {{-- <div class="spinner"></div>--}}
+                                <div class="custom-loader"></div>
+                                <span>Enviando a la DIAN</span>  
+                            </div>
                         </div>
                     </div>
                     @if (empty($pos_settings['hide_product_suggestion']) && !isMobile())
@@ -98,6 +104,68 @@
 
 @stop
 @section('css')
+    <style>
+    /* .spinner {
+    position: relative;
+    width: 22.4px;
+    height: 22.4px;
+    }
+
+    .spinner::before,
+    .spinner::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: spinner-b4c8mmmd 0.5s backwards, spinner-49opz7md 1.25s 0.5s infinite ease;
+    border: 5.6px solid #474bff;
+    border-radius: 50%;
+    box-shadow: 0 -33.6px 0 -5.6px #474bff;
+    position: absolute;
+    }
+
+    .spinner::after {
+    animation-delay: 0s, 1.25s;
+    }
+
+    @keyframes spinner-b4c8mmmd {
+    from {
+        box-shadow: 0 0 0 -5.6px #474bff;
+    }
+    }
+
+    @keyframes spinner-49opz7md {
+    to {
+        transform: rotate(360deg);
+    }
+    }
+    .send_fe_loader{
+        display: inline-flex;
+        padding: 1rem;  
+    }
+    .send_fe_loader span, .send_fe_loader div{
+        margin-right: 1.8rem;
+    }
+    .send_fe_loader span{
+        font-weight: 900;
+    } */
+    
+    /* HTML: <div class="loader"></div> */
+    .custom-loader {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: 
+            radial-gradient(farthest-side,#3BA889 94%,#0000) top/8px 8px no-repeat,
+            conic-gradient(#0000 30%,#3BA889);
+        -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+        animation:s3 2s infinite linear;
+    }
+
+    @keyframes s3{ 
+        100%{transform: rotate(1turn)}
+    }
+    </style>
     <!-- include module css -->
     @if (!empty($pos_module_data))
         @foreach ($pos_module_data as $key => $value)

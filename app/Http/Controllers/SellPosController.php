@@ -1606,7 +1606,7 @@ class SellPosController extends Controller
                     }
                 }
 
-                
+                $output = ['success' => 1, 'msg' => $msg, 'receipt' => $receipt];
 
                 if (!empty($whatsapp_link)) {
                     $output['whatsapp_link'] = $whatsapp_link;

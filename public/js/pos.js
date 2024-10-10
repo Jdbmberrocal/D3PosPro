@@ -819,6 +819,7 @@ $(document).ready(function() {
 
             if (cnf) {
                 disable_pos_form_actions();
+                $("#load_animation").show();
 
                 var data = $(form).serialize();
                 data = data + '&status=final';
@@ -837,11 +838,26 @@ $(document).ready(function() {
                             toastr.success(result.msg);
 
                             reset_pos_form();
+                            console.log('finalizado')
+                            $("#load_animation").hide();
 
                             //Check if enabled or not
                             if (result.receipt.is_enabled) {
                                 pos_print(result.receipt);
                             }
+
+                            //agregamos el loader al intentar enviar la factura para la dian
+                            // $("button#load_fe").attr('disabled', true);
+                            
+
+                            //   pos_form_obj.submit()
+
+                            // window.addEventListener('afterprint', function(event) {
+                            //     $("#load_animation").hide();
+                            //     // $("button#load_fe").attr('disabled', false);
+                            //     // $("#modal_payment_factelect").modal("hide");
+
+                            // });
                         } else {
                             toastr.error(result.msg);
                         }
@@ -3178,3 +3194,16 @@ $(document).on('change', '#res_waiter_id', function(e){
         
     }
 })
+
+
+// $("button#load_fe").attr('disabled', true);
+//       $("#load_animation").show();
+
+//     //   pos_form_obj.submit()
+
+//       window.addEventListener('afterprint', function(event) {
+//         $("#load_animation").hide();
+//         $("button#load_fe").attr('disabled', false);
+//         // $("#modal_payment_factelect").modal("hide");
+
+//       });
