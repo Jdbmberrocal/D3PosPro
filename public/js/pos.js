@@ -820,6 +820,7 @@ $(document).ready(function() {
             if (cnf) {
                 disable_pos_form_actions();
                 $("#load_animation").show();
+                $("#error_dian").hide();
 
                 var data = $(form).serialize();
                 data = data + '&status=final';
@@ -836,10 +837,22 @@ $(document).ready(function() {
                             }
                             $('#modal_payment').modal('hide');
                             toastr.success(result.msg);
+                            // toastr.success(result.invoice.response.ResponseDian.Envelope.Body);
 
                             reset_pos_form();
-                            console.log('finalizado')
+                            console.log('finalizado: '+result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string)
+                            // console.log('finalizado: '+result.invoice.response.cufe)
                             $("#load_animation").hide();
+
+                            if(result.invoice.IsValid == 'true')
+                            {
+                                $("#error_dian").show();
+                                $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.StatusMessage);
+                            }else{
+                                $("#error_dian").show();
+                                $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string);
+                            }
+                            
 
                             //Check if enabled or not
                             if (result.receipt.is_enabled) {
