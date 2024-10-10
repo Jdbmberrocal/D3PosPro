@@ -850,7 +850,7 @@ ________________________________
 <div class="text-center">
 <small class="">
 
-	Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsAp {{ env('APP_CONTACT', '') }}
+	Software {{ config('app.name', 'ultimatePOS') }} - V{{config('author.app_version',"title")}} &copy; {{ date('Y') }} | Empresa {{ env('COMPANY', '') }} | Nit {{ env('APP_NIT', '') }} | WhatsApp {{ env('APP_CONTACT', '') }}
 </small>
 </div>
 
