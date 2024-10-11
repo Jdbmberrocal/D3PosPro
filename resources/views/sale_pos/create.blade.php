@@ -62,7 +62,7 @@
                                 <div class="custom-loader"></div>
                                 <span>Prosesando factura</span>  
                             </div>
-                            <span class="text-warning" id="error_dian"></span>
+                            <span class="text-success" id="error_dian"></span>
                         </div>
                     </div>
                     @if (empty($pos_settings['hide_product_suggestion']) && !isMobile())
