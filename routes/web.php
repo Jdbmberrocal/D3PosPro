@@ -76,7 +76,12 @@ include_once 'install_r.php';
 
 Route::middleware(['setData'])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        if(env('TEMPLATE_HOME') == 1)
+        {
+            return view('welcome');
+        }else{
+            return redirect('/login');
+        }
     });
 
     Auth::routes();

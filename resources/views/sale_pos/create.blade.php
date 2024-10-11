@@ -60,7 +60,7 @@
                             <div class="send_fe_loader" id="load_animation"  style="display:none;">
                                 {{-- <div class="spinner"></div>--}}
                                 <div class="custom-loader"></div>
-                                <span>Enviando a la DIAN</span>  
+                                <span>Prosesando factura</span>  
                             </div>
                             <span class="text-warning" id="error_dian"></span>
                         </div>

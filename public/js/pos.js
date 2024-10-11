@@ -840,18 +840,22 @@ $(document).ready(function() {
                             // toastr.success(result.invoice.response.ResponseDian.Envelope.Body);
 
                             reset_pos_form();
-                            console.log('finalizado: '+result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string)
                             // console.log('finalizado: '+result.invoice.response.cufe)
                             $("#load_animation").hide();
-
-                            if(result.invoice.IsValid == 'true')
+                            if(typeof result.invoice.response !== "undefined")
                             {
-                                $("#error_dian").show();
-                                $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.StatusMessage);
-                            }else{
-                                $("#error_dian").show();
-                                $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string);
+                                console.log('finalizado: '+result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string)
+                                if(result.invoice.IsValid == 'true')
+                                {
+                                    $("#error_dian").show();
+                                    $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.StatusMessage);
+                                }else{
+                                    $("#error_dian").show();
+                                    $("#error_dian").text(result.invoice.response.ResponseDian.Envelope.Body.SendBillSyncResponse.SendBillSyncResult.ErrorMessage.string);
+                                }
                             }
+
+                            
                             
 
                             //Check if enabled or not
