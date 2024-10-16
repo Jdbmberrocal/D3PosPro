@@ -1351,5 +1351,9 @@ return [
     'above_mentioned_items_received_in_good_condition' => 'Los artículos mencionados anteriormente fueron recibidos en buenas condiciones',
     'received_by' => 'Recibido por',
     'search_by' => 'Buscar por',
+    'delivery_at' => 'Dirección de Entrega',
+    'delivery_date' => 'Fecha de entrega',
+    'checked_by' => 'Comprobado por',
+    'prepared_by' => 'Preparada por',
     
 ];

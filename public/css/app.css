@@ -812,12 +812,16 @@ tr.details td.details-control {
 .color-555 {
     color: #555555 !important;
 }
+.color-550 {
+  color: #8d0000 !important;
+}
 .color-555 *{
     color: #555555 !important;
 }
 .color-white {
     color: white !important;
 }
+
 .col-no-padding{
     padding-left: 0px;
     padding-right: 0px;

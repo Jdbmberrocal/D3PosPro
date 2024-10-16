@@ -23,7 +23,7 @@
 	</style>
 	<div class="width-100">
 		<div class="width-100 f-left" align="center">
-			<strong class="font-17">@lang('lang_v1.purchase_order')</strong>
+			<strong class="font-10">@lang('lang_v1.purchase_order')</strong>
 		</div>
 		{{-- <div class="width-50 f-left" align="right">
 			<strong>{{$pdf_for}}</strong>
@@ -50,8 +50,8 @@
 		        @endif
 	        </div>
 		</div>
-		<div class="width-60 f-left" align="center" style="color: #22489B;padding-top: 5px;">
-			<strong class="font-23">
+		<div class="width-60 f-left font-12"  style="padding-top: 5px;">
+			<strong class="font-12">
 	    		{!!$purchase->business->name!!}
 	    	</strong>
 	    	<br>
@@ -87,7 +87,7 @@
 	        @endif
 		</div>
 	</div>
-	<table class="tpdf">
+	<table class="tpdf font-12">
 		<tr>
 			<td class="width-50">
 				<strong>@lang('lang_v1.po_no'):</strong> #{{ $purchase->ref_no }} <br>
@@ -113,7 +113,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="width-50">
+			<td class="width-50 font-12">
 				<strong>@lang('purchase.supplier')</strong> <br>
 		        @php
 		        	$customer_address = [];
@@ -199,8 +199,8 @@
 			</td>
 		</tr>
 	</table>
-	<div class="box">
-	<table class="table-pdf td-border">
+	<div class="box table-slim">
+	<table class="table-pdf td-border font-12 ">
 		@php
 			$show_cat_code = !empty($invoice_layout->show_cat_code) && $invoice_layout->show_cat_code == 1 ? true : false;
 
@@ -221,7 +221,7 @@
 						{{$invoice_layout->cat_code_label}}
 					</th>
 				@endif
-				<th>
+				<th class="text-center">
 					{{$invoice_layout->table_qty_label}}
 				</th>
 				<th >
@@ -353,11 +353,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6">
+			{{-- <td colspan="6">
 				@if(!empty($invoice_layout->footer_text))
 					{!!$invoice_layout->footer_text!!}
 				@endif
-			</td>
+			</td> --}}
 		</tr>
 	</table>
 	</div>
@@ -372,7 +372,7 @@
 			<td colspan="2" style="text-align: center;">
 				<br><br>
 				@lang('lang_v1.for_business', ['business' => $purchase->business->name])
-				<br><br>
+				<br><br><br><br>
 				@if(!empty($last_purchase))
 					{{$last_purchase->sales_person->user_full_name}}
 				@endif
@@ -388,7 +388,7 @@
 		}
 	@endphp
 	<div align="center" class="fs-10" style="position: fixed;width: 100%;bottom: {{$bottom}};text-align: center;">
-		This is a computer generated document, no signature required.
+		Este es un documento generado por computadora, no requiere firma.
 	</div>
 	@if (!$loop->last)
 		<pagebreak>
