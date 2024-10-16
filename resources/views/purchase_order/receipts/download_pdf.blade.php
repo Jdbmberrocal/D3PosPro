@@ -33,9 +33,10 @@
 		<div class="width-100 mb-10 mt-10" align="center">
 		</div>
 		<div class="width-40 f-left" style="text-align: center;">
-			@if(!empty($logo))
-	          <img src="{{$logo}}" alt="Logo" style="width: 85%; height: 60%; margin: auto;padding-left: 30px;">
-	        @endif
+			@if (!empty($receipt_details->logo))
+			<img style="max-height: 100px; width: auto;" src="{{ $receipt_details->logo }}"
+				class="img center-block">
+		@endif
 	        <div style="margin-left: 30px;margin-top: 0px;padding-top: 0px;">
 	        	@if(!empty($location_details->custom_field1) && !empty($custom_labels['location']['custom_field_1']))
 					{{$custom_labels['location']['custom_field_1']}} : {{$location_details->custom_field1}}
